@@ -8,14 +8,14 @@ sansfont : Dubai
 /* Importation des fonts (local) */
 @font-face {
     font-family: "Haettenschweiler";
-    src: url('lib/fonts/Haettenschweiler.ttf');
+    src: url('../external/fonts/Haettenschweiler.ttf');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Dubai-Bold";
-    src: url('lib/fonts/Dubai-Bold.ttf');
+    src: url('../external/fonts/Dubai-Bold.ttf');
     font-weight: bold;
     font-style: normal;
 }
@@ -23,21 +23,21 @@ sansfont : Dubai
 
 @font-face {
     font-family: "Dubai-Light";
-    src: url('lib/fonts/Dubai-Light.ttf');
+    src: url('../external/fonts/Dubai-Light.ttf');
     font-weight: lighter;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Dubai-Medium";
-    src: url('lib/fonts/Dubai-Medium.ttf');
+    src: url('../external/fonts/Dubai-Medium.ttf');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Dubai-Regular";
-    src: url('lib/fonts/Dubai-Regular.ttf');
+    src: url('../external/fonts/Dubai-Regular.ttf');
     font-weight: normal;
     font-style: normal;
 }
