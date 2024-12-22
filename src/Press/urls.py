@@ -16,13 +16,13 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.views.defaults import server_error
 from .views import index
 
 
 urlpatterns = [
-    path('', index, name="index"),
+    #path('', index, name="index"),
+    path('', include('app.urls')),
     path('admin/', admin.site.urls),
-    path('bonjour/', server_error),
 ]
