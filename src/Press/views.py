@@ -3,5 +3,5 @@ from django.shortcuts import render
 
 
 def index(request):
-    print('Bonjour')
-    return render(request, "index.html", context={ "name": "Mehdi"})
+    print('Test views')
+    return render(request, "index.html", context={ "name": "Mehdi" })
