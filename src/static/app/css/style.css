@@ -1,0 +1,161 @@
+/*
+Paramétre fixé:
+color : cyan
+seriffont : Haettenschweiler
+sansfont : Dubai
+*/
+
+/* Importation des fonts (local) */
+@font-face {
+    font-family: "Haettenschweiler";
+    src: url('lib/fonts/Haettenschweiler.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Dubai-Bold";
+    src: url('lib/fonts/Dubai-Bold.ttf');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: "Dubai-Light";
+    src: url('lib/fonts/Dubai-Light.ttf');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Dubai-Medium";
+    src: url('lib/fonts/Dubai-Medium.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Dubai-Regular";
+    src: url('lib/fonts/Dubai-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* Déclaration variable global */
+:root {
+    --color: cyan;
+    --serif-font: "Haettenschweiler", sans-serif;
+    --sans-font-1: "Dubai-Bold", sans-serif;
+    --sans-font-2: "Dubai-Medium", sans-serif;
+    --sans-font-3: "Dubai-Regular", sans-serif;
+    --sans-font-4: "Dubai-Light", sans-serif;
+}
+
+
+/* Déclaration des class pour les fonts*/
+.haettenschweiler-font {
+    font-family: var(--serif-font);
+}
+
+.dubai-bold-font {
+    font-family: var(--sans-font-1);
+}
+
+.dubai-medium-font {
+    font-family: var(--sans-font-2);
+}
+
+.dubai-regular-font {
+    font-family: var(--sans-font-3);
+}
+
+.dubai-light-font {
+    font-family: var(--sans-font-4);
+}
+
+.image-menu {
+    max-width:120px;
+    min-height:30px;
+}
+
+/* Garde la couleur du footer originel du site, qui est plus "estétique" que la couleur imposé pour un footer */
+#footer-main {
+    background-color: #024e7a;
+}
+
+/* retire la border du burger menu de bootstrap */
+.navbar-toggler {
+    border: none;
+}
+
+/* remplace les couleurs de bootstrap par la couleur imposé */
+.border-primary {
+    border-color: var(--color) !important;
+}
+
+.bg-primary {
+    background-color: var(--color) !important;
+}
+
+.form-control:focus {
+    border-color: var(--color) !important;
+    box-shadow: 0 0 7px var(--color) !important;
+}
+
+.form-select:focus {
+    border-color: var(--color) !important;
+    box-shadow: 0 0 7px var(--color) !important;
+}
+
+.nav-item:hover {
+    background-color: var(--color) !important;
+}
+
+.article {
+    display: block;
+    text-decoration: none;
+    color: black;
+    border: 2px solid transparent;
+    transition: border-color 0.5s linear;
+}
+
+/* aside opinion image*/
+.img-opinion {
+    border-radius: 100%;
+}
+
+/* attibue la couleur imposé au bord de chaque article */
+.article:hover {
+    border-color: var(--color);
+}
+
+/* Attribution des font aux class p, h1, h2, h3, h4 */
+p {
+    font-family: var(--serif-font);
+    line-height: 30px;
+    letter-spacing: 0.5px;
+    word-spacing: 1px;
+}
+
+.p-article {
+    text-indent: 50px;
+    font-size: large;
+}
+
+h1 {
+    font-family: var(--sans-font-1);
+}
+
+h2 {
+    font-family: var(--sans-font-2); 
+}
+
+h3 {
+    font-family: var(--sans-font-3);
+}
+
+h4 {
+    font-family: var(--sans-font-4);
+}
