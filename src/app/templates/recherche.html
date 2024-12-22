@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <!-- MAIN -->
+    <main class="d-flex justify-content-center row pt-3">
+        <header class="col-8 border-primary border-top border-5">
+                <h2 class="text-center pb-4 pt-2 text-danger">Page de recherche</h2>
+        </header>
+        <form class="col-8 m-3  dubai-regular-font" method="post">
+            <!-- MOT CLES TITRE-->
+            <div class="row py-2">
+                <label for="mot_titre" class="col-md-5 col-form-label text-sm-center text-md-end">Mot clé dans le titre et/ou le résumé:</label>
+                <div class="col-md-7">
+                    <input type="text" id="mot_titre" name="mot_titre" class="form-control" placeholder="-">
+                </div>
+            </div>
+            <!-- MOT CLES CORPS -->
+            <div class="row py-2">
+                <label for="mot_corps" class="col-md-5 col-form-label text-sm-center text-md-end">Mot clés dans le corps du texte:</label>
+                <div class="col-md-7">
+                    <input type="text" id="mot_corps" name="mot_corps" class="form-control" placeholder="-">
+                </div>
+            </div>
+            <!-- DATE -->
+            <div class="row py-2">
+                <label for="date" class="col-md-5 col-form-label text-sm-center text-md-end">Date:</label>
+                <div class="col-md-7">
+                    <input type="date" id="date" name="date" class="form-control">
+                </div>
+            </div>
+            <!-- CATEGORIE -->
+            <div class="row py-2">
+                <label for="categorie" class="col-md-5 col-form-label text-sm-center text-md-end">Catégorie:</label>
+                <div class="col-md-7">
+                    <select class="form-select" id="categorie" name="categorie">
+                        <option value="0" selected>International</option>
+                        <option value="1">National</option>
+                        <option value="2">Région</option>
+                        <option value="3">Sport</option>
+                        <option value="4">Culture</option>
+                        <option value="5">Environnement</option>
+                        <option value="6">Tech</option>
+                        <option value="7">Santé</option>
+                        <option value="8">Autre</option>
+                    </select>
+                </div>
+            </div>
+            <!-- NOMBRE d'article par page -->
+            <div class="row py-2">
+                <label for="nbr_article" class="col-md-5 col-form-label text-sm-center text-md-end">Nombre d'article à afficher:</label>
+                <div class="col-md-7">
+                    <input type="number" id="nbr_article" name="nbr_article" min="10" max="100" step="10" class="form-control" value="10">
+                </div>
+            </div>
+            <!-- TRIE-->
+            <div class="row py-2">
+                <label for="trie_article" class="col-md-5 col-form-label text-sm-center text-md-end">Trier par:</label>
+                <div class="col-md-7">
+                    <select class="form-select" id="trie_article" name="trie_article">
+                        <option value="0" selected>Plus ancien au plus récent</option>
+                        <option value="1">Plus récent au plus ancien</option>
+                        <option value="2">Plus populaire au moin populaire</option>
+                        <option value="3">Moin populaire au plus populaire</option>
+                    </select>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center py-2">
+                <button class="btn btn-primary" type="submit">Rechercher</button>
+            </div>
+        </form>
+    </main>
+
+
+{% endblock %}
