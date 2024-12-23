@@ -14,9 +14,9 @@
                     </header>
                     <!-- ARTICLE PRINCIPALE -->
                     <article class="col-md-7 pb-3">
-                        <a class="article rounded" href="article.html" target="_self">
+                        <a class="article rounded" href="article.html?id={{ articles.0.id_art }}" target="_self">
                             <picture>
-                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.0.image_art}}" alt="Article Main Image">
+                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.0.image_art }}" alt="Article Main Image" onerror="imageNotFound(this)">
                             </picture>
                             <header class="py-3">
                                 <h2>{{ articles.0.title_art }}</h2>
@@ -29,10 +29,10 @@
                     <aside class="col-md-5">
                         <!-- ARTICLE 2 -->
                         <section class="pb-3">
-                            <a class="article rounded" href="#" target="_self">
+                            <a class="article rounded" href="article.html?id={{ articles.1.id_art }}" target="_self">
                                 <picture>
-                                    <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.1.image_art}}"
-                                        alt="Article 1 Main Image">
+                                    <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.1.image_art }}"
+                                        alt="Article 1 Main Image" onerror="imageNotFound(this)">
                                 </picture>
                                 <header class="pt-3 pb-1">
                                     <h2>{{ articles.1.title_art }}</h2>
@@ -41,9 +41,13 @@
                                 <p>{{ articles.1.hook_art }}</p>
                             </a>
                         </section>
-                        <!-- ARTICLE 3 (sans photo)-->
+                        <!-- ARTICLE 3 -->
                         <section class="pb-3">
-                            <a class="article rounded" href="#" target="_self">
+                            <a class="article rounded" href="article.html?id={{ articles.2.id_art }}" target="_self">
+                                <picture>
+                                    <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.2.image_art }}"
+                                        alt="Article 2 Main Image" onerror="imageNotFound(this)">
+                                </picture>
                                 <h2>{{ articles.2.title_art }}</h2>
                                 <p>{{ articles.2.hook_art }}</p>
                             </a>
@@ -51,10 +55,10 @@
                     </aside>
                     <!-- ARTICLE 4 -->
                     <article class="col-md-6 col-lg-4 pb-3">
-                        <a class="article rounded" href="#" target="_self">
+                        <a class="article rounded" href="article.html?id={{ articles.3.id_art }}" target="_self">
                             <picture>
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.3.image_art }}"
-                                    alt="Article 3 Main Image">
+                                    alt="Article 3 Main Image" onerror="imageNotFound(this)">
                             </picture>
                             <h3 class="pt-2">{{ articles.3.title_art }}</h3>
                             <p>{{ articles.3.hook_art }}</p>
@@ -62,10 +66,10 @@
                     </article>
                     <!-- ARTICLE 5 -->
                     <article class="col-md-6 col-lg-4 pb-3">
-                        <a class="article rounded" href="#" target="_self">
+                        <a class="article rounded" href="article.html?id={{ articles.4.id_art }}" target="_self">
                             <picture>
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.4.image_art }}"
-                                    alt="Article 4 Main Image">
+                                    alt="Article 4 Main Image" onerror="imageNotFound(this)">
                             </picture>
                             <h3 class="pt-2">{{ articles.4.title_art }}</h3>
                             <p>{{ articles.4.hook_art }}</p>
@@ -73,10 +77,10 @@
                     </article>
                     <!-- ARTICLE 6 -->
                     <article class="col-md-6 col-lg-4 pb-3">
-                        <a class="article rounded" href="#" target="_self">
+                        <a class="article rounded" href="article.html?id={{ articles.5.id_art }}" target="_self">
                             <picture>
-                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.5.image_art }}""
-                                    alt="Article 6 Main Image">
+                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.5.image_art }}"
+                                    alt="Article 5 Main Image" onerror="imageNotFound(this)">
                             </picture>
                             <h3 class="pt-2">{{ articles.5.title_art}}</h3>
                             <p>{{ articles.5.hook_art }}</p>
@@ -84,10 +88,10 @@
                     </article>
                     <!-- ARTICLE 7 -->
                     <article class="col-md-6 col-lg-4 pb-3">
-                        <a class="article rounded" href="#" target="_self">
+                        <a class="article rounded" href="article.html?id={{ articles.6.id_art }}" target="_self">
                             <picture>
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.6.image_art }}"
-                                    alt="Article 6 Main Image">
+                                    alt="Article 6 Main Image" onerror="imageNotFound(this)">
                             </picture>
                             <h3 class="pt-2">{{ articles.6.title_art }}</h3>
                             <p>{{ articles.6.hook_art }}</p>
@@ -95,9 +99,9 @@
                     </article>
                     <!-- ARTICLE 8 -->
                     <article class="col-md-6 col-lg-4 pb-3">
-                        <a class="article rounded" href="#" target="_self">
+                        <a class="article rounded" href="article.html?id={{ articles.7.id_art }}" target="_self">
                             <picture>
-                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.7.image_art }}" alt="Article 8 Main Image">
+                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.7.image_art }}" alt="Article 7 Main Image" onerror="imageNotFound(this)">
                             </picture>
                             <h3 class="pt-2">{{ articles.7.title_art }}</h3>
                             <p>{{ articles.7.hook_art }}</p>
@@ -105,10 +109,10 @@
                     </article>
                     <!-- ARTICLE 9 -->
                     <article class="col-md-6 col-lg-4 pb-3">
-                        <a class="article rounded" href="#" target="_self">
+                        <a class="article rounded" href="article.html?id={{ articles.8.id_art }}" target="_self">
                             <picture>
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.8.image_art }}"
-                                    alt="Article 9 Main Image">
+                                    alt="Article 8 Main Image" onerror="imageNotFound(this)">
                             </picture>
                             <h3 class="pt-2">{{ articles.8.title_art }}</h3>
                             <p>{{ articles.8.hook_art }}</p>
@@ -132,7 +136,7 @@
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
                             </div>
                             <picture class="col-3">
-                                <img class="img-opinion" src="{% static 'app/media/profile.png' %}" alt="Image Profile 1">
+                                <img class="img-opinion" src="{% static 'app/media/logo/profile.png' %}" alt="Image Profile 1">
                             </picture>
                         </div>
                     </section>
@@ -143,7 +147,7 @@
                                 <p>Voluptatem deleniti minima vel aliquam mollitia alias</p>
                             </div>
                             <picture class="col-3">
-                                <img class="img-opinion" src="{% static 'app/media/profile.png' %}" alt="Image Profile 1">
+                                <img class="img-opinion" src="{% static 'app/media/logo/profile.png' %}" alt="Image Profile 1">
                             </picture>
                         </div>
                     </section>
@@ -154,7 +158,7 @@
                                 <p>Illum eveniet cum molestias tempore labore neque eius</p>
                             </div>
                             <picture class="col-3">
-                                <img class="img-opinion" src="{% static 'app/media/profile.png' %}" alt="Image Profile 1">
+                                <img class="img-opinion" src="{% static 'app/media/logo/profile.png' %}" alt="Image Profile 1">
                             </picture>
                         </div>
                     </section>
@@ -165,7 +169,7 @@
                                 <p>Labore neque eius architecto dicta fugit eaque laudantium quos. </p>
                             </div>
                             <picture class="col-3">
-                                <img class="img-opinion" src="{% static 'app/media/profile.png' %}" alt="Image Profile 1">
+                                <img class="img-opinion" src="{% static 'app/media/logo/profile.png' %}" alt="Image Profile 1">
                             </picture>
                         </div>
                     </section>
@@ -176,7 +180,7 @@
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
                             </div>
                             <picture class="col-3">
-                                <img class="img-opinion" src="{% static 'app/media/profile.png' %}" alt="Image Profile 1">
+                                <img class="img-opinion" src="{% static 'app/media/logo/profile.png' %}" alt="Image Profile 1">
                             </picture>
                         </div>
                     </section>

@@ -1,5 +1,3 @@
-{% load static %}
-
 /*
 Paramétre fixé:
 color : cyan
@@ -10,14 +8,14 @@ sansfont : Dubai
 /* Importation des fonts (local) */
 @font-face {
     font-family: "Haettenschweiler";
-    src: url("{% static 'app/external/fonts/Haettenschweiler.ttf' %});
+    src: url('/static/app/external/fonts/Haettenschweiler.ttf');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Dubai-Bold";
-    src: url("{% static 'app/external/fonts/Dubai-Bold.ttf' %}");
+    src: url('/static/app/external/fonts/Dubai-Bold.ttf');
     font-weight: bold;
     font-style: normal;
 }
@@ -25,21 +23,21 @@ sansfont : Dubai
 
 @font-face {
     font-family: "Dubai-Light";
-    src: url("{% static 'app/external/fonts/Dubai-Light.ttf' %}");
+    src: url('/static/app/external/fonts/Dubai-Light.ttf');
     font-weight: lighter;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Dubai-Medium";
-    src: url("{% static 'app/external/fonts/Dubai-Medium.ttf' %}");
+    src: url('/static/app/external/fonts/Dubai-Medium.ttf');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Dubai-Regular";
-    src: url("{% static 'app/external/fonts/Dubai-Regular.ttf' %}");
+    src: url('/static/app/external/fonts/Dubai-Regular.ttf');
     font-weight: normal;
     font-style: normal;
 }
@@ -98,21 +96,21 @@ sansfont : Dubai
 }
 
 .bg-primary {
-    background-color: var(--color) !important;
+    background-color: var(--color);
 }
 
 .form-control:focus {
-    border-color: var(--color) !important;
-    box-shadow: 0 0 7px var(--color) !important;
+    border-color: var(--color);
+    box-shadow: 0 0 7px var(--color);
 }
 
 .form-select:focus {
-    border-color: var(--color) !important;
-    box-shadow: 0 0 7px var(--color) !important;
+    border-color: var(--color);
+    box-shadow: 0 0 7px var(--color);
 }
 
 .nav-item:hover {
-    background-color: var(--color) !important;
+    background-color: var(--color);
 }
 
 .article {
@@ -135,7 +133,7 @@ sansfont : Dubai
 
 /* Attribution des font aux class p, h1, h2, h3, h4 */
 p {
-    font-family: var(--serif-font);
+    font-family: var(--sans-font-2);
     line-height: 30px;
     letter-spacing: 0.5px;
     word-spacing: 1px;
@@ -151,7 +149,7 @@ h1 {
 }
 
 h2 {
-    font-family: var(--sans-font-2); 
+    font-family: var(--sans-font-2);
 }
 
 h3 {
@@ -160,4 +158,23 @@ h3 {
 
 h4 {
     font-family: var(--sans-font-4);
+}
+
+.sponsor {
+    background-color: #0dd3d1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+    padding: 10px;
+    border: solid 2px black;
+    border-radius: 5px;
+    max-width:80%;
+}
+
+pre {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    overflow: auto;
 }

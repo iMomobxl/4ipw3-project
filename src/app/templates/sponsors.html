@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<br>
+<h1>Nos PRECIEUX sponsors:</h1>
+
+    <div class="sponsor">
+        <p>{{ data.text }}</p>
+        <a href="{{ data.link }}" target="_blank">
+            <img src="{{ data.image }}" alt="Sponsor Image">
+        </a>
+    </div>
+    <div>
+        <br>
+        <hr>
+        <pre>{{ formatted_data }}</pre>
+    </div>
+{% endblock %}

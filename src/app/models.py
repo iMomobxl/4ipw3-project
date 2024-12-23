@@ -13,13 +13,25 @@ class Category(models.Model):
 
 class Article(models.Model):
     id_art = models.AutoField(primary_key=True)
-    ident_art = models.IntegerField(null=True, blank=True)
+    date_art = models.DateField(null=True, blank=True)
+    title_art = models.CharField(max_length=128)
+    fk_category_art = models.IntegerField()
+    hook_art = models.TextField(null=True, blank=True)
+    image_art = models.CharField(max_length=64, null=True, blank=True)
+
+    class Meta:
+        db_table = 't_article'
+        managed = False
+
+    def __str__(self):
+        return self.title_art
+
+class Article_Detail(models.Model):
+    id_art = models.AutoField(primary_key=True)
     date_art = models.DateField(null=True, blank=True)
     readtime_art = models.IntegerField(null=True, blank=True)
     title_art = models.CharField(max_length=128)
-    hook_art = models.TextField(null=True, blank=True)
-    url_art = models.CharField(max_length=128)
-    fk_category_art = models.IntegerField()
+    #fk_category_art = models.IntegerField(null=True, blank=True)
     content_art = models.TextField()
     image_art = models.CharField(max_length=64, null=True, blank=True)
 
