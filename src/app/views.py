@@ -25,6 +25,5 @@ def sponsors(request):
     response = requests.get(url)
     data = response.json()
     formatted_data = pformat(data)
-    print(formatted_data)
     banner_data = data.get('banner_4IPDW')
     return render(request, "sponsors.html", { 'data': banner_data, 'formatted_data': formatted_data})
