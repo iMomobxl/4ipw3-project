@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from .models import Category
+from .models import Category, Article
 
 def home(request):
-    return render(request, "home.html", {} )
+    articles = Article.objects.filter(fk_category_art=146).order_by('-date_art')[:10]
+    return render(request, "home.html", { 'articles': articles } )
 
 def article(request):
     return render(request, "article.html", {})

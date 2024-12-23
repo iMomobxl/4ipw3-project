@@ -16,25 +16,13 @@
                     <article class="col-md-7 pb-3">
                         <a class="article rounded" href="article.html" target="_self">
                             <picture>
-                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/article1.jpg' %}" alt="Article Main Image">
+                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.0.image_art}}" alt="Article Main Image">
                             </picture>
                             <header class="py-3">
-                                <h2>Titre article principal: Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                    Harum, nesciunt?</h2>
-                                <p>23:07 10/06/2024</p>
+                                <h2>{{ articles.0.title_art }}</h2>
+                                <p>{{ articles.0.date_art }}</p>
                             </header>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Laudantium fugiat magnam rerum
-                                dolorum cupiditate dignissimos repellendus, omnis, enim, itaque porro tempora quisquam
-                                aut.
-                                Molestiae nesciunt, iusto sapiente quidem temporibus saepe.
-                                Quisquam voluptas, libero aliquid excepturi delectus consectetur et? Est esse ex
-                                voluptatibus cum facere, natus quam necessitatibus exercitationem nihil velit libero
-                                mollitia quod deserunt eius perspiciatis quibusdam voluptates explicabo aspernatur.
-                                Suscipit totam, vel molestiae debitis est quae dolorum tempore fugit, maiores cumque
-                                explicabo corrupti impedit porro reiciendis placeat odit quaerat omnis quo non nemo
-                                rerum
-                                ipsa ea. Vero, voluptatem consequatur?</p>
+                            <p>{{ articles.0.hook_art }}</p>
                         </a>
                     </article>
                     <!-- ASIDE (partie a droite de l'article principal)-->
@@ -43,31 +31,21 @@
                         <section class="pb-3">
                             <a class="article rounded" href="#" target="_self">
                                 <picture>
-                                    <img class="img-fluid img-thumbnail" src="{% static 'app/media/article2.jpg' %}"
-                                        alt="Article 2 Main Image">
+                                    <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.1.image_art}}"
+                                        alt="Article 1 Main Image">
                                 </picture>
                                 <header class="pt-3 pb-1">
-                                    <h2>Titre article secondaire: Lorem ipsum dolor, sit amet consectetur
-                                        adipisicing elit. Nobis inventore </h2>
-                                    <p>23:07 10/06/2024</p>
+                                    <h2>{{ articles.1.title_art }}</h2>
+                                    <p>{{ articles.1.date_art }}</p>
                                 </header>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                    elit. Dignissimos eligendi ratione
-                                    voluptatibus dolore similique cumque. Soluta perspiciatis nam autem excepturi
-                                    corrupti
-                                    fuga ad</p>
+                                <p>{{ articles.1.hook_art }}</p>
                             </a>
                         </section>
                         <!-- ARTICLE 3 (sans photo)-->
                         <section class="pb-3">
                             <a class="article rounded" href="#" target="_self">
-                                <h2>Titre article n°3: Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis
-                                    inventore </h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                    elit. Dignissimos eligendi ratione
-                                    voluptatibus dolore similique cumque. Soluta perspiciatis nam autem excepturi
-                                    corrupti
-                                    fuga ad</p>
+                                <h2>{{ articles.2.title_art }}</h2>
+                                <p>{{ articles.2.hook_art }}</p>
                             </a>
                         </section>
                     </aside>
@@ -75,87 +53,70 @@
                     <article class="col-md-6 col-lg-4 pb-3">
                         <a class="article rounded" href="#" target="_self">
                             <picture>
-                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/article4.jpg' %}"
-                                    alt="Article 4 Main Image">
+                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.3.image_art }}"
+                                    alt="Article 3 Main Image">
                             </picture>
-                            <h3 class="pt-2">Titre article n°4</h3>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Molestiae distinctio quibusdam
-                                cupiditate at eaque! Perferendis animi harum temporibus beatae cupiditate tenetur
-                                consequuntur quod quas, aspernatur quia qui autem, quos fuga!</p>
+                            <h3 class="pt-2">{{ articles.3.title_art }}</h3>
+                            <p>{{ articles.3.hook_art }}</p>
                         </a>
                     </article>
                     <!-- ARTICLE 5 -->
                     <article class="col-md-6 col-lg-4 pb-3">
                         <a class="article rounded" href="#" target="_self">
                             <picture>
-                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/article5.jpg' %}"
-                                    alt="Article 5 Main Image">
+                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.4.image_art }}"
+                                    alt="Article 4 Main Image">
                             </picture>
-                            <h3 class="pt-2">Titre article n°5</h3>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Molestiae distinctio quibusdam
-                                cupiditate at eaque! Perferendis animi harum temporibus beatae cupiditate tenetur
-                                consequuntur quod quas, aspernatur quia qui autem, quos fuga!</p>
+                            <h3 class="pt-2">{{ articles.4.title_art }}</h3>
+                            <p>{{ articles.4.hook_art }}</p>
                         </a>
                     </article>
                     <!-- ARTICLE 6 -->
                     <article class="col-md-6 col-lg-4 pb-3">
                         <a class="article rounded" href="#" target="_self">
                             <picture>
-                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/article6.jpg' %}"
+                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.5.image_art }}""
                                     alt="Article 6 Main Image">
                             </picture>
-                            <h3 class="pt-2">Titre article n°6</h3>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Molestiae distinctio quibusdam
-                                cupiditate at eaque! Perferendis animi harum temporibus beatae cupiditate tenetur
-                                consequuntur quod quas, aspernatur quia qui autem, quos fuga!</p>
+                            <h3 class="pt-2">{{ articles.5.title_art}}</h3>
+                            <p>{{ articles.5.hook_art }}</p>
                         </a>
                     </article>
                     <!-- ARTICLE 7 -->
                     <article class="col-md-6 col-lg-4 pb-3">
                         <a class="article rounded" href="#" target="_self">
                             <picture>
-                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/article7.jpg' %}"
-                                    alt="Article 7 Main Image">
+                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.6.image_art }}"
+                                    alt="Article 6 Main Image">
                             </picture>
-                            <h3 class="pt-2">Titre article n°7</h3>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Molestiae distinctio quibusdam
-                                cupiditate at eaque! Perferendis animi harum temporibus beatae cupiditate tenetur
-                                consequuntur quod quas, aspernatur quia qui autem, quos fuga!</p>
+                            <h3 class="pt-2">{{ articles.6.title_art }}</h3>
+                            <p>{{ articles.6.hook_art }}</p>
                         </a>
                     </article>
                     <!-- ARTICLE 8 -->
                     <article class="col-md-6 col-lg-4 pb-3">
                         <a class="article rounded" href="#" target="_self">
                             <picture>
-                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/article8.jpg' %}" alt="Article 8 Main Image">
+                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.7.image_art }}" alt="Article 8 Main Image">
                             </picture>
-                            <h3 class="pt-2">Titre article n°8</h3>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Molestiae distinctio quibusdam
-                                cupiditate at eaque! Perferendis animi harum temporibus beatae cupiditate tenetur
-                                consequuntur quod quas, aspernatur quia qui autem, quos fuga!</p>
+                            <h3 class="pt-2">{{ articles.7.title_art }}</h3>
+                            <p>{{ articles.7.hook_art }}</p>
                         </a>
                     </article>
                     <!-- ARTICLE 9 -->
                     <article class="col-md-6 col-lg-4 pb-3">
                         <a class="article rounded" href="#" target="_self">
                             <picture>
-                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/article9.jpg' %}"
+                                <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.8.image_art }}"
                                     alt="Article 9 Main Image">
                             </picture>
-                            <h3 class="pt-2">Titre article n°9</h3>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Molestiae distinctio quibusdam
-                                cupiditate at eaque! Perferendis animi harum temporibus beatae cupiditate tenetur
-                                consequuntur quod quas, aspernatur quia qui autem, quos fuga!</p>
+                            <h3 class="pt-2">{{ articles.8.title_art }}</h3>
+                            <p>{{ articles.8.hook_art }}</p>
                         </a>
                     </article>
                 </div>
             </div>
+
         </article>
         <!-- ASIDE (partie Opinion)-->
         <aside class="col-lg-3">
