@@ -76,24 +76,11 @@
         <nav class="collapse overflow-visible navbar-collapse border-primary border border-2 text-black rounded my-3 px-0"
             id="menu">
             <ul class="navbar-nav">
+                {% for item in menu_items %}
                 <li class="nav-item text-center dubai-regular-font">
-                    <a class="nav-link" href="home.html" target="_self">Home</a>
+                    <a class="nav-link" href="{% url item.id %}" target="_self">{{ item.name }}</a>
                 </li>
-                <li class="nav-item text-center">
-                    <a class="nav-link" href="article.html" target="_self">Article</a>
-                </li>
-                <li class="nav-item text-center">
-                    <a class="nav-link" href="recherche.html" target="_self">Recherche</a>
-                </li>
-                <li class="nav-item text-center dubai-regular-font">
-                    <a class="nav-link" href="sponsors.html" target="_self">Sponsors</a>
-                </li>
-                <li class="nav-item text-center dubai-regular-font">
-                    <a class="nav-link" href="test-font.html" target="_self">Test-font</a>
-                </li>
-                <li class="nav-item text-center dubai-regular-font">
-                    <a class="nav-link" href="test-mysql.html" target="_self">Test-MySQL</a>
-                </li>
+                {% endfor %}
             </ul>
         </nav>
         <!-- FIN BURGER MENU ACTIVÈ -->
@@ -124,7 +111,7 @@
                 Société Nationale de
                 Journalisme. Sans autorisation préalable, la publication, la retransmission, l'édition et toute autre
                 utilisation du contenu sont expressément interdites. <br><span class="text-warning">(SAUF pour
-                    4IWPB)</span>
+                    4IWPB et 4IPW3 ;-))</span>
             </p>
         </nav>
     </footer>

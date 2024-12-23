@@ -26,6 +26,7 @@
                         </a>
                     </article>
                     <!-- ASIDE (partie a droite de l'article principal)-->
+                    {% if articles|length > 1 %}
                     <aside class="col-md-5">
                         <!-- ARTICLE 2 -->
                         <section class="pb-3">
@@ -42,6 +43,7 @@
                             </a>
                         </section>
                         <!-- ARTICLE 3 -->
+                        {% if articles|length > 2 %}
                         <section class="pb-3">
                             <a class="article rounded" href="article.html?id={{ articles.2.id_art }}" target="_self">
                                 <picture>
@@ -52,8 +54,11 @@
                                 <p>{{ articles.2.hook_art }}</p>
                             </a>
                         </section>
+                        {% endif %}
                     </aside>
+                    {% endif %}
                     <!-- ARTICLE 4 -->
+                    {% if articles|length > 3 %}
                     <article class="col-md-6 col-lg-4 pb-3">
                         <a class="article rounded" href="article.html?id={{ articles.3.id_art }}" target="_self">
                             <picture>
@@ -64,7 +69,9 @@
                             <p>{{ articles.3.hook_art }}</p>
                         </a>
                     </article>
+                    {% endif %}
                     <!-- ARTICLE 5 -->
+                    {% if articles|length > 4 %}
                     <article class="col-md-6 col-lg-4 pb-3">
                         <a class="article rounded" href="article.html?id={{ articles.4.id_art }}" target="_self">
                             <picture>
@@ -75,7 +82,9 @@
                             <p>{{ articles.4.hook_art }}</p>
                         </a>
                     </article>
+                    {% endif %}
                     <!-- ARTICLE 6 -->
+                    {% if articles|length > 5 %}
                     <article class="col-md-6 col-lg-4 pb-3">
                         <a class="article rounded" href="article.html?id={{ articles.5.id_art }}" target="_self">
                             <picture>
@@ -86,7 +95,9 @@
                             <p>{{ articles.5.hook_art }}</p>
                         </a>
                     </article>
+                    {% endif %}
                     <!-- ARTICLE 7 -->
+                    {% if articles|length > 6 %}
                     <article class="col-md-6 col-lg-4 pb-3">
                         <a class="article rounded" href="article.html?id={{ articles.6.id_art }}" target="_self">
                             <picture>
@@ -97,7 +108,9 @@
                             <p>{{ articles.6.hook_art }}</p>
                         </a>
                     </article>
+                    {% endif %}
                     <!-- ARTICLE 8 -->
+                    {% if articles|length > 7 %}
                     <article class="col-md-6 col-lg-4 pb-3">
                         <a class="article rounded" href="article.html?id={{ articles.7.id_art }}" target="_self">
                             <picture>
@@ -107,7 +120,9 @@
                             <p>{{ articles.7.hook_art }}</p>
                         </a>
                     </article>
+                    {% endif %}
                     <!-- ARTICLE 9 -->
+                    {% if articles|length > 8 %}
                     <article class="col-md-6 col-lg-4 pb-3">
                         <a class="article rounded" href="article.html?id={{ articles.8.id_art }}" target="_self">
                             <picture>
@@ -118,6 +133,7 @@
                             <p>{{ articles.8.hook_art }}</p>
                         </a>
                     </article>
+                    {% endif %}
                 </div>
             </div>
 

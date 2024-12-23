@@ -4,74 +4,19 @@
 
 {% block content %}
 
-    <!-- MAIN -->
     <main class="d-flex justify-content-center row pt-3">
         <header class="border-primary border-top border-5">
-            <h2 class="text-center pb-4 pt-2 text-danger">Article Principal</h2>
-            <h3 class="text-center text-warning pb-3">Catégorie: International</h3>
-            <h2>Titre de l'article principale: Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima
-                similique, voluptatem assumenda quibusdam quisquam laborum recusandae iure animi deserunt accusamus
-                repudiandae ab! Soluta, quaerat esse facere explicabo itaque fugiat nulla.</h2>
+            <h3 class="text-center text-warning pb-3">Catégorie: {{ article.fk_category_art.name_cat }}</h3>
+            <h2 class="text-center">{{ article.title_art }} </h2>
             <div class="d-flex justify-content-center pt-5">
                 <figure>
-                    <img src="{% static 'app/media/article1.jpg' %}" alt="Image de l'article principale" class="img-fluid img-thumbnail">
-                    <figcaption class="text-center dubai-regular-font">Mr Wafflard - 10/06/2024</figcaption>
+                    <img src="{% static 'app/media/' %}{{ article.image_art }}" alt="Image de l'article" onerror="imageNotFound(this)" class="img-fluid img-thumbnail">
+                    <figcaption class="text-center dubai-regular-font">{{ article.date_art }}</figcaption>
                 </figure>
             </div>
         </header>
         <article class="pt-2">
-            <h4 class="text-center">Contenue de l'article:</h4>
-            <p class="py-4 p-article">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, eligendi
-                libero
-                adipisci commodi
-                fugit numquam iusto, molestias, reprehenderit neque voluptates temporibus. Culpa est velit delectus
-                quidem porro molestias soluta! In.
-                Consequatur quaerat asperiores, pariatur enim doloribus illum nostrum dolorem incidunt architecto
-                tempore modi suscipit praesentium voluptatum corrupti, harum hic saepe consequuntur culpa natus vitae
-                repellendus illo, sed repudiandae alias. Eos?
-                Omnis optio dolor ipsa eaque rem consequuntur fugiat odio, nulla perspiciatis consequatur cupiditate,
-                esse libero maiores id eos aliquam amet sapiente voluptates necessitatibus delectus! Obcaecati tempore
-                placeat eos sint odio!
-                Optio odit quisquam quidem fugit harum. Earum dolores reiciendis corrupti cumque eaque magni maiores,
-                eum dolorem error, repellat corporis, eius atque! Voluptatibus quis ratione reprehenderit facere
-                assumenda minus voluptatem harum!
-                Corporis ab laboriosam quaerat iure impedit adipisci ratione. Recusandae, architecto beatae. Quo ipsa
-                error ex pariatur soluta! Pariatur enim quae cumque voluptas dicta consequatur asperiores aspernatur
-                laborum, beatae dolorem ut.</p>
-            <p class="py-4 p-article">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, eligendi
-                libero
-                adipisci commodi
-                fugit numquam iusto, molestias, reprehenderit neque voluptates temporibus. Culpa est velit delectus
-                quidem porro molestias soluta! In.
-                Consequatur quaerat asperiores, pariatur enim doloribus illum nostrum dolorem incidunt architecto
-                tempore modi suscipit praesentium voluptatum corrupti, harum hic saepe consequuntur culpa natus vitae
-                repellendus illo, sed repudiandae alias. Eos?
-                Omnis optio dolor ipsa eaque rem consequuntur fugiat odio, nulla perspiciatis consequatur cupiditate,
-                esse libero maiores id eos aliquam amet sapiente voluptates necessitatibus delectus! Obcaecati tempore
-                placeat eos sint odio!
-                Optio odit quisquam quidem fugit harum. Earum dolores reiciendis corrupti cumque eaque magni maiores,
-                eum dolorem error, repellat corporis, eius atque! Voluptatibus quis ratione reprehenderit facere
-                assumenda minus voluptatem harum!
-                Corporis ab laboriosam quaerat iure impedit adipisci ratione. Recusandae, architecto beatae. Quo ipsa
-                error ex pariatur soluta! Pariatur enim quae cumque voluptas dicta consequatur asperiores aspernatur
-                laborum, beatae dolorem ut.</p>
-            <p class="py-4 p-article">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, eligendi
-                libero
-                adipisci commodi
-                fugit numquam iusto, molestias, reprehenderit neque voluptates temporibus. Culpa est velit delectus
-                quidem porro molestias soluta! In.
-                Consequatur quaerat asperiores, pariatur enim doloribus illum nostrum dolorem incidunt architecto
-                tempore modi suscipit praesentium voluptatum corrupti, harum hic saepe consequuntur culpa natus vitae
-                repellendus illo, sed repudiandae alias. Eos?
-                Omnis optio dolor ipsa eaque rem consequuntur fugiat odio, nulla perspiciatis consequatur cupiditate,
-                esse libero maiores id eos aliquam amet sapiente voluptates necessitatibus delectus! Obcaecati tempore
-                placeat eos sint odio!
-                Optio odit quisquam quidem fugit harum. Earum dolores reiciendis corrupti cumque eaque magni maiores,
-                eum dolorem error, repellat corporis, eius atque! Voluptatibus quis ratione reprehenderit facere
-                assumenda minus voluptatem harum!
-                Corporis ab laboriosam quaerat iure impedit adipisci ratione. Recusandae, architecto beatae. Quo ipsa
-                error ex pariatur soluta! Pariatur enim quae cumque voluptas dicta consequatur asperiores aspernatur
-                laborum, beatae dolorem ut.</p>
+            <p class="py-4 p-article">{{ article.content_art|safe }}</p>
         </article>
     </main>
 
