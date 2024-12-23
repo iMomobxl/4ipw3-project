@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Category
 
 def home(request):
     return render(request, "home.html", {} )
@@ -11,3 +12,7 @@ def recherche(request):
 
 def test_font(request):
     return render(request, "test-font.html", {})
+
+def test_mysql(request):
+    category = Category.objects.all()
+    return render(request, "test-mysql.html", { 'category': category })

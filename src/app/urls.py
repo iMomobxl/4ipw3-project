@@ -8,4 +8,5 @@ urlpatterns = [
     path('article.html', views.article, name='article'),
     path('recherche.html', views.recherche, name='recherche'),
     path('test-font.html', views.test_font, name='test-font'),
+    path('test-mysql.html', views.test_mysql, name='test-mysql'),
 ]
