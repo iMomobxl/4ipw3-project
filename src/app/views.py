@@ -17,7 +17,7 @@ def home(request):
     articles = Article.objects.filter(fk_category_art=146).order_by('-date_art')[:10]
     # menu = display_menu_csv()
     # print(menu)
-    return render(request, "home.html", { 'articles': articles } )
+    return render(request, "home.html", { 'articles': articles })
 
 def article(request):
     article_id = request.GET.get('id')
@@ -41,3 +41,9 @@ def sponsors(request):
     formatted_data = pformat(data)
     banner_data = data.get('banner_4IPDW')
     return render(request, "sponsors.html", { 'data': banner_data, 'formatted_data': formatted_data})
+
+def login(request):
+    return render(request, "login.html", {})
+
+def user(request):
+    return render(request, "user.html", {})

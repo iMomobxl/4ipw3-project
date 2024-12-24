@@ -10,4 +10,7 @@ urlpatterns = [
     path('test-font.html', views.test_font, name='test-font'),
     path('test-mysql.html', views.test_mysql, name='test-mysql'),
     path('sponsors.html', views.sponsors, name='sponsors'),
+    path('login.html', views.login, name='login'),
+    path('user.html', views.user, name='user'),
+
 ]
