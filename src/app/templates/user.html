@@ -4,6 +4,28 @@
 
 {% block content %}
 
-<h1>User page</h1>
+<main class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="text-center">Vos informations:</h2>
+        {% if request.session.identified %}
+        <h3>Sessions:</h3>
+        <p>Identified: {{ request.session.identified }}</p>
+        <p>Name: {{ request.session.name }}</p>
+        <p>Role: {{ request.session.role }}</p>
+        {% endif %}
+        {% if request.cookies.identified %}
+        <h3>Cookies:</h3>
+        <p>Cookies variable come soon...</p>
+        {% endif %}
+        <form method="post" id="logout" action="{% url 'user' %}">
+            {% csrf_token %}
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary btn-block mt-4">
+                    Logout
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
 
 {% endblock %}

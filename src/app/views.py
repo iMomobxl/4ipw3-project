@@ -1,8 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from .models import Category, Article
 import requests, csv, os
 from django.conf import settings
 from pprint import pformat
+from .forms import LoginForm
 
 # def display_menu_csv():
 #     menu_items = []
@@ -43,7 +45,43 @@ def sponsors(request):
     return render(request, "sponsors.html", { 'data': banner_data, 'formatted_data': formatted_data})
 
 def login(request):
-    return render(request, "login.html", {})
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        uri_param = {
+            'login': username,
+            'passwd': password
+        }
+        uri_head = "http://playground.burotix.be/login/?"
+        uri = f"{uri_head}{requests.compat.urlencode(uri_param)}"
+
+        response = requests.post(uri)
+        if response.status_code == 200:
+            data = response.json()
+            print(data)
+            if data.get('identified'):
+                request.session['identified'] = data.get('identified')
+                request.session['name'] = data.get('name')
+                request.session['role'] = data.get('role')
+                print(f"Identified: {request.session['identified']}")
+                print(f"Name: {request.session['name']}")
+                print(f"Role: {request.session['role']}")
+                return redirect('user')
+                # return render(request, 'user.html')
+            else:
+                messages.error(request,  f"Erreur dans le login/password")
+        else:
+            messages.error(request, f"Erreur: { response.status_code }")
+    if request.session.get('identified'):
+        return redirect('user')
+    else:
+        return render(request, 'login.html')
+
 
 def user(request):
+    if request.method == 'POST':
+        request.session.clear()
+        return redirect('home')
+    if not request.session.get('identified', False):
+        return redirect('login')
     return render(request, "user.html", {})
