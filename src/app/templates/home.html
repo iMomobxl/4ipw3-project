@@ -14,7 +14,7 @@
                     </header>
                     <!-- ARTICLE PRINCIPALE -->
                     <article class="col-md-7 pb-3">
-                        <a class="article rounded" href="article.html?id={{ articles.0.id_art }}" target="_self">
+                        <a class="article rounded" href="{% url 'article' articles.0.id_art %}" target="_self">
                             <picture>
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.0.image_art }}" alt="Article Main Image" onerror="imageNotFound(this)">
                             </picture>
@@ -30,7 +30,7 @@
                     <aside class="col-md-5">
                         <!-- ARTICLE 2 -->
                         <section class="pb-3">
-                            <a class="article rounded" href="article.html?id={{ articles.1.id_art }}" target="_self">
+                            <a class="article rounded" href="{% url 'article' articles.1.id_art %}" target="_self">
                                 <picture>
                                     <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.1.image_art }}"
                                         alt="Article 1 Main Image" onerror="imageNotFound(this)">
@@ -45,7 +45,7 @@
                         <!-- ARTICLE 3 -->
                         {% if articles|length > 2 %}
                         <section class="pb-3">
-                            <a class="article rounded" href="article.html?id={{ articles.2.id_art }}" target="_self">
+                            <a class="article rounded" href="{% url 'article' articles.2.id_art %}" target="_self">
                                 <picture>
                                     <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.2.image_art }}"
                                         alt="Article 2 Main Image" onerror="imageNotFound(this)">
@@ -60,7 +60,7 @@
                     <!-- ARTICLE 4 -->
                     {% if articles|length > 3 %}
                     <article class="col-md-6 col-lg-4 pb-3">
-                        <a class="article rounded" href="article.html?id={{ articles.3.id_art }}" target="_self">
+                        <a class="article rounded" href="{% url 'article' articles.3.id_art %}" target="_self">
                             <picture>
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.3.image_art }}"
                                     alt="Article 3 Main Image" onerror="imageNotFound(this)">
@@ -73,7 +73,7 @@
                     <!-- ARTICLE 5 -->
                     {% if articles|length > 4 %}
                     <article class="col-md-6 col-lg-4 pb-3">
-                        <a class="article rounded" href="article.html?id={{ articles.4.id_art }}" target="_self">
+                        <a class="article rounded" href="{% url 'article' articles.4.id_art %}" target="_self">
                             <picture>
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.4.image_art }}"
                                     alt="Article 4 Main Image" onerror="imageNotFound(this)">
@@ -86,7 +86,7 @@
                     <!-- ARTICLE 6 -->
                     {% if articles|length > 5 %}
                     <article class="col-md-6 col-lg-4 pb-3">
-                        <a class="article rounded" href="article.html?id={{ articles.5.id_art }}" target="_self">
+                        <a class="article rounded" href="{% url 'article' articles.5.id_art %}" target="_self">
                             <picture>
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.5.image_art }}"
                                     alt="Article 5 Main Image" onerror="imageNotFound(this)">
@@ -99,7 +99,7 @@
                     <!-- ARTICLE 7 -->
                     {% if articles|length > 6 %}
                     <article class="col-md-6 col-lg-4 pb-3">
-                        <a class="article rounded" href="article.html?id={{ articles.6.id_art }}" target="_self">
+                        <a class="article rounded" href="{% url 'article' articles.6.id_art %}" target="_self">
                             <picture>
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.6.image_art }}"
                                     alt="Article 6 Main Image" onerror="imageNotFound(this)">
@@ -112,7 +112,7 @@
                     <!-- ARTICLE 8 -->
                     {% if articles|length > 7 %}
                     <article class="col-md-6 col-lg-4 pb-3">
-                        <a class="article rounded" href="article.html?id={{ articles.7.id_art }}" target="_self">
+                        <a class="article rounded" href="{% url 'article' articles.7.id_art %}" target="_self">
                             <picture>
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.7.image_art }}" alt="Article 7 Main Image" onerror="imageNotFound(this)">
                             </picture>
@@ -124,7 +124,7 @@
                     <!-- ARTICLE 9 -->
                     {% if articles|length > 8 %}
                     <article class="col-md-6 col-lg-4 pb-3">
-                        <a class="article rounded" href="article.html?id={{ articles.8.id_art }}" target="_self">
+                        <a class="article rounded" href="{% url 'article' articles.8.id_art %}" target="_self">
                             <picture>
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.8.image_art }}"
                                     alt="Article 8 Main Image" onerror="imageNotFound(this)">
