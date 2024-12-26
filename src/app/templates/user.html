@@ -4,25 +4,72 @@
 
 {% block content %}
 
-<main class="row justify-content-center">
-    <div class="col-md-6">
-        <h2 class="text-center">Vos informations:</h2>
-        {% if request.session.identified %}
-        <h3>Sessions:</h3>
-        <p>Identified: {{ request.session.identified }}</p>
-        <p>Name: {{ request.session.name }}</p>
-        <p>Role: {{ request.session.role }}</p>
-        {% endif %}
-        {% if request.cookies.identified %}
-        <h3>Cookies:</h3>
-        <p>Cookies variable come soon...</p>
-        {% endif %}
+<main class="d-flex justify-content-center row pt-3">
+    <header class="border-primary border-top border-5">
+        <h2 class="text-center pb-4 pt-2 text-danger">Votre page utilisateur</h2>
+    </header>
+    {% if request.session.role == 'admin' %}
+    <div class="row text-center pb-3">
+        <div class="border border-dark col-6">
+            <h3>Sessions:</h3>
+            {% for key, value in request.session.items %}
+                <p>{{ key }}: {{ value }}</p>
+            {% endfor %}
+        </div>
+        <div class="border border-dark col-6">
+            <h3>Cookies:</h3>
+            <p>Cookies variable come soon...</p>
+        </div>
+    </div>
+    <hr>
+    {% endif %}
+    <div class="text-center">
+        <h3>Vos articles favoris:</h3>
+        <p>coming soon...</p>
+        <br>
+    </div>
+    <hr>
+    <div class="col-8 border border-dark">
+        <form method="post" id="user_style" action="{% url 'user' %}">
+            {% csrf_token %}
+            <!-- Font Color -->
+            <div class="row py-2">
+                <label for="font_color" class="col-md-5 col-form-label text-sm-center text-md-end">Font Color:</label>
+                <div class="col-md-4">
+                    <select class="form-select" id="font_color" name="font_color">
+                        <option value="default" {% if request.session.font_color == 'default' %}selected{% endif %}>-</option>
+                        <option value="black" {% if request.session.font_color == 'black' %}selected{% endif %}>Black</option>
+                        <option value="blue" {% if request.session.font_color == 'blue' %}selected{% endif %}>Blue</option>
+                        <option value="red" {% if request.session.font_color == 'red' %}selected{% endif %}>Red</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Border Style -->
+            <div class="row py-2">
+                <label for="border_style" class="col-md-5 col-form-label text-sm-center text-md-end">Border Style:</label>
+                <div class="col-md-4">
+                    <select class="form-select" id="border_style" name="border_style">
+                        <option value="default" {% if request.session.border_style == 'default' %}selected{% endif %}>-</option>
+                        <option value="none" {% if request.session.border_style == 'none' %}selected{% endif %}>None</option>
+                        <option value="thin" {% if request.session.border_style == 'thin' %}selected{% endif %}>Thin</option>
+                        <option value="thick" {% if request.session.border_style == 'thick' %}selected{% endif %}>Thick</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Submit Button -->
+            <div class="d-flex justify-content-center py-2">
+                <button type="submit" class="btn btn-primary">Update Style</button>
+            </div>
+        </form>
         <form method="post" id="logout" action="{% url 'user' %}">
             {% csrf_token %}
             <div class="form-group text-center">
                 <button type="submit" class="btn btn-primary btn-block mt-4">
-                    Logout
+                    Logout*
                 </button>
+                <br>
+                <br>
+                <h4>*Attention cela supprimera vos préferences d'affichage</h4>
             </div>
         </form>
     </div>

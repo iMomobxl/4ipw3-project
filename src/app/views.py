@@ -52,7 +52,6 @@ def login(request):
         }
         uri_head = "http://playground.burotix.be/login/?"
         uri = f"{uri_head}{requests.compat.urlencode(uri_param)}"
-
         response = requests.post(uri)
         if response.status_code == 200:
             data = response.json()
@@ -76,9 +75,21 @@ def login(request):
 
 def user(request):
     if request.method == 'POST':
-        request.session.clear()
-        messages.success(request, f"Vous n'etes plus logé, BYEBYE")
-        return redirect('home')
+        print("Request Method:", request.method)
+        print("GET Parameters:", request.GET)
+        print("POST Parameters:", request.POST)
+        print("COOKIES:", request.COOKIES)
+        print("Session Data:", dict(request.session.items()))
+        if 'font_color' in request.POST or 'border_style' in request.POST:
+            font_color = request.POST.get('font_color', 'default')
+            border_style = request.POST.get('border_style', 'default')
+            request.session['font_color'] = font_color
+            request.session['border_style'] = border_style
+            messages.success(request, "Vos préférences ont été mises à jour.")
+        else:
+            request.session.clear()
+            messages.success(request, f"Vous n'etes plus logé, BYEBYE")
+            return redirect('home')
     if not request.session.get('identified', False):
         messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
         return redirect('login')
