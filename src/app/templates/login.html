@@ -3,10 +3,11 @@
 {% load static %}
 
 {% block content %}
-
-<main class="row justify-content-center">
+<main class="d-flex justify-content-center row pt-3">
+    <header class="border-primary border-top border-5">
+        <h2 class="text-center pb-4 pt-2 text-danger">Login</h2>
+    </header>
     <div class="col-md-6">
-        <h2 class="text-center">Login</h2>
         <form method="post" id="login" action="{% url 'login' %}">
             {% csrf_token %}
             <div class="form-group">

@@ -3,9 +3,10 @@
 {% load static %}
 
 {% block content %}
-<br>
-<h1>Nos PRECIEUX sponsors:</h1>
-
+<main class="d-flex justify-content-center row pt-3">
+    <header class="border-primary border-top border-5">
+        <h2 class="text-center pb-4 pt-2 text-danger">Nos <strong>PRECIEUX</strong> sponsors</h2>
+    </header>
     <div class="sponsor">
         <p>{{ data.text }}</p>
         <a href="{{ data.link }}" target="_blank">
@@ -17,4 +18,5 @@
         <hr>
         <pre>{{ formatted_data }}</pre>
     </div>
+</main>
 {% endblock %}
