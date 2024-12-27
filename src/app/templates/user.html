@@ -30,36 +30,47 @@
     </div>
     <hr>
     <div class="col-8 border border-dark">
-        <form method="post" id="user_style" action="{% url 'user' %}">
-            {% csrf_token %}
-            <!-- Font Color -->
-            <div class="row py-2">
-                <label for="font_color" class="col-md-5 col-form-label text-sm-center text-md-end">Font Color:</label>
-                <div class="col-md-4">
-                    <select class="form-select" id="font_color" name="font_color">
-                        <option value="black" {% if request.session.font_color == 'black' %}selected{% endif %}>Black</option>
-                        <option value="blue" {% if request.session.font_color == 'blue' %}selected{% endif %}>Blue</option>
-                        <option value="red" {% if request.session.font_color == 'red' %}selected{% endif %}>Red</option>
-                    </select>
+        <div class="d-flex justify-content-center">
+            <form class="col-8" method="POST" id="user_style" action="{% url 'user' %}">
+                {% csrf_token %}
+                <!-- Font Color -->
+                <div class="row py-2">
+                    <label for="font_color" class="col-5 col-form-label text-sm-center text-md-end">Font Color:</label>
+                    <div class="col-7">
+                        <select class="form-select" id="font_color" name="font_color">
+                            <option value="black" {% if request.session.font_color == 'black' %}selected{% endif %}>Black</option>
+                            <option value="blue" {% if request.session.font_color == 'blue' %}selected{% endif %}>Blue</option>
+                            <option value="red" {% if request.session.font_color == 'red' %}selected{% endif %}>Red</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <!-- Border Style -->
-            <div class="row py-2">
-                <label for="border_style" class="col-md-5 col-form-label text-sm-center text-md-end">Border Style:</label>
-                <div class="col-md-4">
-                    <select class="form-select" id="border_style" name="border_style">
-                        <option value="none" {% if request.session.border_style == 'none' %}selected{% endif %}>None</option>
-                        <option value="thin" {% if request.session.border_style == 'thin' %}selected{% endif %}>Thin</option>
-                        <option value="thick" {% if request.session.border_style == 'thick' %}selected{% endif %}>Thick</option>
-                    </select>
+                <div class="row py-2">
+                    <label for="border_style" class="col-5 col-form-label text-sm-center text-md-end">Border Style:</label>
+                    <div class="col-7">
+                        <select class="form-select" id="border_style" name="border_style">
+                            <option value="none" {% if request.session.border_style == 'none' %}selected{% endif %}>None</option>
+                            <option value="thin" {% if request.session.border_style == 'thin' %}selected{% endif %}>Thin</option>
+                            <option value="thick" {% if request.session.border_style == 'thick' %}selected{% endif %}>Thick</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <!-- Submit Button -->
-            <div class="d-flex justify-content-center py-2">
-                <button type="submit" class="btn btn-primary">Update Style</button>
-            </div>
-        </form>
-        <form method="post" id="logout" action="{% url 'user' %}">
+                <div class="row py-2">
+                    <label for="home_category" class="col-5 col-form-label text-sm-center text-md-end">Home Articles</label>
+                    <div class="col-7">
+                        <select class="form-select" id="home_category" name="home_category">
+                            {% for cat in category %}
+                                <option value="{{ cat.id_cat }}" {% if request.session.home_category|default:"146" == cat.id_cat|stringformat:"s" %} selected {% endif %}>{{ cat.name_cat }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Update preferences</button>
+                </div>
+            </form>
+        </div>
+        <hr></hr>
+        <form method="POST" id="logout" action="{% url 'user' %}">
             {% csrf_token %}
             <div class="form-group text-center">
                 <button type="submit" class="btn btn-primary btn-block mt-4">

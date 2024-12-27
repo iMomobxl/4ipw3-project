@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.http import HttpResponse
+from django.db import DatabaseError
 from django.conf import settings
 from .models import Category, Article
 import requests, csv, os
@@ -16,7 +17,8 @@ from pprint import pformat
 #     return menu_items
 
 def home(request):
-    articles = Article.objects.filter(fk_category_art=146).order_by('-date_art')[:9]
+    category_art = request.session.get('home_category', "146") # 146 = On n'est pas des pigeons
+    articles = Article.objects.filter(fk_category_art=category_art).order_by('-date_art')[:9]
     # menu = display_menu_csv()
     # print(menu)
     return render(request, "home.html", { 'articles': articles })
@@ -41,7 +43,7 @@ def sponsors(request):
     data = response.json()
     formatted_data = pformat(data)
     banner_data = data.get('banner_4IPDW')
-    return render(request, "sponsors.html", { 'data': banner_data, 'formatted_data': formatted_data})
+    return render(request, "sponsors.html", { 'data': banner_data, 'formatted_data': formatted_data })
 
 def login(request):
     if request.method == 'POST':
@@ -83,8 +85,10 @@ def user(request):
         if 'font_color' in request.POST or 'border_style' in request.POST:
             font_color = request.POST.get('font_color', 'none')
             border_style = request.POST.get('border_style', 'black')
+            home_category = request.POST.get('home_category', 146)
             request.session['font_color'] = font_color
             request.session['border_style'] = border_style
+            request.session['home_category'] = home_category
             messages.success(request, "Vos préférences ont été mises à jour.")
         else:
             request.session.clear()
@@ -93,9 +97,13 @@ def user(request):
     if not request.session.get('identified', False):
         messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
         return redirect('login')
-    return render(request, "user.html", {})
-
-
+    try:
+        category = Category.objects.all()
+    except DatabaseError as error:
+        category = []
+        messages.error(request,"Erreur de connection á la DB. Revenez plus tard.")
+        print(f"Database error: {error}")
+    return render(request, "user.html", {'category': category})
 
 def style(request):
     font_color = request.session.get('font_color', 'black')
@@ -122,9 +130,21 @@ def favoris(request):
     return render(request, 'favoris.html', {})
 
 def date_list(request):
-    dates = Article.objects.values_list('date_art', flat=True).distinct()
+    try:
+        dates = Article.objects.values_list('date_art', flat=True).distinct().order_by('-date_art')
+    except DatabaseError as error:
+        dates = []
+        messages.error(request,"Erreur de connection á la DB. Revenez plus tard.")
+        print(f"Database error: {error}")
     return render(request, 'date_list.html', { 'dates' : dates })
 
 def date_list_with_date(request,date):
-    articles = Article.objects.filter(date_art=date).order_by('-date_art')[:12]
-    return render(request, 'date_list.html', { 'articles': articles })
+    try:
+        articles = Article.objects.filter(date_art=date).order_by('-date_art')
+        articles_count = articles.count()
+    except DatabaseError as error:
+        articles = []
+        articles_count = 0
+        messages.error(request, "Erreur de connection á la DB. Revenez plus tard.")
+        print(f"Database error: {error}")
+    return render(request, 'date_list.html', { 'articles': articles, 'date_select': date, 'nbr_articles': articles_count })
