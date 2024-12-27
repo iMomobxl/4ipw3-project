@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.http import HttpResponse
+from django.conf import settings
 from .models import Category, Article
 import requests, csv, os
-from django.conf import settings
 from pprint import pformat
 
 # def display_menu_csv():
@@ -81,8 +82,8 @@ def user(request):
         print("COOKIES:", request.COOKIES)
         print("Session Data:", dict(request.session.items()))
         if 'font_color' in request.POST or 'border_style' in request.POST:
-            font_color = request.POST.get('font_color', 'default')
-            border_style = request.POST.get('border_style', 'default')
+            font_color = request.POST.get('font_color', 'none')
+            border_style = request.POST.get('border_style', 'black')
             request.session['font_color'] = font_color
             request.session['border_style'] = border_style
             messages.success(request, "Vos préférences ont été mises à jour.")
@@ -94,3 +95,23 @@ def user(request):
         messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
         return redirect('login')
     return render(request, "user.html", {})
+
+
+
+def style(request):
+    font_color = request.session.get('font_color', 'black')
+    border_style = request.session.get('border_style', 'none')
+
+    border_width = '0px'
+    if border_style == 'thin':
+        border_width = '2px'
+    elif border_style == 'thick':
+        border_width = '4px'
+
+    css_content = f"""
+    body {{
+        color: { font_color };
+        border: { border_width } solid;
+    }}
+    """
+    return HttpResponse(css_content, content_type='text/css')

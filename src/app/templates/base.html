@@ -10,10 +10,11 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'app/external/css/external.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% url 'style' %}">
     <title>4IPWB Projet - El Universal - Acceuil</title>
 </head>
 
-<body class="container">
+<body class="container rounded">
     <!-- HEADER -->
     <header class="row border-bottom p-lg-3 sticky-top bg-white rounded-bottom">
         <!-- BURGER MENU -->
@@ -106,7 +107,7 @@
 
 
     <!-- FOOTER -->
-    <footer class="row py-5">
+    <footer class="row pt-5">
         <nav class="container rounded" id="footer-main">
             <ul class="nav justify-content-center dubai-regular-font">
                 <li><a class="nav-link link-light" href="#" target="_self">Annuaire</a></li>

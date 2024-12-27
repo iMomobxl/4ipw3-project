@@ -119,7 +119,6 @@ body {
 .article {
     display: block;
     text-decoration: none;
-    color: black;
     border: 2px solid transparent;
     transition: border-color 0.5s linear;
 }

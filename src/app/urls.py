@@ -12,5 +12,6 @@ urlpatterns = [
     path('sponsors/', views.sponsors, name='sponsors'),
     path('login/', views.login, name='login'),
     path('user/', views.user, name='user'),
+    path('style.css', views.style, name='style'),
 
 ]

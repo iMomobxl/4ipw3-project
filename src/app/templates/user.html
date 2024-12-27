@@ -37,7 +37,6 @@
                 <label for="font_color" class="col-md-5 col-form-label text-sm-center text-md-end">Font Color:</label>
                 <div class="col-md-4">
                     <select class="form-select" id="font_color" name="font_color">
-                        <option value="default" {% if request.session.font_color == 'default' %}selected{% endif %}>-</option>
                         <option value="black" {% if request.session.font_color == 'black' %}selected{% endif %}>Black</option>
                         <option value="blue" {% if request.session.font_color == 'blue' %}selected{% endif %}>Blue</option>
                         <option value="red" {% if request.session.font_color == 'red' %}selected{% endif %}>Red</option>
@@ -49,7 +48,6 @@
                 <label for="border_style" class="col-md-5 col-form-label text-sm-center text-md-end">Border Style:</label>
                 <div class="col-md-4">
                     <select class="form-select" id="border_style" name="border_style">
-                        <option value="default" {% if request.session.border_style == 'default' %}selected{% endif %}>-</option>
                         <option value="none" {% if request.session.border_style == 'none' %}selected{% endif %}>None</option>
                         <option value="thin" {% if request.session.border_style == 'thin' %}selected{% endif %}>Thin</option>
                         <option value="thick" {% if request.session.border_style == 'thick' %}selected{% endif %}>Thick</option>
