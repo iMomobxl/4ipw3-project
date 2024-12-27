@@ -115,3 +115,9 @@ def style(request):
     }}
     """
     return HttpResponse(css_content, content_type='text/css')
+
+def favoris(request):
+    if not request.session.get('identified', False):
+        messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
+        return redirect('login')
+    return render(request, 'favoris.html', {})

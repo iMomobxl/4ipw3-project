@@ -1,8 +1,9 @@
-id|name
-home|Acceuil
-recherche|Recherche
-sponsors|Sponsors
-test-mysql|Test MySQL
-test-font|Test Fonts
-user|Users
-login|Login
+id|name|access
+home|Acceuil|all
+recherche|Recherche|all
+favoris|Favoris|user
+sponsors|Sponsors|all
+test-mysql|Test MySQL|admin
+test-font|Test Fonts|admin
+user|Users|user
+login|Login|admin

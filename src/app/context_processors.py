@@ -7,7 +7,7 @@ def display_menu_csv():
     with open(csv_path, mode='r') as file:
         csv_reader = csv.DictReader(file, delimiter='|')
         for row in csv_reader:
-            menu_items.append({'id': row['id'], 'name': row['name']})
+            menu_items.append({'id': row['id'], 'name': row['name'], 'access': row['access']})
     return menu_items
 
 def menu_items(request):

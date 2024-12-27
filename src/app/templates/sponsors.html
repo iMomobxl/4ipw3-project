@@ -13,10 +13,12 @@
             <img src="{{ data.image }}" alt="Sponsor Image">
         </a>
     </div>
+    {% if request.session.role == 'admin' %}
     <div>
         <br>
         <hr>
         <pre>{{ formatted_data }}</pre>
     </div>
+    {% endif %}
 </main>
 {% endblock %}
