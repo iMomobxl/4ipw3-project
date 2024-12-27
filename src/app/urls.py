@@ -13,6 +13,7 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('user/', views.user, name='user'),
     path('style.css', views.style, name='style'),
-    path('favoris/', views.favoris, name='favoris')
-
+    path('favoris/', views.favoris, name='favoris'),
+    path('datelist/', views.date_list, name='date_list'),
+    path('datelist/<str:date>/', views.date_list_with_date, name='date_list_with_date'),
 ]

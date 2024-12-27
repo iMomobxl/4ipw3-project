@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<main class="d-flex justify-content-center row pt-3">
+    <header class="border-primary border-top border-5">
+        <h2 class="text-center pb-4 pt-2 text-danger">
+            {% if dates %}
+            Liste des dates:
+            {% elif articles %}
+            Liste des articles:
+            {% endif %}
+        </h2>
+    </header>
+    {% if dates %}
+    <ul class="list-group col-4 text-center">
+      {% for date in dates %}
+      <li class="list-group-item list-group-item-action">
+        <a href="{% url 'date_list' %}{{ date|date:'Y-m-d' }}" target="_self">{{ date }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% if articles %}
+    <ul class="list-group col-10">
+        {% for article in articles %}
+             <li class="list-group-item list-group-item-action">
+                 <a href="{% url 'article' article.id_art %}" target="_self">{{ article.id_art }} - {{ article.title_art }}</a>
+             </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</main>
+{% endblock %}

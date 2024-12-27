@@ -73,7 +73,6 @@ def login(request):
     else:
         return render(request, 'login.html')
 
-
 def user(request):
     if request.method == 'POST':
         print("Request Method:", request.method)
@@ -121,3 +120,11 @@ def favoris(request):
         messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
         return redirect('login')
     return render(request, 'favoris.html', {})
+
+def date_list(request):
+    dates = Article.objects.values_list('date_art', flat=True).distinct()
+    return render(request, 'date_list.html', { 'dates' : dates })
+
+def date_list_with_date(request,date):
+    articles = Article.objects.filter(date_art=date).order_by('-date_art')[:12]
+    return render(request, 'date_list.html', { 'articles': articles })

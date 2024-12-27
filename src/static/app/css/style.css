@@ -184,3 +184,8 @@ pre {
 a {
     color: unset;
 }
+
+.article-list {
+    text-decoration: none;
+}
+
