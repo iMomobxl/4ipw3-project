@@ -180,3 +180,7 @@ pre {
     border: 1px solid #ccc;
     overflow: auto;
 }
+
+a {
+    color: unset;
+}
