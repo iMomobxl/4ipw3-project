@@ -8,58 +8,86 @@
     <main class="d-flex justify-content-center row pt-3">
         <header class="border-primary border-top border-5">
                 <h2 class="text-center pb-4 pt-2 text-danger">Page de recherche</h2>
+                {% if articles %}
+                <h2 class="text-center pb-4 pt-2">Nombre d'article trouvé: {{ articles|length }}</h2>
+                {% endif %}
         </header>
-        <form class="col-8 m-3" method="post">
-            <!-- MOT CLES TITRE-->
+        {% if articles %}
+            <div class="col-3 btn btn-outline-primary mb-5">
+                <a  class="d-inline-flex" href="{% url 'recherche' %}" role="button">Nouvelle recherche</a>
+            </div>
+            <div class="col-10">
+                <ul class="list-group">
+                    {% for article in articles %}
+                         <li class="list-group-item list-group-item-action">
+                             <a href="{% url 'article' article.id_art %}" target="_self">{{ article.id_art }} - {{ article.title_art }}</a>
+                         </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+        <form class="col-8 m-3" method="POST">
+            {% csrf_token %}
+            <!-- MOT CLES DANS LE TITRE-->
             <div class="row py-2">
-                <label for="mot_titre" class="col-md-5 col-form-label text-sm-center text-md-end">Mot clé dans le titre et/ou le résumé:</label>
+                <label for="mot_title" class="col-md-5 col-form-label text-sm-center text-md-end">Mot clé dans le titre:</label>
                 <div class="col-md-7">
-                    <input type="text" id="mot_titre" name="mot_titre" class="form-control" placeholder="-">
+                    <input type="text" id="mot_title" name="mot_title" class="form-control" placeholder="Votre mot dans le titre" value="">
                 </div>
             </div>
-            <!-- MOT CLES CORPS -->
-            <div class="row py-2">
-                <label for="mot_corps" class="col-md-5 col-form-label text-sm-center text-md-end">Mot clés dans le corps du texte:</label>
+            <!-- MOT CLES DANS LE HOOK-->
+             <div class="row py-2">
+                <label for="mot_hook" class="col-md-5 col-form-label text-sm-center text-md-end">Mot clés dans le hook:</label>
                 <div class="col-md-7">
-                    <input type="text" id="mot_corps" name="mot_corps" class="form-control" placeholder="-">
+                    <input type="text" id="mot_hook" name="mot_hook" class="form-control" placeholder="Votre mot dans le hook" value="">
+                </div>
+            </div>
+            <!-- MOT CLES DANS LE CORPS -->
+            <div class="row py-2">
+                <label for="mot_content" class="col-md-5 col-form-label text-sm-center text-md-end">Mot clés dans le contenu:</label>
+                <div class="col-md-7">
+                    <input type="text" id="mot_content" name="mot_content" class="form-control" placeholder="Votre mot dans contenu" value="">
                 </div>
             </div>
             <!-- DATE -->
             <div class="row py-2">
                 <label for="date" class="col-md-5 col-form-label text-sm-center text-md-end">Date:</label>
                 <div class="col-md-7">
-                    <input type="date" id="date" name="date" class="form-control">
+                    <input type="date" id="date" name="date" class="form-control" min="2023-12-01" max="2023-12-31">
                 </div>
             </div>
             <!-- CATEGORIE -->
             <div class="row py-2">
-                <label for="categorie" class="col-md-5 col-form-label text-sm-center text-md-end">Catégorie:</label>
+                <label for="category" class="col-md-5 col-form-label text-sm-center text-md-end">Catégorie:</label>
                 <div class="col-md-7">
-                    <select class="form-select" id="categorie" name="categorie">
-                        <option value="0" selected>International</option>
-                        <option value="1">National</option>
-                        <option value="2">Région</option>
-                        <option value="3">Sport</option>
-                        <option value="4">Culture</option>
-                        <option value="5">Environnement</option>
-                        <option value="6">Tech</option>
-                        <option value="7">Santé</option>
-                        <option value="8">Autre</option>
+                    <select class="form-select" id="category" name="category">
+                        <option value="0">-</option>
+                        {% for cat in category %}
+                        <option value="{{ cat.id_cat }}">{{ cat.name_cat }}</option>
+                        {% endfor %}
                     </select>
+                </div>
+            </div>
+            <!-- cursor -->
+            <div class="row py-2">
+                <label for="readtime" class="col-md-5 col-form-label text-sm-center text-md-end">Readtime:</label>
+                <div class="col-md-7 d-flex align-items-center">
+                    <input class="form-range me-3" type="range" id="readtime" name="readtime" min="{{ min_readtime }}" max="{{ max_readtime }}" value="{{ min_readtime }}">
+                    <span class="col-1 ms-3 border border-2 border-dark-subtle rounded-3 text-center" id="readtime_box"></span>
                 </div>
             </div>
             <!-- NOMBRE d'article par page -->
             <div class="row py-2">
                 <label for="nbr_article" class="col-md-5 col-form-label text-sm-center text-md-end">Nombre d'article à afficher:</label>
                 <div class="col-md-7">
-                    <input type="number" id="nbr_article" name="nbr_article" min="10" max="100" step="10" class="form-control" value="10">
+                    <input type="number" id="nbr_article" name="nbr_article" min="10" max="2000" step="10" class="form-control" value="10">
                 </div>
             </div>
             <!-- TRIE-->
             <div class="row py-2">
-                <label for="trie_article" class="col-md-5 col-form-label text-sm-center text-md-end">Trier par:</label>
+                <label for="tri_article" class="col-md-5 col-form-label text-sm-center text-md-end">Trier par:</label>
                 <div class="col-md-7">
-                    <select class="form-select" id="trie_article" name="trie_article">
+                    <select class="form-select" id="tri_article" name="tri_article" disabled>
                         <option value="0" selected>Plus ancien au plus récent</option>
                         <option value="1">Plus récent au plus ancien</option>
                         <option value="2">Plus populaire au moin populaire</option>
@@ -67,10 +95,12 @@
                     </select>
                 </div>
             </div>
-            <div class="d-flex justify-content-center py-2">
-                <button class="btn btn-primary" type="submit">Rechercher</button>
+            <div class="d-grid gap-2 py-2">
+                <button class="btn btn-outline-primary" type="submit">Rechercher</button>
+                <input class="btn btn-outline-secondary" type="reset" id="reset-button" value="Reset">
             </div>
         </form>
+        {% endif %}
     </main>
 
 

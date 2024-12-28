@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.http import HttpResponse
 from django.db import DatabaseError
+from django.db.models import Min, Max
 from django.conf import settings
 from .models import Category, Article
 import requests, csv, os
@@ -28,7 +29,61 @@ def article(request,pk):
     return render(request, 'article.html', { 'article': article_id })
 
 def recherche(request):
-    return render(request, "recherche.html", {})
+    if request.method == 'POST':
+        mot_title = request.POST.get('mot_title', None)
+        mot_content = request.POST.get('mot_content', None)
+        mot_hook = request.POST.get('mot_hook', None)
+        date = request.POST.get('date', None)
+        category = request.POST.get('category', None)
+        readtime = request.POST.get('readtime', None)
+        nbr_article = request.POST.get('nbr_article', None)
+        tri_article = request.POST.get('tri_article', None)
+        print(readtime)
+        param_search = { 'readtime_art': readtime }
+
+        if category != '0':
+            param_search['fk_category_art'] = category
+        if date:
+            param_search['date_art'] = date
+        if mot_title:
+            param_search['title_art__icontains'] = mot_title
+        if mot_hook:
+            param_search['hook_art__icontains'] = mot_hook
+        if mot_content:
+            param_search['content_art__icontains'] = mot_content
+        if nbr_article:
+            nbr_article = int(nbr_article)
+        try:
+            articles = Article.objects.filter(**param_search).order_by('-date_art')[:nbr_article]
+            if articles.exists():
+                messages.success(request, "Résultat de la recherche ok")
+                return render(request, "recherche.html", { 'articles': articles })
+            else:
+                messages.warning(request, "Pas de résultat pour votre recherche, recommencé...")
+                return redirect('recherche')
+        except DatabaseError as error:
+            messages.error(request, "Erreur de connection á la DB. Revenez plus tard.")
+            print(f"Database error: {error}")
+            return redirect('recherche')
+    else:
+        try:
+            # readtime = Article.objects.values_list('readtime_art', flat=True).distinct().order_by('readtime_art')
+            category = Category.objects.all()
+            max_readtime = Article.objects.all().aggregate(Max('readtime_art'))
+            min_readtime = Article.objects.all().aggregate(Min('readtime_art'))
+            print(max_readtime)
+            print(min_readtime)
+            max = max_readtime['readtime_art__max']
+            min = min_readtime['readtime_art__min']
+        except DatabaseError as error:
+            category = []
+            messages.error(request,"Erreur de connection á la DB. Revenez plus tard.")
+            print(f"Database error: {error}")
+        return render(request, "recherche.html", {
+            'category': category,
+            'max_readtime': max,
+            'min_readtime': min
+        })
 
 def test_font(request):
     return render(request, "test-font.html", {})
@@ -103,7 +158,7 @@ def user(request):
         category = []
         messages.error(request,"Erreur de connection á la DB. Revenez plus tard.")
         print(f"Database error: {error}")
-    return render(request, "user.html", {'category': category})
+    return render(request, "user.html", { 'category': category })
 
 def style(request):
     font_color = request.session.get('font_color', 'black')

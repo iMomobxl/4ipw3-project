@@ -18,6 +18,7 @@ class Article(models.Model):
     fk_category_art = models.ForeignKey(Category, db_column='fk_category_art', on_delete=models.CASCADE)
     hook_art = models.TextField(null=True, blank=True)
     image_art = models.CharField(max_length=64, null=True, blank=True)
+    readtime_art = models.IntegerField()
     content_art = models.TextField()
 
     class Meta:
