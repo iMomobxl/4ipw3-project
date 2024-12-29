@@ -13,12 +13,18 @@
         <div class="border border-dark col-6">
             <h3>Sessions:</h3>
             {% for key, value in request.session.items %}
-                <p>{{ key }}: {{ value }}</p>
+                <ul>
+                    <li>{{ key }}: {{ value }}</li>
+                </ul>
             {% endfor %}
         </div>
         <div class="border border-dark col-6">
             <h3>Cookies:</h3>
-            <p>Cookies variable come soon...</p>
+            {% for key, value in request.COOKIES.items %}
+                <ul>
+                    <li>{{ key }}: {{ value }}</li>
+                </ul>
+            {% endfor %}
         </div>
     </div>
     <hr>

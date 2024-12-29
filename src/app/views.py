@@ -24,9 +24,12 @@ def home(request):
     # print(menu)
     return render(request, "home.html", { 'articles': articles })
 
-def article(request,pk):
-    article_id = Article.objects.get(id_art=pk)
-    return render(request, 'article.html', { 'article': article_id })
+def article(request, id):
+    article = get_object_or_404(Article,id_art=id)
+    favoris = request.COOKIES.get('favoris', '[]')
+    favoris_ids = json.loads(favoris)
+    is_favorite = str(id) in favoris_ids
+    return render(request, 'article.html', { 'article': article, 'is_favorite': is_favorite })
 
 def recherche(request):
     if request.method == 'POST':
@@ -202,7 +205,7 @@ def add_favoris(request, id):
         messages.warning(request, f"Cette articles est déjá present dans vos favoris.")
         return redirect('favoris')
     favoris = json.dumps(favoris)
-    response = redirect('favoris')
+    response = redirect('article',id=id)
     response.set_cookie('favoris', favoris)
     messages.success(request, f"Cette articles a été rajouté dans vos favoris.")
     return response
@@ -216,7 +219,7 @@ def del_favoris(request, id):
         messages.warning(request, f"Cette articles ne se trouve pas dans vos favoris pour pouvoir le supprimer.")
         return redirect('favoris')
     favoris = json.dumps(favoris)
-    response = redirect('favoris')
+    response = redirect('article',id=id)
     response.set_cookie('favoris', favoris)
     messages.success(request, f"Cette articles a été supprimé de vos favoris.")
     return response
