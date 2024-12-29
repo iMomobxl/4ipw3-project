@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db import DatabaseError
 from django.db.models import Min, Max
 from django.conf import settings
 from .models import Category, Article
-import requests, csv, os
+import requests, csv, os, json
 from pprint import pformat
 
 # def display_menu_csv():
@@ -182,7 +182,44 @@ def favoris(request):
     if not request.session.get('identified', False):
         messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
         return redirect('login')
-    return render(request, 'favoris.html', {})
+    else:
+        favoris = request.COOKIES.get('favoris', '[]')
+        favoris_ids = json.loads(favoris)
+        try:
+            articles = Article.objects.filter(id_art__in=favoris_ids)
+        except DatabaseError as error:
+            articles = []
+            messages.error(request, "Erreur de connection á la DB. Revenez plus tard.")
+            print(f"Database error: {error}")
+        return render(request, 'favoris.html', { 'articles': articles })
+
+def add_favoris(request, id):
+    favoris = request.COOKIES.get('favoris', '[]')
+    favoris = json.loads(favoris)
+    if str(id) not in favoris:
+        favoris.append(str(id))
+    else:
+        messages.warning(request, f"Cette articles est déjá present dans vos favoris.")
+        return redirect('favoris')
+    favoris = json.dumps(favoris)
+    response = redirect('favoris')
+    response.set_cookie('favoris', favoris)
+    messages.success(request, f"Cette articles a été rajouté dans vos favoris.")
+    return response
+
+def del_favoris(request, id):
+    favoris = request.COOKIES.get('favoris', '[]')
+    favoris = json.loads(favoris)
+    if str(id) in favoris:
+        favoris.remove(str(id))
+    else:
+        messages.warning(request, f"Cette articles ne se trouve pas dans vos favoris pour pouvoir le supprimer.")
+        return redirect('favoris')
+    favoris = json.dumps(favoris)
+    response = redirect('favoris')
+    response.set_cookie('favoris', favoris)
+    messages.success(request, f"Cette articles a été supprimé de vos favoris.")
+    return response
 
 def date_list(request):
     try:

@@ -8,12 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
             readtimeBox.textContent = value
         }
 
-        rangeInput.addEventListener('input', () => {
+        rangeInput.addEventListener('input', (event) => {
              readTime(rangeInput.value);
         });
 
         resetButton.addEventListener("click", () => {
-            rangeInput.value = rangeInput.getAttribute('min');
+            rangeInput.value = rangeInput.getAttribute('value');
             readTime(rangeInput.value)
         })
         rangeInput.addEventListener('click', () => {
