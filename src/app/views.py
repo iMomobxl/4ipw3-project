@@ -19,16 +19,26 @@ from pprint import pformat
 
 def home(request):
     category_art = request.session.get('home_category', "146") # 146 = On n'est pas des pigeons
-    articles = Article.objects.filter(fk_category_art=category_art).order_by('-date_art')[:9]
+    try:
+        articles = Article.objects.filter(fk_category_art=category_art).order_by('-date_art')[:9]
+    except DatabaseError as error:
+        articles = []
+        messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
+        print(f"Database error: {error}")
     # menu = display_menu_csv()
     # print(menu)
     return render(request, "home.html", { 'articles': articles })
 
 def article(request, id):
-    article = get_object_or_404(Article,id_art=id)
-    favoris = request.COOKIES.get('favoris', '[]')
-    favoris_ids = json.loads(favoris)
-    is_favorite = str(id) in favoris_ids
+    try:
+        article = get_object_or_404(Article,id_art=id)
+        favoris = request.COOKIES.get('favoris', '[]')
+        favoris_ids = json.loads(favoris)
+        is_favorite = str(id) in favoris_ids
+    except DatabaseError as error:
+        article = []
+        messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
+        print(f"Database error: {error}")
     return render(request, 'article.html', { 'article': article, 'is_favorite': is_favorite })
 
 def recherche(request):
@@ -42,6 +52,7 @@ def recherche(request):
         nbr_article = request.POST.get('nbr_article', None)
         tri_article = request.POST.get('tri_article', None)
         print(readtime)
+
         param_search = { 'readtime_art': readtime }
 
         if category != '0':
@@ -65,22 +76,19 @@ def recherche(request):
                 messages.warning(request, "Pas de résultat pour votre recherche, recommencé...")
                 return redirect('recherche')
         except DatabaseError as error:
-            messages.error(request, "Erreur de connection á la DB. Revenez plus tard.")
+            messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
             print(f"Database error: {error}")
             return redirect('recherche')
     else:
         try:
-            # readtime = Article.objects.values_list('readtime_art', flat=True).distinct().order_by('readtime_art')
             category = Category.objects.all()
             max_readtime = Article.objects.all().aggregate(Max('readtime_art'))
             min_readtime = Article.objects.all().aggregate(Min('readtime_art'))
-            print(max_readtime)
-            print(min_readtime)
             max = max_readtime['readtime_art__max']
             min = min_readtime['readtime_art__min']
         except DatabaseError as error:
             category = []
-            messages.error(request,"Erreur de connection á la DB. Revenez plus tard.")
+            messages.warning(request,"Erreur de connection á la DB. Revenez plus tard.")
             print(f"Database error: {error}")
         return render(request, "recherche.html", {
             'category': category,
@@ -92,7 +100,12 @@ def test_font(request):
     return render(request, "test-font.html", {})
 
 def test_mysql(request):
-    category = Category.objects.all()
+    try:
+        category = Category.objects.all()
+    except DatabaseError as error:
+        category = []
+        messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
+        print(f"Database error: {error}")
     return render(request, "test-mysql.html", { 'category': category })
 
 def sponsors(request):
@@ -135,11 +148,6 @@ def login(request):
 
 def user(request):
     if request.method == 'POST':
-        print("Request Method:", request.method)
-        print("GET Parameters:", request.GET)
-        print("POST Parameters:", request.POST)
-        print("COOKIES:", request.COOKIES)
-        print("Session Data:", dict(request.session.items()))
         if 'font_color' in request.POST or 'border_style' in request.POST:
             font_color = request.POST.get('font_color', 'none')
             border_style = request.POST.get('border_style', 'black')
@@ -159,7 +167,7 @@ def user(request):
         category = Category.objects.all()
     except DatabaseError as error:
         category = []
-        messages.error(request,"Erreur de connection á la DB. Revenez plus tard.")
+        messages.warning(request,"Erreur de connection á la DB. Revenez plus tard.")
         print(f"Database error: {error}")
     return render(request, "user.html", { 'category': category })
 
@@ -192,7 +200,7 @@ def favoris(request):
             articles = Article.objects.filter(id_art__in=favoris_ids)
         except DatabaseError as error:
             articles = []
-            messages.error(request, "Erreur de connection á la DB. Revenez plus tard.")
+            messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
             print(f"Database error: {error}")
         return render(request, 'favoris.html', { 'articles': articles })
 
@@ -209,7 +217,7 @@ def add_favoris(request, id):
             messages.warning(request, f"Cette articles est déjá present dans vos favoris.")
             return redirect('favoris')
         favoris = json.dumps(favoris)
-        response = redirect('article',id=id)
+        response = redirect('article', id=id)
         response.set_cookie('favoris', favoris)
         messages.success(request, f"Cette articles a été rajouté dans vos favoris.")
         return response
@@ -227,7 +235,7 @@ def del_favoris(request, id):
             messages.warning(request, f"Cette articles ne se trouve pas dans vos favoris pour pouvoir le supprimer.")
             return redirect('favoris')
         favoris = json.dumps(favoris)
-        response = redirect('article',id=id)
+        response = redirect('article', id=id)
         response.set_cookie('favoris', favoris)
         messages.success(request, f"Cette articles a été supprimé de vos favoris.")
         return response
@@ -237,7 +245,7 @@ def date_list(request):
         dates = Article.objects.values_list('date_art', flat=True).distinct().order_by('-date_art')
     except DatabaseError as error:
         dates = []
-        messages.error(request,"Erreur de connection á la DB. Revenez plus tard.")
+        messages.warning(request,"Erreur de connection á la DB. Revenez plus tard.")
         print(f"Database error: {error}")
     return render(request, 'date_list.html', { 'dates' : dates })
 
