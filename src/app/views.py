@@ -48,14 +48,13 @@ def recherche(request):
         mot_hook = request.POST.get('mot_hook', None)
         date = request.POST.get('date', None)
         category = request.POST.get('category', None)
-        readtime = request.POST.get('readtime', None)
+        readtime = request.POST.get('readtime', 1)
         nbr_article = request.POST.get('nbr_article', None)
         tri_article = request.POST.get('tri_article', None)
-        print(readtime)
 
         param_search = { 'readtime_art': readtime }
 
-        if category != '0':
+        if category != '0' and category != None:
             param_search['fk_category_art'] = category
         if date:
             param_search['date_art'] = date
@@ -67,6 +66,7 @@ def recherche(request):
             param_search['content_art__icontains'] = mot_content
         if nbr_article:
             nbr_article = int(nbr_article)
+        print(param_search)
         try:
             articles = Article.objects.filter(**param_search).order_by('-date_art')[:nbr_article]
             if articles.exists():
@@ -252,10 +252,8 @@ def date_list(request):
 def date_list_with_date(request,date):
     try:
         articles = Article.objects.filter(date_art=date).order_by('-date_art')
-        articles_count = articles.count()
     except DatabaseError as error:
         articles = []
-        articles_count = 0
         messages.error(request, "Erreur de connection á la DB. Revenez plus tard.")
         print(f"Database error: {error}")
-    return render(request, 'date_list.html', { 'articles': articles, 'date_select': date, 'nbr_articles': articles_count })
+    return render(request, 'date_list.html', { 'articles': articles, 'date_select': date })

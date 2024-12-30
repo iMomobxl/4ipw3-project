@@ -26,7 +26,7 @@
                 </ul>
             </div>
         {% else %}
-        <form class="col-8 m-3" method="POST">
+        <form class="col-8 m-3" method="POST" action="{% url 'recherche' %}">
             {% csrf_token %}
             <!-- MOT CLES DANS LE TITRE-->
             <div class="row py-2">

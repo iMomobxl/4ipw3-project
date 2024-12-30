@@ -9,7 +9,7 @@
             {% if dates %}
             Liste des dates:
             {% elif articles %}
-            Liste d'article pour {{ date_select }} ({{ nbr_articles }} articles)
+            Liste d'article pour {{ date_select }} ({{ articles|length }} articles)
             {% endif %}
         </h2>
     </header>
