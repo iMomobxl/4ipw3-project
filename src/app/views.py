@@ -199,7 +199,7 @@ def favoris(request):
 def add_favoris(request, id):
     if not request.session.get('identified', False):
         messages.warning(request, f"Vous n'avez pas acces á cette page.")
-        return redirect('home')
+        return render(request, '404.html', status=404)
     else:
         favoris = request.COOKIES.get('favoris', '[]')
         favoris = json.loads(favoris)
@@ -217,7 +217,7 @@ def add_favoris(request, id):
 def del_favoris(request, id):
     if not request.session.get('identified', False):
         messages.warning(request, f"Vous n'avez pas acces á cette page.")
-        return redirect('home')
+        return render(request, '404.html', status=404)
     else:
         favoris = request.COOKIES.get('favoris', '[]')
         favoris = json.loads(favoris)

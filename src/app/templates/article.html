@@ -11,20 +11,17 @@
             <h2 class="text-center">{{ article.title_art }} </h2>
             {% if request.session.identified %}
             <div class="d-flex justify-content-center">
-<!--                TODO IF COOKIES-->
                 {% if not is_favorite %}
                 <form class="align-self-center" method="POST" id="add_favoris" action="{% url 'add_favoris' article.id_art %} ">
                     {% csrf_token %}
                     <button class="btn btn-outline-primary" type="submit">Ajout Favoris</button>
                 </form>
                 {% else %}
-<!--                TODO IF NOT COOKIES-->
                 <form class="align-self-center" method="POST" id="del_favoris" action="{% url 'del_favoris' article.id_art %} ">
                     {% csrf_token %}
                     <button class="btn btn-outline-primary" type="submit">Supprimer Favoris</button>
                 </form>
                 {% endif %}
-<!--                TODO END IF-->
             </div>
             {% endif %}
             <div class="d-flex justify-content-center pt-5">

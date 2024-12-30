@@ -7,6 +7,9 @@
 <main class="d-flex justify-content-center row pt-3">
     <header class="border-primary border-top border-5">
         <h2 class="text-center pb-4 pt-2 text-danger">Vos favoris</h2>
+        {% if articles %}
+        <h3 class="text-center pb-4 pt-2">Nombre d'article: {{ articles|length }}</h3>
+        {% endif %}
     </header>
     {% if articles %}
             <div class="col-10">

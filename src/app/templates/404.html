@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<main class="d-flex justify-content-center row pt-3">
+    <header class="border-primary border-top border-5">
+        <h2 class="text-center pb-4 pt-2 text-danger">Error 404</h2>
+    </header>
+    <div class="d-flex justify-content-center">
+        <form class="align-self-center" method="POST" id="add_favoris" action="{% url 'home' %} ">
+            {% csrf_token %}
+            <button class="btn btn-outline-primary" type="submit">Home page</button>
+        </form>
+    </div>
+</main>
+
+{% endblock %}
