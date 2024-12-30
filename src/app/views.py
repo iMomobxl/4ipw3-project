@@ -197,32 +197,40 @@ def favoris(request):
         return render(request, 'favoris.html', { 'articles': articles })
 
 def add_favoris(request, id):
-    favoris = request.COOKIES.get('favoris', '[]')
-    favoris = json.loads(favoris)
-    if str(id) not in favoris:
-        favoris.append(str(id))
+    if not request.session.get('identified', False):
+        messages.warning(request, f"Vous n'avez pas acces á cette page.")
+        return redirect('home')
     else:
-        messages.warning(request, f"Cette articles est déjá present dans vos favoris.")
-        return redirect('favoris')
-    favoris = json.dumps(favoris)
-    response = redirect('article',id=id)
-    response.set_cookie('favoris', favoris)
-    messages.success(request, f"Cette articles a été rajouté dans vos favoris.")
-    return response
+        favoris = request.COOKIES.get('favoris', '[]')
+        favoris = json.loads(favoris)
+        if str(id) not in favoris:
+            favoris.append(str(id))
+        else:
+            messages.warning(request, f"Cette articles est déjá present dans vos favoris.")
+            return redirect('favoris')
+        favoris = json.dumps(favoris)
+        response = redirect('article',id=id)
+        response.set_cookie('favoris', favoris)
+        messages.success(request, f"Cette articles a été rajouté dans vos favoris.")
+        return response
 
 def del_favoris(request, id):
-    favoris = request.COOKIES.get('favoris', '[]')
-    favoris = json.loads(favoris)
-    if str(id) in favoris:
-        favoris.remove(str(id))
+    if not request.session.get('identified', False):
+        messages.warning(request, f"Vous n'avez pas acces á cette page.")
+        return redirect('home')
     else:
-        messages.warning(request, f"Cette articles ne se trouve pas dans vos favoris pour pouvoir le supprimer.")
-        return redirect('favoris')
-    favoris = json.dumps(favoris)
-    response = redirect('article',id=id)
-    response.set_cookie('favoris', favoris)
-    messages.success(request, f"Cette articles a été supprimé de vos favoris.")
-    return response
+        favoris = request.COOKIES.get('favoris', '[]')
+        favoris = json.loads(favoris)
+        if str(id) in favoris:
+            favoris.remove(str(id))
+        else:
+            messages.warning(request, f"Cette articles ne se trouve pas dans vos favoris pour pouvoir le supprimer.")
+            return redirect('favoris')
+        favoris = json.dumps(favoris)
+        response = redirect('article',id=id)
+        response.set_cookie('favoris', favoris)
+        messages.success(request, f"Cette articles a été supprimé de vos favoris.")
+        return response
 
 def date_list(request):
     try:
