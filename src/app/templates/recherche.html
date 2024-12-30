@@ -91,19 +91,21 @@
             <!-- NOMBRE d'article par page -->
             <div class="row py-2">
                 <label for="nbr_article" class="col-md-5 col-form-label text-sm-center text-md-end">Nombre d'article à afficher:</label>
-                <div class="col-md-7">
-                    <input type="number" id="nbr_article" name="nbr_article" min="10" max="2000" step="10" class="form-control" value="10">
+                <div class="d-flex align-items-center col-md-7">
+                    <input class="form-control me-3" type="number" id="nbr_article" name="nbr_article" min="10" max="2000" step="10" value="10">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input me-2" type="checkbox" role="switch" id="max_nbr_article" name="max_nbr_article">
+                      <label class="form-check-label" for="max_nbr_article">Max</label>
+                    </div>
                 </div>
             </div>
             <!-- TRIE-->
             <div class="row py-2">
                 <label for="tri_article" class="col-md-5 col-form-label text-sm-center text-md-end">Trier par:</label>
                 <div class="col-md-7">
-                    <select class="form-select" id="tri_article" name="tri_article" disabled>
-                        <option value="0" selected>Plus ancien au plus récent</option>
-                        <option value="1">Plus récent au plus ancien</option>
-                        <option value="2">Plus populaire au moin populaire</option>
-                        <option value="3">Moin populaire au plus populaire</option>
+                    <select class="form-select" id="tri_article" name="tri_article">
+                        <option value="date_art">Plus ancien au plus récent</option>
+                        <option value="-date_art">Plus récent au plus ancien</option>
                     </select>
                 </div>
             </div>
@@ -114,6 +116,7 @@
         </form>
         {% endif %}
     </main>
-    <script src="{% static 'app/js/readTime.js' %}"></script>
-
+    {% if not articles %}
+        <script src="{% static 'app/js/recherche.js' %}"></script>
+    {% endif %}
 {% endblock %}

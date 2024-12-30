@@ -11,4 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     updateReadtimeBox(rangeInput.value)
+
+    const nbrArticle = document.getElementById('nbr_article');
+    const maxNbrArticle = document.getElementById('max_nbr_article');
+
+    maxNbrArticle.addEventListener('change', () => {
+        nbrArticle.disabled = maxNbrArticle.checked;
+    });
 });

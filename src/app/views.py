@@ -49,8 +49,13 @@ def recherche(request):
         date = request.POST.get('date', None)
         category = request.POST.get('category', None)
         readtime = request.POST.get('readtime', 1)
-        nbr_article = request.POST.get('nbr_article', None)
-        tri_article = request.POST.get('tri_article', None)
+        max_nbr_article = request.POST.get('max_nbr_article', 'off')
+        if max_nbr_article == 'on':
+            nbr_article = None
+        else:
+            nbr_article = request.POST.get('nbr_article', None)
+
+        tri_article = request.POST.get('tri_article', '-date_art')
 
         param_search = { 'readtime_art': readtime }
 
@@ -67,11 +72,12 @@ def recherche(request):
         if nbr_article:
             nbr_article = int(nbr_article)
         try:
-            articles = Article.objects.filter(**param_search).order_by('-date_art')[:nbr_article]
+            articles = Article.objects.filter(**param_search).order_by(tri_article)[:nbr_article]
             if articles.exists():
                 messages.success(request, "Résultat de la recherche ok")
                 return render(request, "recherche.html", { 'articles': articles })
             else:
+
                 context = get_recherche_context()
                 context.update(param_search)
                 print(context)
