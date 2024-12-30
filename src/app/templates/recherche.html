@@ -32,28 +32,35 @@
             <div class="row py-2">
                 <label for="mot_title" class="col-md-5 col-form-label text-sm-center text-md-end">Mot clé dans le titre:</label>
                 <div class="col-md-7">
-                    <input type="text" id="mot_title" name="mot_title" class="form-control" placeholder="Votre mot dans le titre" value="">
+                    <input type="text" id="mot_title" name="mot_title" class="form-control"
+                           placeholder="Votre mot dans le titre"
+                           value="{% if title_art__icontains %}{{ title_art__icontains }}{% endif %}">
                 </div>
             </div>
             <!-- MOT CLES DANS LE HOOK-->
              <div class="row py-2">
                 <label for="mot_hook" class="col-md-5 col-form-label text-sm-center text-md-end">Mot clés dans le hook:</label>
                 <div class="col-md-7">
-                    <input type="text" id="mot_hook" name="mot_hook" class="form-control" placeholder="Votre mot dans le hook" value="">
+                    <input type="text" id="mot_hook" name="mot_hook" class="form-control"
+                           placeholder="Votre mot dans le hook"
+                           value="{% if hook_art__icontains %}{{ hook_art__icontains }}{% endif %}">
                 </div>
             </div>
             <!-- MOT CLES DANS LE CORPS -->
             <div class="row py-2">
                 <label for="mot_content" class="col-md-5 col-form-label text-sm-center text-md-end">Mot clés dans le contenu:</label>
                 <div class="col-md-7">
-                    <input type="text" id="mot_content" name="mot_content" class="form-control" placeholder="Votre mot dans contenu" value="">
+                    <input type="text" id="mot_content" name="mot_content" class="form-control"
+                           placeholder="Votre mot dans contenu"
+                           value="{% if content_art__icontains %}{{ content_art__icontains }}{% endif %}">
                 </div>
             </div>
             <!-- DATE -->
             <div class="row py-2">
                 <label for="date" class="col-md-5 col-form-label text-sm-center text-md-end">Date:</label>
                 <div class="col-md-7">
-                    <input type="date" id="date" name="date" class="form-control" min="2023-12-01" max="2023-12-31">
+                    <input type="date" id="date" name="date" class="form-control" min="2023-12-01" max="2023-12-31"
+                        value="{% if date_art %}{{ date_art }}{% endif %}">
                 </div>
             </div>
             <!-- CATEGORIE -->
@@ -63,7 +70,8 @@
                     <select class="form-select" id="category" name="category">
                         <option value="0">-</option>
                         {% for cat in category %}
-                        <option value="{{ cat.id_cat }}">{{ cat.name_cat }}</option>
+                        <option value="{{ cat.id_cat }}"
+                        {% if cat.id_cat|stringformat:"s" == fk_category_art %} selected{% endif %}>{{ cat.name_cat }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -72,8 +80,12 @@
             <div class="row py-2">
                 <label for="readtime" class="col-md-5 col-form-label text-sm-center text-md-end">Readtime:</label>
                 <div class="col-md-7 d-flex align-items-center">
-                    <input class="form-range me-3" type="range" id="readtime" name="readtime" min="{{ min_readtime }}" max="{{ max_readtime }}" value="{{ min_readtime }}">
-                    <span class="col-1 ms-3 border border-2 border-dark-subtle rounded-3 text-center" id="readtime_box"></span>
+                    <input class="form-range me-3" type="range" id="readtime" name="readtime"
+                           min="{{ min_readtime }}"
+                           max="{{ max_readtime }}"
+                           value="{% if readtime_art %}{{ readtime_art }}{% else %}1{% endif %}">
+                    <span class="col-1 ms-3 border border-2 border-dark-subtle rounded-3 text-center" id="readtime_box">
+                    </span>
                 </div>
             </div>
             <!-- NOMBRE d'article par page -->
@@ -97,11 +109,11 @@
             </div>
             <div class="d-grid gap-2 py-2">
                 <button class="btn btn-outline-primary" type="submit">Rechercher</button>
-                <input class="btn btn-outline-secondary" type="reset" id="reset-button" value="Reset">
+                <a href="{% url 'recherche' %}" class="btn btn-outline-secondary">Reset</a>
             </div>
         </form>
         {% endif %}
     </main>
-
+    <script src="{% static 'app/js/readTime.js' %}"></script>
 
 {% endblock %}

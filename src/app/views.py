@@ -66,35 +66,24 @@ def recherche(request):
             param_search['content_art__icontains'] = mot_content
         if nbr_article:
             nbr_article = int(nbr_article)
-        print(param_search)
         try:
             articles = Article.objects.filter(**param_search).order_by('-date_art')[:nbr_article]
             if articles.exists():
                 messages.success(request, "Résultat de la recherche ok")
                 return render(request, "recherche.html", { 'articles': articles })
             else:
+                context = get_recherche_context()
+                context.update(param_search)
+                print(context)
                 messages.warning(request, "Pas de résultat pour votre recherche, recommencé...")
-                return redirect('recherche')
+                return render(request, 'recherche.html', context)
         except DatabaseError as error:
             messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
             print(f"Database error: {error}")
             return redirect('recherche')
     else:
-        try:
-            category = Category.objects.all()
-            max_readtime = Article.objects.all().aggregate(Max('readtime_art'))
-            min_readtime = Article.objects.all().aggregate(Min('readtime_art'))
-            max = max_readtime['readtime_art__max']
-            min = min_readtime['readtime_art__min']
-        except DatabaseError as error:
-            category = []
-            messages.warning(request,"Erreur de connection á la DB. Revenez plus tard.")
-            print(f"Database error: {error}")
-        return render(request, "recherche.html", {
-            'category': category,
-            'max_readtime': max,
-            'min_readtime': min
-        })
+        context = get_recherche_context()
+        return render(request, "recherche.html", context)
 
 def test_font(request):
     return render(request, "test-font.html", {})
@@ -257,3 +246,16 @@ def date_list_with_date(request,date):
         messages.error(request, "Erreur de connection á la DB. Revenez plus tard.")
         print(f"Database error: {error}")
     return render(request, 'date_list.html', { 'articles': articles, 'date_select': date })
+
+def get_recherche_context():
+    try:
+        category = Category.objects.all()
+        max_readtime = Article.objects.all().aggregate(Max('readtime_art'))['readtime_art__max']
+        min_readtime = Article.objects.all().aggregate(Min('readtime_art'))['readtime_art__min']
+    except DatabaseError as error:
+        category = []
+        max_readtime = 1
+        min_readtime = 1
+        print(f"Database error: {error}")
+    return { 'category': category, 'max_readtime': max_readtime, 'min_readtime': min_readtime }
+
