@@ -89,15 +89,15 @@
                 {% for item in menu_items %}
                 {% if item.access == 'admin' and request.session.role == 'admin' %}
                 <li class="nav-item text-center dubai-regular-font">
-                    <a class="nav-link" href="{% url item.id %}" target="_self">{{ item.name }}</a>
+                    <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
                 </li>
                 {% elif item.access == 'user' and request.session.role == 'user' or request.session.role == 'admin' %}
                 <li class="nav-item text-center dubai-regular-font">
-                    <a class="nav-link" href="{% url item.id %}" target="_self">{{ item.name }}</a>
+                    <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
                 </li>
                 {% elif item.access == 'all' %}
                 <li class="nav-item text-center dubai-regular-font">
-                    <a class="nav-link" href="{% url item.id %}" target="_self">{{ item.name }}</a>
+                    <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
                 </li>
                 {% endif %}
                 {% endfor %}
