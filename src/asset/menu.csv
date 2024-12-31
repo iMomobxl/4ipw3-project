@@ -2,6 +2,7 @@ id|name|access
 home|Acceuil|all
 recherche|Recherche|all
 date_list|Liste des dates|all
+sponsors|Sponsors|all
 about|A propos|all
 favoris|Favoris|user
 user|Users|user
