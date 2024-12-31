@@ -84,18 +84,23 @@
         </form>
     </div>
     <br>
+    {% if request.session.role == 'admin' %}
     <div class="col-8 border border-dark d-flex row justify-content-center text-center mt-4 py-4">
-        <h3>Modification de la page about (database):</h3>
+        <h3>Modification de la page "{{ about.title_sta }}" (database):</h3>
         <div class="">
-            <form class="form-group" action="{% url 'user' %}" id="about" >
+            <form class="form-group" action="{% url 'user' %}" method="POST">
                 {% csrf_token %}
-                <textarea class="form-control" rows="30"></textarea>
+                <label for="about"></label>
+                <textarea id="about" name="about" class="form-control" rows="30">
+                    {{ about.content_sta }}
+                </textarea>
                 <button type="submit" class="btn btn-outline-primary btn-block mt-4">
                     Modifier About
                 </button>
             </form>
         </div>
     </div>
+    {% endif %}
 </main>
 
 {% endblock %}

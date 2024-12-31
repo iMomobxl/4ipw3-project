@@ -143,7 +143,13 @@ def login(request):
 
 def user(request):
     if request.method == 'POST':
-        if 'font_color' in request.POST or 'border_style' in request.POST:
+        if 'about' in request.POST:
+            about = Static.objects.get(id_sta=1)
+            about.content_sta = request.POST.get('about', None)
+            about.save()
+            messages.success(request, f"Le contenu de la page A Propos á été mis á jour.")
+            return redirect('about')
+        elif 'font_color' in request.POST or 'border_style' in request.POST:
             font_color = request.POST.get('font_color', 'none')
             border_style = request.POST.get('border_style', 'black')
             home_category = request.POST.get('home_category', 146)
@@ -159,12 +165,15 @@ def user(request):
         messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
         return redirect('login')
     try:
+        about = get_object_or_404(Static,id_sta=1)
         category = Category.objects.all()
+        print(about)
     except DatabaseError as error:
         category = []
+        about = []
         messages.warning(request,"Erreur de connection á la DB. Revenez plus tard.")
         print(f"Database error: {error}")
-    return render(request, "user.html", { 'category': category })
+    return render(request, "user.html", { 'category': category, 'about': about })
 
 def style(request):
     font_color = request.session.get('font_color', 'black')
