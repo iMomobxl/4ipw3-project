@@ -16,7 +16,7 @@ urlpatterns = [
     path('favoris/', views.favoris, name='favoris'),
     path('favoris/add/<int:id>', views.add_favoris, name='add_favoris'),
     path('favoris/del/<int:id>', views.del_favoris, name='del_favoris'),
-    path('datelist/', views.date_list, name='date_list'),
-    path('datelist/<str:date>/', views.date_list_with_date, name='date_list_with_date'),
+    path('date_list/', views.date_list, name='date_list'),
+    path('date_list/<str:date>/', views.date_list_with_date, name='date_list_with_date'),
     path('about/', views.about, name='about'),
 ]
