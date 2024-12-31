@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.db import DatabaseError
 from django.db.models import Min, Max
 from django.conf import settings
-from .models import Category, Article
+from .models import Category, Article, Static
 import requests, csv, os, json
 from pprint import pformat
 
@@ -254,7 +254,13 @@ def date_list_with_date(request,date):
     return render(request, 'date_list.html', { 'articles': articles, 'date_select': date })
 
 def about(request):
-    return render(request, 'about.html', {})
+    try:
+        content = get_object_or_404(Static, url_sta='about')
+    except DatabaseError as error:
+        content = []
+        messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
+        print(f"Database error: {error}")
+    return render(request, 'about.html', { 'content': content })
 
 def get_recherche_context():
     try:

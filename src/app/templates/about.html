@@ -6,8 +6,17 @@
 
 <main class="d-flex justify-content-center row pt-3">
     <header class="border-primary border-top border-5">
-        <h2 class="text-center pb-4 pt-2 text-danger">A propos</h2>
+        <h2 class="text-center pb-4 pt-2 text-danger">{{ content.title_sta }}</h2>
     </header>
+    <div class="d-flex row justify-content-center text-center">
+        <h2>Database:</h2>
+        {{ content.content_sta }}
+    </div>
+    <hr>
+    <div class="d-flex row justify-content-center text-center">
+        <h2>Hardcodé:</h2>
+        <p>...</p>
+    </div>
 </main>
 
 {% endblock %}

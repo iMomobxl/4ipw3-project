@@ -28,21 +28,15 @@ class Article(models.Model):
     def __str__(self):
         return self.title_art
 
+class Static(models.Model):
+    id_sta = models.AutoField(primary_key=True)
+    title_sta = models.CharField(max_length=128)
+    url_sta = models.CharField(max_length=128)
+    content_sta = models.TextField()
 
+    class Meta:
+        db_table = 't_static'
+        managed = False
 
-
-# class Article_Detail(models.Model):
-#     id_art = models.AutoField(primary_key=True)
-#     date_art = models.DateField(null=True, blank=True)
-#     readtime_art = models.IntegerField(null=True, blank=True)
-#     title_art = models.CharField(max_length=128)
-#     #fk_category_art = models.IntegerField(null=True, blank=True)
-#     content_art = models.TextField()
-#     image_art = models.CharField(max_length=64, null=True, blank=True)
-#
-#     class Meta:
-#         db_table = 't_article'
-#         managed = False
-#
-#     def __str__(self):
-#         return self.title_art
+    def __str__(self):
+        return self.title_sta
