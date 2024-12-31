@@ -29,12 +29,6 @@
     </div>
     <hr>
     {% endif %}
-    <div class="text-center">
-        <h3>Vos articles favoris:</h3>
-        <p>coming soon...</p>
-        <br>
-    </div>
-    <hr>
     <div class="col-8 border border-dark">
         <div class="d-flex justify-content-center">
             <form class="col-8" method="POST" id="user_style" action="{% url 'user' %}">
@@ -72,7 +66,7 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">Update preferences</button>
+                    <button type="submit" class="btn btn-outline-primary">Update preferences</button>
                 </div>
             </form>
         </div>
@@ -80,7 +74,7 @@
         <form method="POST" id="logout" action="{% url 'user' %}">
             {% csrf_token %}
             <div class="form-group text-center">
-                <button type="submit" class="btn btn-primary btn-block mt-4">
+                <button type="submit" class="btn btn-outline-primary btn-block mt-4">
                     Logout*
                 </button>
                 <br>
@@ -88,6 +82,19 @@
                 <h4>*Attention cela supprimera vos préferences d'affichage</h4>
             </div>
         </form>
+    </div>
+    <br>
+    <div class="col-8 border border-dark d-flex row justify-content-center text-center mt-4 py-4">
+        <h3>Modification de la page about (database):</h3>
+        <div class="">
+            <form class="form-group" action="{% url 'user' %}" id="about" >
+                {% csrf_token %}
+                <textarea class="form-control" rows="30"></textarea>
+                <button type="submit" class="btn btn-outline-primary btn-block mt-4">
+                    Modifier About
+                </button>
+            </form>
+        </div>
     </div>
 </main>
 
