@@ -1,10 +1,10 @@
 id|name|access
 home|Acceuil|all
 recherche|Recherche|all
-favoris|Favoris|user
 date_list|Liste des dates|all
-sponsors|Sponsors|all
-test-mysql|Test MySQL|admin
-test-font|Test Fonts|admin
+about|A propos|all
+favoris|Favoris|user
 user|Users|user
 login|Login|admin
+test-mysql|Test MySQL|admin
+test-font|Test Fonts|admin

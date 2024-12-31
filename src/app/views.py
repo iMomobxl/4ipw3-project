@@ -253,6 +253,9 @@ def date_list_with_date(request,date):
         print(f"Database error: {error}")
     return render(request, 'date_list.html', { 'articles': articles, 'date_select': date })
 
+def about(request):
+    return render(request, 'about.html', {})
+
 def get_recherche_context():
     try:
         category = Category.objects.all()
