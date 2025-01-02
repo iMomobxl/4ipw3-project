@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
-from django.db import DatabaseError
+from django.db import DatabaseError, connection
 from django.db.models import Min, Max
 from django.conf import settings
 from .models import Category, Article, Static
@@ -95,13 +95,25 @@ def test_font(request):
     return render(request, "test-font.html", {})
 
 def test_mysql(request):
+    tables_info = {}
+    nbr_ligne = {}
     try:
-        category = Category.objects.all()
+        table_names = ['t_article', 't_category', 't_static']
+        for table in table_names:
+            with connection.cursor() as cursor:
+                cursor.execute(f"DESCRIBE {table}")
+                columns = cursor.fetchall()
+                tables_info[table] = columns
+                cursor.execute(f"SELECT COUNT(*) FROM {table}")
+                nbr_ligne[table] = cursor.fetchone()[0]
+
     except DatabaseError as error:
-        category = []
+        tables_info = {}
+        nbr_ligne = {}
         messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
         print(f"Database error: {error}")
-    return render(request, "test-mysql.html", { 'category': category })
+    print(nbr_ligne)
+    return render(request, "test-mysql.html", { 'tables_info': tables_info, 'nbr_ligne': nbr_ligne })
 
 def sponsors(request):
     url = "http://playground.burotix.be/adv/banner_for_isfce.json"

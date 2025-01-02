@@ -10,11 +10,34 @@
     <header class="border-primary border-top border-5">
         <h2 class="text-center pb-4 pt-2 text-danger">Test MySQL</h2>
     </header>
-    <h1>Category</h1>
-    <ul> {% for category in category %}
-        <li>{{ category.id_cat }}: {{ category.name_cat }}</li>
-        {% endfor %}
-    </ul>
+
+    {% for table, columns in tables_info.items %}
+    <h1>Nom de la table: {{ table }} ({{ nbr_ligne.items.table }})</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Champ</th>
+                    <th>Type</th>
+                    <th>Null</th>
+                    <th>Key</th>
+                    <th>Default</th>
+                    <th>Extra</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for column in columns %}
+                    <tr>
+                        <td>{{ column.0 }}</td>
+                        <td>{{ column.1 }}</td>
+                        <td>{{ column.2 }}</td>
+                        <td>{{ column.3 }}</td>
+                        <td>{{ column.4 }}</td>
+                        <td>{{ column.5 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
 </main>
 
 {% endblock %}
