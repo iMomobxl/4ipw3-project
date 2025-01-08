@@ -4,20 +4,24 @@
             id="menu">
             <ul class="navbar-nav">
                 {% for item in menu_items %}
+<!--                Lien uniquement accessible pour admin-->
                 {% if item.access == 'admin' and request.session.role == 'admin' %}
                 <li class="nav-item text-center dubai-regular-font">
                     <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
                 </li>
+<!--                Lien uniquement accessible pour admin et user-->
                 {% elif item.access == 'user' and request.session.role == 'user' or request.session.role == 'admin' %}
                 <li class="nav-item text-center dubai-regular-font">
                     <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
                 </li>
+<!--                Lien pour tout le monde (exception pour login)-->
                 {% elif item.access == 'all' %}
                     {% if item.id != 'login' %}
                     <li class="nav-item text-center dubai-regular-font">
                         <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
                     </li>
                     {% elif not request.session.identified %}
+<!--                Affiche dans le burger menu le lien vers la page login uniquement si pas identifier -->
                     <li class="nav-item text-center dubai-regular-font">
                         <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
                     </li>
