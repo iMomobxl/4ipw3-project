@@ -33,10 +33,15 @@ def article(request, id):
     try:
         article = get_object_or_404(Article,id_art=id)
         favoris = request.COOKIES.get('favoris', '[]')
-        favoris_ids = json.loads(favoris)
-        is_favorite = str(id) in favoris_ids
+        favoris = json.loads(favoris)
+        user_name = request.session.get('name')
+        print(favoris)
+        is_favorite = any(item['id_art'] == str(id) and item['name'] == user_name for item in favoris)
+        print(is_favorite)
+        # is_favorite = str(id) in favoris
     except DatabaseError as error:
         article = []
+        is_favorite = False
         messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
         print(f"Database error: {error}")
     return render(request, 'article.html', { 'article': article, 'is_favorite': is_favorite })
@@ -206,10 +211,15 @@ def favoris(request):
         messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
         return redirect('login')
     else:
+        user_name = request.session.get('name')
         favoris = request.COOKIES.get('favoris', '[]')
-        favoris_ids = json.loads(favoris)
+        favoris = json.loads(favoris)
+
+        favoris = [
+            item['id_art'] for item in favoris if item['name'] == user_name
+        ]
         try:
-            articles = Article.objects.filter(id_art__in=favoris_ids)
+            articles = Article.objects.filter(id_art__in=favoris)
         except DatabaseError as error:
             articles = []
             messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
@@ -221,10 +231,14 @@ def add_favoris(request, id):
         messages.warning(request, f"Vous n'avez pas acces á cette page.")
         return render(request, '404.html', status=404)
     else:
+        user_name = request.session.get('name')
         favoris = request.COOKIES.get('favoris', '[]')
         favoris = json.loads(favoris)
-        if str(id) not in favoris:
-            favoris.append(str(id))
+
+        current_favoris = {'name': user_name, 'id_art': str(id)}
+
+        if current_favoris not in favoris:
+            favoris.append(current_favoris)
         else:
             messages.warning(request, f"Cette articles est déjá present dans vos favoris.")
             return redirect('favoris')
@@ -239,10 +253,15 @@ def del_favoris(request, id):
         messages.warning(request, f"Vous n'avez pas acces á cette page.")
         return render(request, '404.html', status=404)
     else:
+        user_name = request.session.get('name')
         favoris = request.COOKIES.get('favoris', '[]')
         favoris = json.loads(favoris)
-        if str(id) in favoris:
-            favoris.remove(str(id))
+
+        current_favoris = {'name': user_name, 'id_art': str(id)}
+        if current_favoris in favoris:
+            favoris.remove(current_favoris)
+        # if str(id) in favoris:
+        #     favoris.remove(str(id))
         else:
             messages.warning(request, f"Cette articles ne se trouve pas dans vos favoris pour pouvoir le supprimer.")
             return redirect('favoris')
