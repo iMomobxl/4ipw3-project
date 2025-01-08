@@ -1,0 +1,24 @@
+{% block burger %}
+
+        <nav class="collapse overflow-visible navbar-collapse border-primary border border-2 text-black rounded my-3 px-0"
+            id="menu">
+            <ul class="navbar-nav">
+                {% for item in menu_items %}
+                {% if item.access == 'admin' and request.session.role == 'admin' %}
+                <li class="nav-item text-center dubai-regular-font">
+                    <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
+                </li>
+                {% elif item.access == 'user' and request.session.role == 'user' or request.session.role == 'admin' %}
+                <li class="nav-item text-center dubai-regular-font">
+                    <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
+                </li>
+                {% elif item.access == 'all' %}
+                <li class="nav-item text-center dubai-regular-font">
+                    <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
+
+{% endblock %}
