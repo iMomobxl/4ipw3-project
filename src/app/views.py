@@ -231,6 +231,14 @@ def add_favoris(request, id):
         messages.warning(request, f"Vous n'avez pas acces á cette page.")
         return render(request, '404.html', status=404)
     else:
+        try:
+            if not Article.objects.filter(id_art=id).exists():
+                messages.warning(request, f"L'article avec l'ID {id} n'existe pas.")
+                return redirect('home')
+        except DatabaseError as error:
+            messages.warning(request, f"L'article avec l'ID {id} n'existe pas.")
+            print(f"Database error: {error}")
+            return redirect('home')
         user_name = request.session.get('name')
         favoris = request.COOKIES.get('favoris', '[]')
         favoris = json.loads(favoris)
