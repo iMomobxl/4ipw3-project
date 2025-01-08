@@ -1,11 +1,11 @@
 id|name|access
 home|Acceuil|all
+favoris|Favoris|user
 recherche|Recherche|all
 date_list|Liste des dates|all
 sponsors|Sponsors|all
 about|A propos|all
-favoris|Favoris|user
+login|Login|all
 user|Users|user
-login|Login|admin
 test-mysql|Test MySQL|admin
 test-font|Test Fonts|admin

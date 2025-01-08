@@ -13,9 +13,15 @@
                     <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
                 </li>
                 {% elif item.access == 'all' %}
-                <li class="nav-item text-center dubai-regular-font">
-                    <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
-                </li>
+                    {% if item.id != 'login' %}
+                    <li class="nav-item text-center dubai-regular-font">
+                        <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
+                    </li>
+                    {% elif not request.session.identified %}
+                    <li class="nav-item text-center dubai-regular-font">
+                        <a href="/{{ item.id }}/" target="_self" class="nav-link">{{ item.name }}</a>
+                    </li>
+                    {% endif %}
                 {% endif %}
                 {% endfor %}
             </ul>
