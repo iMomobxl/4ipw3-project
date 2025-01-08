@@ -104,16 +104,12 @@ def test_mysql(request):
                 cursor.execute(f"DESCRIBE {table}")
                 columns = cursor.fetchall()
                 tables_info[table] = columns
-                cursor.execute(f"SELECT COUNT(*) FROM {table}")
-                nbr_ligne[table] = cursor.fetchone()[0]
-
     except DatabaseError as error:
         tables_info = {}
-        nbr_ligne = {}
         messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
         print(f"Database error: {error}")
     print(nbr_ligne)
-    return render(request, "test-mysql.html", { 'tables_info': tables_info, 'nbr_ligne': nbr_ligne })
+    return render(request, "test-mysql.html", { 'tables_info': tables_info })
 
 def sponsors(request):
     url = "http://playground.burotix.be/adv/banner_for_isfce.json"
