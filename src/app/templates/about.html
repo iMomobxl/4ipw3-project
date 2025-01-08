@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% block title %}4IPDW - About{% endblock %}
+
 {% block content %}
 
 <main class="d-flex justify-content-center row pt-3">
@@ -9,7 +11,100 @@
         <h2 class="text-center pb-4 pt-2 text-danger">{{ content.title_sta }}</h2>
     </header>
     <div class="d-flex row">
-            {{ content.content_sta|safe }}
+<!--            {{ content.content_sta|safe }}-->
+        <p class="h1 text-primary text-center mb-3">Application "Site de presse" <br><i>Mohamed Ali Bacha</i> et <i>Mehdi Soltan</i></p>
+        <p class="h2">Liste des pages:</p>
+        <ol class="list-group list-group-numbered">
+            <li class="d-flex bd-highlight list-group-item h3 font-weight-bold pb-0 ps-3">
+                Page Acceuil/Home
+                <h6 class="ms-auto p-2 bd-highlight align-middle">Lien: <a href="/home/">/home/</a></h6>
+            </li>
+            <ul>
+                <li class="h6">Choix de la catégorie á afficher (voir: <a href="/user/">/user/</a>)</li>
+                <li class="h6">Gestion en cas d'erreur de chargement d'image: script javascript <a href="/static/app/js/imageNotFound.js">imageNotFound.js</a></li>
+            </ul>
+            <li class="d-flex bd-highlight list-group-item h3 font-weight-bold pb-0 ps-3">
+                Page Recherche
+                <h6 class="ms-auto p-2 bd-highlight align-middle">Lien: <a href="/recherche/">/recherche/</a></h6>
+            </li>
+            <div class="px-5">
+            <h5>Option de recherche:</h5>
+            <ul>
+                <li class="h6">Par mot dans le titre</li>
+                <li class="h6">Par mot dans le hook</li>
+                <li class="h6">Par mot dans le contenu</li>
+                <li class="h6">Par date</li>
+                <li class="h6">Par catégorie</li>
+                <li class="h6">Par readtime (minimum 1 par defaut)</li>
+            </ul>
+            <h5>Option d'affichage:</h5>
+            <ul>
+                <li class="h6">Nombre d'article á afficher, par palier de 10</li>
+                <li class="h6">Ajout d'un bouton Max qui desactive l'option precedente</li>
+                <li class="h6">Ordre croissant/decroissant par date</li>
+            </ul>
+                <h5>Autres fonctionnalité</h5>
+                <ul>
+                    <li class="h6">Bouton reset : reset le formulaire á vide</li>
+                    <li class="h6">Bouton Max : desactive le champ "Nombre d'article" et affiche tout les resultats obtenue</li>
+                    <li class="h6">Fonction Javascript (eventListener) qui indique la valeur du curseur ReadTime en direct</li>
+                    <li class="h6">Lorsque le resultat de la recherche est null, les valeurs de la recherche sont conservé pour pouvoir pauffiner la recherche (en cas d'erreur de faute de frappe par exemple)</li>
+                </ul>
+            </div>
+            <li class="list-group-item h3 font-weight-bold">Favoris</li>
+            <p>Nous avons decidé qu'un utilisateur DOIT etre logé pour pouvoir rajouter des articles dans son panier.<br>            Des boutons "Ajout Favoris" et "Supprimer Favoris" ont ete rajouté à chaques article consulté
+            (par exemple: <a href="{% url 'article' 5578 %}">{% url 'article' 5578 %})</a></p>
+            <p>Une page favoris a ete creer pour consulter tout les article favoris (voir: <a href="{% url 'favoris' %}">{% url 'favoris' %})</a></p>
+            <p>La sauvegarde des favoris se fait par les COOKIES</p>
+            <p>La stucture des cookies a ete implementer en Array d'object:
+                <br>[ { 'name': 'id_article' }, { 'name': 'id_article' }, ... ]
+                <br>ainsi nous pouvons differentier les favoris de chaques utilisateur enregistré/logé.
+            <li class="list-group-item h3 font-weight-bold">Liste de date</li>
+                <p>Un contenu supplementaire a ete ajouté (voir: <a href="{% url 'date_list' %}">{% url 'date_list' %})</a>
+                qui affiche dans une liste de date disponible, avec les articles correspondant a cette date.</p>
+            <li class="list-group-item h3 font-weight-bold">Á propos/About</li>
+            <li class="list-group-item h3 font-weight-bold">Login</li>
+            <li class="list-group-item h3 font-weight-bold">User</li>
+        </ol>
+        <p class="h2 pt-3">Les fonctionnalité ajouté/imposé</p>
+        <ol class="list-group list-group-numbered">
+            <li class="list-group-item h3 font-weight-bold">Systeme de messagerie à la navbar</li>
+            <ul>
+                <li>Vert (Success) en cas de succes de l'operation demandé </li>
+                <li>Jaune (Warning) en cas d'erreur</li>
+            </ul>
+            <li class="list-group-item h3 font-weight-bold">Modification de la font-color</li>
+            <ul>
+                <li class="h6">4 choix possibles: Noir (par defaut), bleu, rouge et vert</li>
+                <li class="h6">3 choix possibles: None (par defaut), thin et thick</li>
+                <p>(voir: <a href="{% url 'user' %}">{% url 'user' %}</a> Vous devez être logé!)</p>
+            </ul>
+            <li class="list-group-item h3 font-weight-bold">Source du Menu: fichiers csv</li>
+            <ul>
+                <li class="h6">Dossier src/app/asset/menu.csv</li>
+                <li class="h6">Fonction dans context_processors.py</li>
+                <li class="h6">Le fichier se compose de (id|name|access), l'option access a ete rajouté pour l'affichage du menu en fonction de l'utilisateur logé (tout le monde n'a pas acces a tout sauf l'admin evidement)</li>
+            </ul>
+            <li class="list-group-item h3 font-weight-bold">Source des pages statiques: Database</li>
+            <p>Une table t_static a ete crée avec les champs:</p>
+            <ul>
+                <li class="h6">id_sta : id unique / primary key</li>
+                <li class="h6">title_sta : Titre de la page static</li>
+                <li class="h6">url_sta : le nom de l'url</li>
+                <li class="h6">content_sta : le contenu de la page static</li>
+            </ul>
+            <p>Il est possible de modifier directement le contenu de la page about dans /user/ (vous devez etre logé en tand qu'admin)</p>
+            <li class="list-group-item h3 font-weight-bold">Recherche d'articles par : readtime min max (cursor)</li>
+            <p class="px-4">(voir page <a href="{% url 'recherche' %}">{% url 'recherche' %}</a>)</p>
+            <li class="list-group-item h3 font-weight-bold">Sauvegarde de l'identification (login) : session</li>
+            <ul>
+                <li class="h6"></li>
+                <li class="h6"></li>
+                <li class="h6"></li>
+                <li class="h6"></li>
+            </ul>
+            <p></p>
+        </ol>'
     </div>
 </main>
 
