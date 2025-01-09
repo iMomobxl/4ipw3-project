@@ -79,7 +79,7 @@ def recherche(request):
         try:
             articles = Article.objects.filter(**param_search).order_by(tri_article)[:nbr_article]
             if articles.exists():
-                messages.success(request, "Résultat de la recherche ok")
+                messages.success(request, "Nous avons obtenu un resultat pour votre recherche.")
                 return render(request, "recherche.html", { 'articles': articles })
             else:
 
@@ -145,11 +145,11 @@ def login(request):
                 messages.success(request, f"Vous etes logé en tand que { request.session['role'] }, Bienvenue { request.session['name'] }")
                 return redirect('user')
             else:
-                messages.warning(request,  f"Erreur dans le login/password")
+                messages.warning(request,  "Erreur dans le login/password, recommencez...")
         else:
             messages.warning(request, f"Code Erreur: { response.status_code }")
     if request.session.get('identified'):
-        messages.warning(request, f"Vous etes deja logé, je vous envoie sur votre page utilisateur (user) ")
+        messages.warning(request, "Vous êtes deja logé, je vous envoie sur votre page utilisateur (user) ")
         return redirect('user')
     else:
         return render(request, 'login.html')
@@ -160,7 +160,7 @@ def user(request):
             about = Static.objects.get(id_sta=1)
             about.content_sta = request.POST.get('about', None)
             about.save()
-            messages.success(request, f"Le contenu de la page A Propos á été mis á jour.")
+            messages.success(request, "Le contenu de la page About á été mis á jour.")
             return redirect('about')
         elif 'font_color' in request.POST or 'border_style' in request.POST:
             font_color = request.POST.get('font_color', 'none')
@@ -172,7 +172,7 @@ def user(request):
             messages.success(request, "Vos préférences ont été mises à jour.")
         else:
             request.session.clear()
-            messages.success(request, f"Vous n'etes plus logé, BYEBYE")
+            messages.success(request, "Vous venez de vous logout, á bientôt.")
             return redirect('home')
     if not request.session.get('identified', False):
         messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
@@ -208,7 +208,7 @@ def style(request):
 
 def favoris(request):
     if not request.session.get('identified', False):
-        messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
+        messages.warning(request, "Vous devez être logé pour accéder à cette page")
         return redirect('login')
     else:
         user_name = request.session.get('name')
@@ -228,7 +228,7 @@ def favoris(request):
 
 def add_favoris(request, id):
     if not request.session.get('identified', False):
-        messages.warning(request, f"Vous n'avez pas acces á cette page.")
+        messages.warning(request, "Vous n'avez pas acces á cette page.")
         return render(request, '404.html', status=404)
     else:
         try:
@@ -236,7 +236,7 @@ def add_favoris(request, id):
                 messages.warning(request, f"L'article avec l'ID {id} n'existe pas.")
                 return redirect('home')
         except DatabaseError as error:
-            messages.warning(request, f"L'article avec l'ID {id} n'existe pas.")
+            messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
             print(f"Database error: {error}")
             return redirect('home')
         user_name = request.session.get('name')
@@ -248,17 +248,17 @@ def add_favoris(request, id):
         if current_favoris not in favoris:
             favoris.append(current_favoris)
         else:
-            messages.warning(request, f"Cette articles est déjá present dans vos favoris.")
+            messages.warning(request, "Cette articles est déjá present dans vos favoris.")
             return redirect('favoris')
         favoris = json.dumps(favoris)
         response = redirect('article', id=id)
         response.set_cookie('favoris', favoris)
-        messages.success(request, f"Cette articles a été rajouté dans vos favoris.")
+        messages.success(request, "Cette articles a été rajouté á vos favoris.")
         return response
 
 def del_favoris(request, id):
     if not request.session.get('identified', False):
-        messages.warning(request, f"Vous n'avez pas acces á cette page.")
+        messages.warning(request, "Vous n'avez pas accés á cette page.")
         return render(request, '404.html', status=404)
     else:
         user_name = request.session.get('name')
@@ -271,12 +271,12 @@ def del_favoris(request, id):
         # if str(id) in favoris:
         #     favoris.remove(str(id))
         else:
-            messages.warning(request, f"Cette articles ne se trouve pas dans vos favoris pour pouvoir le supprimer.")
+            messages.warning(request, "Cette article ne se trouve pas dans vos favoris.")
             return redirect('favoris')
         favoris = json.dumps(favoris)
         response = redirect('article', id=id)
         response.set_cookie('favoris', favoris)
-        messages.success(request, f"Cette articles a été supprimé de vos favoris.")
+        messages.success(request, "Cette article a été supprimé de vos favoris.")
         return response
 
 def date_list(request):
@@ -306,6 +306,8 @@ def about(request):
         print(f"Database error: {error}")
     return render(request, 'about.html', { 'content': content })
 
+# cherche le min/max du champ readtime pour set le min et max dans la page recherche
+# ainsi que les categories
 def get_recherche_context():
     try:
         category = Category.objects.all()
