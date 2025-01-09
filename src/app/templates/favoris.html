@@ -10,18 +10,25 @@
     <header class="border-primary border-top border-5">
         <h2 class="text-center pb-4 pt-2 text-danger">Vos favoris</h2>
         {% if articles %}
-        <h3 class="text-center pb-4 pt-2">Nombre d'article: {{ articles|length }}</h3>
+        <h3 class="text-center my-2">Nombre d'article: {{ articles|length }}</h3>
         {% endif %}
     </header>
     {% if articles %}
             <div class="col-10">
-                <ul class="list-group">
-                    {% for article in articles %}
-                         <li class="list-group-item list-group-item-action">
-                             <a href="{% url 'article' article.id_art %}" target="_self">{{ article.id_art }} - {{ article.title_art }}</a>
-                         </li>
-                    {% endfor %}
-                </ul>
+                <form method="post" action="{% url 'favoris' %}">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-outline-primary my-3 align-items-center">Supprimer article selectionné</button>
+                    </div>
+                    <ul class="list-group">
+                        {% for article in articles %}
+                             <li class="list-group-item list-group-item-action">
+                                 <input class="mx-3" type="checkbox" name="selected_articles" value="{{ article.id_art }}">
+                                 <a href="{% url 'article' article.id_art %}" target="_self">{{ article.title_art }}</a>
+                             </li>
+                        {% endfor %}
+                    </ul>
+                </form>
             </div>
     {% else %}
         <h2 class="text-center">Aucun article dans vos favoris</h2>
