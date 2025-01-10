@@ -10,10 +10,9 @@
         <h2 class="text-center pb-4 pt-2 text-danger">Nos <strong>PRECIEUX</strong> sponsors</h2>
     </header>
     {% for data_key, data_info in data.items %}
-    <div class="sponsor" style="
+    <div class="p-0 sponsor" style="
                     background-image: url('{{ data_info.background_image }}');
-                    color: {{ data_info.color }};
-            ">
+                    color: {{ data_info.color }};">
         <a class="d-flex column" href="{{ data_info.link }}" target="_blank">
                 <img class="px-3" src="{{ data_info.image }}" alt="Sponsor Image">
                 <p>{{ data_info.text }}</p>
@@ -23,7 +22,6 @@
     {% endfor %}
     {% if request.session.role == 'admin' %}
     <div>
-        <br>
         <hr>
         <pre>{{ formatted_data }}</pre>
     </div>
