@@ -141,7 +141,6 @@ def sponsors(request):
 
     return render(request, "sponsors.html", { 'data': data, 'formatted_data': formatted_data })
 
-
 def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -196,7 +195,10 @@ def user(request):
         messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
         return redirect('login')
     try:
-        about = get_object_or_404(Static,id_sta=1)
+        if request.session.get('role') == 'admin':
+            about = Static.objects.filter(id_sta=1).first()
+        else:
+            about = []
         category = Category.objects.all()
         print(about)
     except DatabaseError as error:
@@ -338,7 +340,7 @@ def date_list_with_date(request,date):
 
 def about(request):
     try:
-        content = get_object_or_404(Static, url_sta='about')
+        content = Static.objects.filter(url_sta='about').first()
     except DatabaseError as error:
         content = []
         messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
