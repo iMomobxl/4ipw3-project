@@ -20,6 +20,11 @@ def home(request):
     category_art = request.session.get('home_category', "146") # 146 = On n'est pas des pigeons
     try:
         articles = Article.objects.filter(fk_category_art=category_art).order_by('-date_art')[:9]
+        favoris = request.COOKIES.get('favoris', '[]')
+        favoris = json.loads(favoris)
+        user_name = request.session.get('name')
+        for article in articles:
+            article.is_favorite = any(item['id_art'] == str(article.id_art) and item['name'] == user_name for item in favoris)
     except DatabaseError as error:
         articles = []
         messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")

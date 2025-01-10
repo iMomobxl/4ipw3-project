@@ -20,6 +20,9 @@
                             <picture>
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.0.image_art }}" alt="Article Main Image" onerror="imageNotFound(this)">
                             </picture>
+                            {% if articles.0.is_favorite %}
+                                <div class="text-center bg-success bg-opacity-75 text-white m-1 p-1 rounded">Favoris</div>
+                            {% endif %}
                             <header class="py-3">
                                 <h2>{{ articles.0.title_art }}</h2>
                                 <p>{{ articles.0.date_art }}</p>
@@ -37,6 +40,9 @@
                                     <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.1.image_art }}"
                                         alt="Article 1 Main Image" onerror="imageNotFound(this)">
                                 </picture>
+                                {% if articles.1.is_favorite %}
+                                    <div class="text-center bg-success bg-opacity-75 text-white m-1 p-1 rounded">Favoris</div>
+                                {% endif %}
                                 <header class="pt-3 pb-1">
                                     <h2>{{ articles.1.title_art }}</h2>
                                     <p>{{ articles.1.date_art }}</p>
@@ -52,6 +58,9 @@
                                     <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.2.image_art }}"
                                         alt="Article 2 Main Image" onerror="imageNotFound(this)">
                                 </picture>
+                                {% if articles.2.is_favorite %}
+                                    <div class="text-center bg-success bg-opacity-75 text-white m-1 p-1 rounded">Favoris</div>
+                                {% endif %}
                                 <h2>{{ articles.2.title_art }}</h2>
                                 <p>{{ articles.2.hook_art }}</p>
                             </a>
@@ -67,6 +76,9 @@
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.3.image_art }}"
                                     alt="Article 3 Main Image" onerror="imageNotFound(this)">
                             </picture>
+                            {% if articles.3.is_favorite %}
+                                <div class="text-center bg-success bg-opacity-75 text-white m-1 p-1 rounded">Favoris</div>
+                            {% endif %}
                             <h3 class="pt-2">{{ articles.3.title_art }}</h3>
                             <p>{{ articles.3.hook_art }}</p>
                         </a>
@@ -80,6 +92,9 @@
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.4.image_art }}"
                                     alt="Article 4 Main Image" onerror="imageNotFound(this)">
                             </picture>
+                            {% if articles.4.is_favorite %}
+                                <div class="text-center bg-success bg-opacity-75 text-white m-1 p-1 rounded">Favoris</div>
+                            {% endif %}
                             <h3 class="pt-2">{{ articles.4.title_art }}</h3>
                             <p>{{ articles.4.hook_art }}</p>
                         </a>
@@ -93,6 +108,9 @@
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.5.image_art }}"
                                     alt="Article 5 Main Image" onerror="imageNotFound(this)">
                             </picture>
+                            {% if articles.5.is_favorite %}
+                                <div class="text-center bg-success bg-opacity-75 text-white m-1 p-1 rounded">Favoris</div>
+                            {% endif %}
                             <h3 class="pt-2">{{ articles.5.title_art}}</h3>
                             <p>{{ articles.5.hook_art }}</p>
                         </a>
@@ -106,6 +124,9 @@
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.6.image_art }}"
                                     alt="Article 6 Main Image" onerror="imageNotFound(this)">
                             </picture>
+                            {% if articles.6.is_favorite %}
+                                <div class="text-center bg-success bg-opacity-75 text-white m-1 p-1 rounded">Favoris</div>
+                            {% endif %}
                             <h3 class="pt-2">{{ articles.6.title_art }}</h3>
                             <p>{{ articles.6.hook_art }}</p>
                         </a>
@@ -118,6 +139,9 @@
                             <picture>
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.7.image_art }}" alt="Article 7 Main Image" onerror="imageNotFound(this)">
                             </picture>
+                            {% if articles.7.is_favorite %}
+                                <div class="text-center bg-success bg-opacity-75 text-white m-1 p-1 rounded">Favoris</div>
+                            {% endif %}
                             <h3 class="pt-2">{{ articles.7.title_art }}</h3>
                             <p>{{ articles.7.hook_art }}</p>
                         </a>
@@ -131,6 +155,9 @@
                                 <img class="img-fluid img-thumbnail" src="{% static 'app/media/' %}{{ articles.8.image_art }}"
                                     alt="Article 8 Main Image" onerror="imageNotFound(this)">
                             </picture>
+                            {% if articles.8.is_favorite %}
+                                <div class="text-center bg-success bg-opacity-75 text-white m-1 p-1 rounded">Favoris</div>
+                            {% endif %}
                             <h3 class="pt-2">{{ articles.8.title_art }}</h3>
                             <p>{{ articles.8.hook_art }}</p>
                         </a>
