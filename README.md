@@ -69,16 +69,14 @@ python3 manage.py runserver
 ```
 Acceder au site via http://127.0.0.1:8000
 ## 6 - DB et media
-
 ### Source github: 
 #### - Ajout de la table t_static: Chercher le fichier ./doc/static.sql et executer sur phpmyadmin
 #### - Les image sont deja dans le repo: ./src/static/media
-
 ### Source Moodle/isfce:
 #### - Ajout de la table t_static: Chercher le fichier ./doc/static.sql et executer sur phpmyadmin
 #### - placer les fichier images dans: ./src/static/media
-
 ## 7 - Lien utile:
 - [github 4ipw3](https://github.com/iMomobxl/4ipw3-project.git)
 - [doc django](https://docs.djangoproject.com/fr/5.1/)
-- [localhost admin](http://127.0.0.1:8000/admin) login: admin - passwd: admin
+- [localhost admin django](http://127.0.0.1:8000/admin) login: admin - passwd: admin
+- [tuto1](https://www.synbioz.com/blog/tech/image-placeholder)
