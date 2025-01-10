@@ -1,11 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.db import DatabaseError, connection
 from django.db.models import Min, Max
-from django.conf import settings
 from .models import Category, Article, Static
-import requests, csv, os, json
+import requests, json
 from pprint import pformat
 
 # def display_menu_csv():
@@ -101,7 +100,6 @@ def test_font(request):
 
 def test_mysql(request):
     tables_info = {}
-    nbr_ligne = {}
     try:
         table_names = ['t_article', 't_category', 't_static']
         for table in table_names:
@@ -113,7 +111,6 @@ def test_mysql(request):
         tables_info = {}
         messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
         print(f"Database error: {error}")
-    print(nbr_ligne)
     return render(request, "test-mysql.html", { 'tables_info': tables_info })
 
 def sponsors(request):
@@ -228,6 +225,7 @@ def style(request):
     return HttpResponse(css_content, content_type='text/css')
 
 def favoris(request):
+    # verifie si la personne est logé
     if not request.session.get('identified', False):
         messages.warning(request, "Vous devez être logé pour accéder à cette page")
         return redirect('login')
@@ -235,24 +233,45 @@ def favoris(request):
         user_name = request.session.get('name')
         favoris = request.COOKIES.get('favoris', '[]')
         favoris = json.loads(favoris)
+        # vérifie si la personne a fait une requete POST
+        if request.method == 'POST':
+            selected_articles = request.POST.getlist('selected_articles')
 
-        favoris = [
-            item['id_art'] for item in favoris if item['name'] == user_name
-        ]
-        try:
-            articles = Article.objects.filter(id_art__in=favoris)
-        except DatabaseError as error:
-            articles = []
-            messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
-            print(f"Database error: {error}")
-        return render(request, 'favoris.html', { 'articles': articles })
+            # creer une nouvelle list vide
+            updated_favoris = []
+            for item in favoris:
+                # vérifie si le favoris doit être gardé (pas selectionné)
+                if item['name'] != user_name or item['id_art'] not in selected_articles:
+                    updated_favoris.append(item)
+            favoris = updated_favoris
 
+            favoris_json = json.dumps(favoris)
+            response = redirect('favoris')
+            response.set_cookie('favoris', favoris_json)
+            messages.success(request, "Les articles sélectionnés ont été supprimés de vos favoris.")
+            return response
+        else:
+            updated_favoris = []
+            for item in favoris:
+                if item['name'] == user_name:
+                    updated_favoris.append(item['id_art'])
+            favoris = updated_favoris
+            try:
+                articles = Article.objects.filter(id_art__in=favoris)
+            except DatabaseError as error:
+                articles = []
+                messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
+                print(f"Database error: {error}")
+            return render(request, 'favoris.html', { 'articles': articles })
+
+# Ajout d'un favoris au cookie
 def add_favoris(request, id):
     if not request.session.get('identified', False):
         messages.warning(request, "Vous n'avez pas acces á cette page.")
         return render(request, '404.html', status=404)
     else:
         try:
+            # verifie si l'id de article existe dans la DB
             if not Article.objects.filter(id_art=id).exists():
                 messages.warning(request, f"L'article avec l'ID {id} n'existe pas.")
                 return redirect('home')
@@ -260,6 +279,7 @@ def add_favoris(request, id):
             messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
             print(f"Database error: {error}")
             return redirect('home')
+
         user_name = request.session.get('name')
         favoris = request.COOKIES.get('favoris', '[]')
         favoris = json.loads(favoris)
@@ -289,8 +309,6 @@ def del_favoris(request, id):
         current_favoris = {'name': user_name, 'id_art': str(id)}
         if current_favoris in favoris:
             favoris.remove(current_favoris)
-        # if str(id) in favoris:
-        #     favoris.remove(str(id))
         else:
             messages.warning(request, "Cette article ne se trouve pas dans vos favoris.")
             return redirect('favoris')
