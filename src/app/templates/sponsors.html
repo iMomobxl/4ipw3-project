@@ -9,12 +9,18 @@
     <header class="border-primary border-top border-5">
         <h2 class="text-center pb-4 pt-2 text-danger">Nos <strong>PRECIEUX</strong> sponsors</h2>
     </header>
-    <div class="sponsor">
-        <p>{{ data.text }}</p>
-        <a href="{{ data.link }}" target="_blank">
-            <img src="{{ data.image }}" alt="Sponsor Image">
+    {% for data_key, data_info in data.items %}
+    <div class="sponsor" style="
+                    background-image: url('{{ data_info.background_image }}');
+                    color: {{ data_info.color }};
+            ">
+        <a href="{{ data_info.link }}" target="_blank">
+                <p>{{ data_info.text }}</p>
+                <img src="{{ data_info.image }}" alt="Sponsor Image">
         </a>
     </div>
+    <br>
+    {% endfor %}
     {% if request.session.role == 'admin' %}
     <div>
         <br>
