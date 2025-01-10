@@ -14,9 +14,9 @@
                     background-image: url('{{ data_info.background_image }}');
                     color: {{ data_info.color }};
             ">
-        <a href="{{ data_info.link }}" target="_blank">
+        <a class="d-flex column" href="{{ data_info.link }}" target="_blank">
+                <img class="px-3" src="{{ data_info.image }}" alt="Sponsor Image">
                 <p>{{ data_info.text }}</p>
-                <img src="{{ data_info.image }}" alt="Sponsor Image">
         </a>
     </div>
     <br>
