@@ -124,7 +124,7 @@ def sponsors(request):
     data = response.json()
     formatted_data = pformat(data)
 
-    # Ajout test plusieurs bannieres - desactiver les commentaire pour tester
+    # # Ajout test plusieurs bannieres - desactiver les commentaire pour tester
     #
     # test = {'banner_4IPDW': {'background_image': 'https://www.burotix.be/images/light-bulb-1002783_480.jpg',
     #                                   'color': '#0dd3d1',
@@ -147,36 +147,39 @@ def sponsors(request):
     return render(request, "sponsors.html", { 'data': data, 'formatted_data': formatted_data })
 
 def login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        uri_param = {
-            'login': username,
-            'passwd': password
-        }
-        uri_head = "http://playground.burotix.be/login/?"
-        uri = f"{uri_head}{requests.compat.urlencode(uri_param)}"
-        response = requests.post(uri)
-        if response.status_code == 200:
-            data = response.json()
-            print(data)
-            if data.get('identified'):
-                request.session['identified'] = data.get('identified')
-                request.session['name'] = data.get('name')
-                request.session['role'] = data.get('role')
-                messages.success(request, f"Vous etes logé en tand que { request.session['role'] }, Bienvenue { request.session['name'] }")
-                return redirect('user')
-            else:
-                messages.warning(request,  "Erreur dans le login/password, recommencez...")
-        else:
-            messages.warning(request, f"Code Erreur: { response.status_code }")
     if request.session.get('identified'):
         messages.warning(request, "Vous êtes deja logé, je vous envoie sur votre page utilisateur (user) ")
         return redirect('user')
     else:
-        return render(request, 'login.html')
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            uri_param = {
+                'login': username,
+                'passwd': password
+            }
+            uri_head = "http://playground.burotix.be/login/?"
+            uri = f"{uri_head}{requests.compat.urlencode(uri_param)}"
+            response = requests.post(uri)
+            if response.status_code == 200:
+                data = response.json()
+                print(data)
+                if data.get('identified'):
+                    request.session['identified'] = data.get('identified')
+                    request.session['name'] = data.get('name')
+                    request.session['role'] = data.get('role')
+                    messages.success(request, f"Vous etes logé en tand que { request.session['role'] }, Bienvenue { request.session['name'] }")
+                    return redirect('user')
+                else:
+                    messages.warning(request,  "Erreur dans le login/password, recommencez...")
+            else:
+                messages.warning(request, f"Code Erreur: { response.status_code }")
+    return render(request, 'login.html')
 
 def user(request):
+    if not request.session.get('identified', False):
+        messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
+        return redirect('login')
     if request.method == 'POST':
         if 'about' in request.POST:
             about = Static.objects.get(id_sta=1)
@@ -196,9 +199,6 @@ def user(request):
             request.session.clear()
             messages.success(request, "Vous venez de vous logout, á bientôt.")
             return redirect('home')
-    if not request.session.get('identified', False):
-        messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
-        return redirect('login')
     try:
         if request.session.get('role') == 'admin':
             about = Static.objects.filter(id_sta=1).first()
