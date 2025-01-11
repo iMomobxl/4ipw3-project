@@ -244,6 +244,10 @@ def favoris(request):
         if request.method == 'POST':
             selected_articles = request.POST.getlist('selected_articles')
 
+            if not selected_articles:
+                messages.warning(request, "Vous n'avez pas selectionné d'article á supprimer.")
+                return redirect('favoris')
+
             # creer une nouvelle list vide
             updated_favoris = []
             for item in favoris:
