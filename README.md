@@ -76,7 +76,12 @@ Acceder au site via http://127.0.0.1:8000
 #### - Ajout de la table t_static: Chercher le fichier ./doc/static.sql et executer sur phpmyadmin
 #### - placer les fichier images dans: ./src/static/media
 ## 7 - Lien utile:
+#### Principaux:
 - [github 4ipw3](https://github.com/iMomobxl/4ipw3-project.git)
-- [doc django](https://docs.djangoproject.com/fr/5.1/)
+- [doc principal django](https://docs.djangoproject.com/fr/5.1/)
 - [localhost admin django](http://127.0.0.1:8000/admin) login: admin - passwd: admin
-- [tuto1](https://www.synbioz.com/blog/tech/image-placeholder)
+#### Tuto:
+- [imageNotFound.js](https://www.synbioz.com/blog/tech/image-placeholder)
+- [Debug=False](https://www.geeksforgeeks.org/why-django-not-serve-your-static-files-in-debug-false-mode/)
+- [django MYSQL](https://docs.djangoproject.com/fr/5.1/ref/databases/#mysql-notes)
+- [query sql django](https://proton.hashnode.dev/mapping-sql-queries-with-django-orm-cheatsheet)
