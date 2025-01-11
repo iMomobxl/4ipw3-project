@@ -119,12 +119,8 @@ def test_mysql(request):
     return render(request, "test-mysql.html", { 'tables_info': tables_info })
 
 def sponsors(request):
-    url = "http://playground.burotix.be/adv/banner_for_isfce.json"
-    response = requests.get(url)
-    data = response.json()
-    formatted_data = pformat(data)
 
-    # # Ajout test plusieurs bannieres - desactiver les commentaire pour tester
+    # Ajout test plusieurs bannieres - desactiver uniquement les commentaires pour tester
     #
     # test = {'banner_4IPDW': {'background_image': 'https://www.burotix.be/images/light-bulb-1002783_480.jpg',
     #                                   'color': '#0dd3d1',
@@ -132,18 +128,30 @@ def sponsors(request):
     #                                   'link': 'https://www.burotix.be/',
     #                                   'text': 'Entrepreneur... ?\n' '\t\t\tBUROTIX(), sise à Walhain dans le Brabant ' "Wallon, optimise l'emploi de vos\n" '\t\t\ttableurs, bases de données, sites web, ' 'dossiers administratifs, etc.'},
     #         'banner_3IPDW': {'background_image': 'https://www.burotix.be/images/light-bulb-1002783_480.jpg',
-    #                                   'color': '#0dd3d1',
+    #                                   'color': 'black',
     #                                   'image': 'https://www.burotix.be/images/keyboard-824317_120.jpg',
     #                                   'link': 'https://www.burotix.be/',
     #                                   'text': 'Indépendant... ?\n' '\t\t\tBUROTIX(), sise à Walhain dans le Brabant ' "Wallon, optimise l'emploi de vos\n" '\t\t\ttableurs, bases de données, sites web, ' 'dossiers administratifs, etc.'},
     #         'banner_2IPDW': {'background_image': 'https://www.burotix.be/images/light-bulb-1002783_480.jpg',
-    #                          'color': '#0dd3d1',
+    #                          'color': 'red',
     #                          'image': 'https://www.burotix.be/images/keyboard-824317_120.jpg',
     #                          'link': 'https://www.burotix.be/',
     #                          'text': 'Artisan... ?\n' '\t\t\tBUROTIX(), sise à Walhain dans le Brabant ' "Wallon, optimise l'emploi de vos\n" '\t\t\ttableurs, bases de données, sites web, ' 'dossiers administratifs, etc.'}
     # }
     # return render(request, "sponsors.html", { 'data': test, 'formatted_data': pformat(test) })
 
+    url = "http://playground.burotix.be/adv/banner_for_isfce.json"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        formatted_data = pformat(data)
+    except requests.exceptions.RequestException as error:
+        error = str(error)
+        data = []
+        formatted_data = []
+        messages.warning(request, "Erreur lors de la requete API.")
+        print(f"API error: {error}")
     return render(request, "sponsors.html", { 'data': data, 'formatted_data': formatted_data })
 
 def login(request):
