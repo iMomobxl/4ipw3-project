@@ -40,8 +40,8 @@ pip install -r requirements.txt
 ```
 ## 4 - Verifier les settings
 Aller dans **./src/Press/settings.py**
-- *Ligne 26*: 
->DEBUG=True ou False
+- *Ligne 26*: (garder DEBUG á True car toujours en developpement)
+>DEBUG=True
 - *Ligne 28*: 
 Rajouter les eventuels host autorisé
 >ALLOWED_HOSTS=['localhost', '127.0.0.1'] 
@@ -54,7 +54,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'PORT': '3306', 
     }
 }
 ```
