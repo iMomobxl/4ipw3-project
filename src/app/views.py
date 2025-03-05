@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db import DatabaseError, connection
 from django.db.models import Min, Max
 from .models import Category, Article, Static
@@ -377,4 +377,21 @@ def get_recherche_context():
         min_readtime = 1
         print(f"Database error: {error}")
     return { 'category': category, 'max_readtime': max_readtime, 'min_readtime': min_readtime }
+
+def get_article_details(request, article_id):
+    try:
+        article = Article.objects.get(id_art=article_id)
+        category_name = article.fk_category_art.name_cat
+        nbr_words = len(article.content_art.split())
+        data = {
+            'id': article.id_art,
+            'title': article.title_art,
+            'date': article.date_art,
+            'category': category_name,
+            'readtime': article.readtime_art,
+            'nbr_words': nbr_words,
+        }
+        return JsonResponse(data)
+    except Article.DoesNotExist:
+        return JsonResponse({'error': 'Article not found'}, status=404)
 

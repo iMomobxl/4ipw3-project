@@ -11,7 +11,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/external/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/external/css/external.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/tooltip-bubble.css' %}">
     <link rel="stylesheet" type="text/css" href="{% url 'style' %}">
+    <script src="{% static 'app/external/js/jquery-3.7.1.min.js' %}"></script>
     <title>{% block title %}4IPDW - Base {% endblock %}</title>
 </head>
 
@@ -82,9 +84,22 @@
                     alt="Image 3">
             </picture>
         </a>
+<!--        <div id="article-details" class="d-none rounded mt-4 border border-primary">-->
+<!--            <h4 class="text-center mb-4">Détails de l'article</h4>-->
+<!--            <ul class="list-unstyled">-->
+<!--                <li>Id: <span id="detail-id"></span></li>-->
+<!--                <li>Date: <span id="detail-date"></span></li>-->
+<!--                <li>Category: "<span id="detail-category"></span>"</li>-->
+<!--                <li>Readtime: <span id="detail-readtime"></span>mins</li>-->
+<!--            </ul>-->
+<!--        </div>-->
+
+
         <!-- DEBUT BURGER MENU ACTIVÈ -->
             {% include 'burgermenu.html' %}
         <!-- FIN BURGER MENU ACTIVÈ -->
+
+
         {% if messages %}
             {% for message in messages %}
             <div class="alert alert-{{ message.tags }} alert-dismissible fade show my-3 pt-3" role="alert">

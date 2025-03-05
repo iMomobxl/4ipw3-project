@@ -19,4 +19,6 @@ urlpatterns = [
     path('date_list/', views.date_list, name='date_list'),
     path('date_list/<str:date>/', views.date_list_with_date, name='date_list_with_date'),
     path('about/', views.about, name='about'),
+    # API routes
+    path('api/article/<int:article_id>/', views.get_article_details, name='get_article_details'),
 ]
