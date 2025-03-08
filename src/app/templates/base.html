@@ -12,12 +12,14 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/external/css/external.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/tooltip-bubble.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/messages.css' %}">
     <link rel="stylesheet" type="text/css" href="{% url 'style' %}">
     <script src="{% static 'app/external/js/jquery-3.7.1.min.js' %}"></script>
     <title>{% block title %}4IPDW - Base {% endblock %}</title>
 </head>
 
 <body class="container rounded">
+    <div id="ajax-messages"></div>
     <!-- HEADER -->
     <header class="row border-bottom p-lg-3 sticky-top bg-white rounded-bottom">
         <!-- BURGER MENU -->
@@ -60,7 +62,7 @@
             </div>
         </nav>
         <!-- BARRE DE RECHERCHE (Voir site original)-->
-        <div class="col-lg-4 d-none d-lg-block align-self-center mt-lg-3">
+        <div class="col-lg-4 d-none d-lg-block align-self-center mt-lg-3 m-0">
             <form method="POST" action="{% url 'recherche' %}">
                 {% csrf_token %}
                 <input class="form-control me-2" type="search" placeholder="Recherche" aria-label="Search" id="mot_title" name="mot_title">
@@ -84,15 +86,6 @@
                     alt="Image 3">
             </picture>
         </a>
-<!--        <div id="article-details" class="d-none rounded mt-4 border border-primary">-->
-<!--            <h4 class="text-center mb-4">Détails de l'article</h4>-->
-<!--            <ul class="list-unstyled">-->
-<!--                <li>Id: <span id="detail-id"></span></li>-->
-<!--                <li>Date: <span id="detail-date"></span></li>-->
-<!--                <li>Category: "<span id="detail-category"></span>"</li>-->
-<!--                <li>Readtime: <span id="detail-readtime"></span>mins</li>-->
-<!--            </ul>-->
-<!--        </div>-->
 
 
         <!-- DEBUT BURGER MENU ACTIVÈ -->
@@ -109,6 +102,7 @@
             {% endfor %}
         {% endif %}
     </header>
+
 
 
 {% block content %}
@@ -144,6 +138,8 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous">
     </script>
+    <script src="{% static 'app/js/messages.js' %}"></script>
+    <script src="{% static 'app/js/user-preference.js' %}"></script>
 </body>
 
 </html>

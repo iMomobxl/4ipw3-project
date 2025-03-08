@@ -1,0 +1,67 @@
+/*#ajax-messages {*/
+/*    position: fixed;*/
+/*    top: 160px;*/
+/*    left: 50%;*/
+/*    transform: translateX(-50%);*/
+/*    z-index: 3000;*/
+/*    transition: all 10s ease;*/
+/*    pointer-events: none;*/
+/*}*/
+
+/*#ajax-messages .alert {*/
+/*    min-width: 250px;*/
+/*    max-width: 90vw;*/
+/*    pointer-events: auto;*/
+/*    transition: all 0.5s ease;*/
+/*    opacity: 0;*/
+/*    transform: translateY(-20px);*/
+/*}*/
+
+/*#ajax-messages .alert.showing {*/
+/*    opacity: 1;*/
+/*    transform: translateY(0);*/
+/*}*/
+
+#ajax-messages {
+    position: fixed;
+    top: 160px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3000;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    #ajax-messages {
+        top: auto;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+#ajax-messages .alert {
+    min-width: 250px;
+    max-width: 90vw;
+    margin-top: 10px;
+    pointer-events: auto;
+    transition: transform 1s ease, opacity 0.5s ease;
+    opacity: 0;
+    transform: translateY(-20px);
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    #ajax-messages .alert {
+        min-width: 200px;
+        font-size: 0.9rem;
+    }
+}
+
+#ajax-messages .alert.showing {
+    opacity: 1;
+    transform: translateY(0);
+}

@@ -28,11 +28,11 @@
                 </ul>
             </div>
         {% else %}
-        <form class="col-8 m-3" method="POST" action="{% url 'recherche' %}">
+        <form class="col-10 col-md-6 m-3" method="POST" action="{% url 'recherche' %}">
             {% csrf_token %}
             <!-- MOT CLES DANS LE TITRE-->
             <div class="row py-2">
-                <label for="mot_title" class="col-md-5 col-form-label text-sm-center text-md-end">Mot clé dans le titre:</label>
+                <label for="mot_title" class="col-md-5 col-form-label text-center text-md-end">Mot clé dans le titre:</label>
                 <div class="col-md-7">
                     <input type="text" id="mot_title" name="mot_title" class="form-control"
                            placeholder="Votre mot dans le titre"
@@ -41,7 +41,7 @@
             </div>
             <!-- MOT CLES DANS LE HOOK-->
              <div class="row py-2">
-                <label for="mot_hook" class="col-md-5 col-form-label text-sm-center text-md-end">Mot clés dans le hook:</label>
+                <label for="mot_hook" class="col-md-5 col-form-label text-center text-md-end">Mot clés dans le hook:</label>
                 <div class="col-md-7">
                     <input type="text" id="mot_hook" name="mot_hook" class="form-control"
                            placeholder="Votre mot dans le hook"
@@ -50,7 +50,7 @@
             </div>
             <!-- MOT CLES DANS LE CORPS -->
             <div class="row py-2">
-                <label for="mot_content" class="col-md-5 col-form-label text-sm-center text-md-end">Mot clés dans le contenu:</label>
+                <label for="mot_content" class="col-md-5 col-form-label text-center text-md-end">Mot clés dans le contenu:</label>
                 <div class="col-md-7">
                     <input type="text" id="mot_content" name="mot_content" class="form-control"
                            placeholder="Votre mot dans contenu"
@@ -59,7 +59,7 @@
             </div>
             <!-- DATE -->
             <div class="row py-2">
-                <label for="date" class="col-md-5 col-form-label text-sm-center text-md-end">Date:</label>
+                <label for="date" class="col-md-5 col-form-label text-center text-md-end">Date:</label>
                 <div class="col-md-7">
                     <input type="date" id="date" name="date" class="form-control" min="2023-12-01" max="2023-12-31"
                         value="{% if date_art %}{{ date_art }}{% endif %}">
@@ -67,7 +67,7 @@
             </div>
             <!-- CATEGORIE -->
             <div class="row py-2">
-                <label for="category" class="col-md-5 col-form-label text-sm-center text-md-end">Catégorie:</label>
+                <label for="category" class="col-md-5 col-form-label text-center text-md-end">Catégorie:</label>
                 <div class="col-md-7">
                     <select class="form-select" id="category" name="category">
                         <option value="0">-</option>
@@ -80,7 +80,7 @@
             </div>
             <!-- cursor -->
             <div class="row py-2">
-                <label for="readtime" class="col-md-5 col-form-label text-sm-center text-md-end">Readtime:</label>
+                <label for="readtime" class="col-md-5 col-form-label text-center text-md-end">Readtime:</label>
                 <div class="col-md-7 d-flex align-items-center">
                     <input class="form-range me-3" type="range" id="readtime" name="readtime"
                            min="{{ min_readtime }}"
@@ -92,7 +92,7 @@
             </div>
             <!-- NOMBRE d'article par page -->
             <div class="row py-2">
-                <label for="nbr_article" class="col-md-5 col-form-label text-sm-center text-md-end">Nombre d'article à afficher:</label>
+                <label for="nbr_article" class="col-md-5 col-form-label text-center text-md-end">Nombre d'article à afficher:</label>
                 <div class="d-flex align-items-center col-md-7">
                     <input class="form-control me-3" type="number" id="nbr_article" name="nbr_article" min="10" max="2000" step="10" value="10">
                     <div class="form-check form-switch">
@@ -103,7 +103,7 @@
             </div>
             <!-- TRIE-->
             <div class="row py-2">
-                <label for="tri_article" class="col-md-5 col-form-label text-sm-center text-md-end">Trier par:</label>
+                <label for="tri_article" class="col-md-5 col-form-label text-center text-md-end">Trier par:</label>
                 <div class="col-md-7">
                     <select class="form-select" id="tri_article" name="tri_article">
                         <option value="date_art">Plus ancien au plus récent</option>
@@ -116,6 +116,10 @@
                 <a href="{% url 'recherche' %}" class="btn btn-outline-danger">Reset</a>
             </div>
         </form>
+        <div id="search-results" class="col-10 col-md-6 m-3 p-3">
+            <h5 class="text-center text-black">Résultats </h5>
+            <ul id="results-list" class="list-group"></ul>
+        </div>
         {% endif %}
     </main>
     {% if not articles %}

@@ -81,8 +81,18 @@ sansfont : Dubai
 }
 
 body {
-    background-color: whitesmoke;
+    /*background-color: whitesmoke;*/
 }
+
+/*header {*/
+/*    transition: padding 10s ease, margin-bottom 10s ease;*/
+/*}*/
+
+/*header.expanded {*/
+/*    padding-bottom: 8rem;*/
+/*    margin-bottom: 4rem;*/
+/*}*/
+
 /* Garde la couleur du footer originel du site, qui est plus "estétique" que la couleur imposé pour un footer */
 #footer-main {
     background-color: #024e7a;

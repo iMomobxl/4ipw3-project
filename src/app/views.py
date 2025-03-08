@@ -184,46 +184,98 @@ def login(request):
                 messages.warning(request, f"Code Erreur: { response.status_code }")
     return render(request, 'login.html')
 
+# def user(request):
+#     if not request.session.get('identified', False):
+#         messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
+#         return redirect('login')
+#     if request.method == 'POST':
+#         if 'about' in request.POST:
+#             about = Static.objects.get(id_sta=1)
+#             about.content_sta = request.POST.get('about', None)
+#             about.save()
+#             messages.success(request, "Le contenu de la page About á été mis á jour.")
+#             return redirect('about')
+#         elif 'font_color' in request.POST or 'border_style' in request.POST:
+#             font_color = request.POST.get('font_color', 'none')
+#             border_style = request.POST.get('border_style', 'black')
+#             home_category = request.POST.get('home_category', 146)
+#             request.session['font_color'] = font_color
+#             request.session['border_style'] = border_style
+#             request.session['home_category'] = home_category
+#             messages.success(request, "Vos préférences ont été mises à jour.")
+#         else:
+#             request.session.clear()
+#             messages.success(request, "Vous venez de vous logout, á bientôt.")
+#             return redirect('home')
+#     try:
+#         if request.session.get('role') == 'admin':
+#             about = Static.objects.filter(id_sta=1).first()
+#         else:
+#             about = []
+#         category = Category.objects.all()
+#         print(about)
+#     except DatabaseError as error:
+#         category = []
+#         about = []
+#         messages.warning(request,"Erreur de connection á la DB. Revenez plus tard.")
+#         print(f"Database error: {error}")
+#     return render(request, "user.html", { 'category': category, 'about': about })
+
 def user(request):
     if not request.session.get('identified', False):
         messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
         return redirect('login')
+
     if request.method == 'POST':
-        if 'about' in request.POST:
-            about = Static.objects.get(id_sta=1)
-            about.content_sta = request.POST.get('about', None)
-            about.save()
-            messages.success(request, "Le contenu de la page About á été mis á jour.")
-            return redirect('about')
-        elif 'font_color' in request.POST or 'border_style' in request.POST:
-            font_color = request.POST.get('font_color', 'none')
-            border_style = request.POST.get('border_style', 'black')
-            home_category = request.POST.get('home_category', 146)
+        if 'font_color' in request.POST:
+            font_color = request.POST.get('font_color', 'black')
             request.session['font_color'] = font_color
+            message = "Font color modifié: " + font_color
+            #messages.success(request, message)
+            return JsonResponse({'success': True, 'message': message})
+
+        elif 'border_style' in request.POST:
+            border_style = request.POST.get('border_style', 'none')
             request.session['border_style'] = border_style
+            message = "Border style modifié: " + border_style
+            #messages.success(request, message)
+            return JsonResponse({'success': True, 'message': message})
+
+        elif 'background_color' in request.POST:
+            background_color = request.POST.get('background_color', 'whitesmoke')
+            request.session['background_color'] = background_color
+            message = "Theme modifié: " + background_color
+            #messages.success(request, message)
+            return JsonResponse({'success': True, 'message': message})
+
+        elif 'home_category' in request.POST:
+            home_category = request.POST.get('home_category', 146)
             request.session['home_category'] = home_category
-            messages.success(request, "Vos préférences ont été mises à jour.")
+            message = "Categorie modifié: " + home_category
+            #messages.success(request, "Categorie modifié.")
+            return JsonResponse({'success': True, 'message': message})
+
         else:
             request.session.clear()
             messages.success(request, "Vous venez de vous logout, á bientôt.")
             return redirect('home')
+
     try:
-        if request.session.get('role') == 'admin':
-            about = Static.objects.filter(id_sta=1).first()
-        else:
-            about = []
         category = Category.objects.all()
-        print(about)
+        about = Static.objects.filter(id_sta=1).first()
     except DatabaseError as error:
         category = []
         about = []
         messages.warning(request,"Erreur de connection á la DB. Revenez plus tard.")
         print(f"Database error: {error}")
+
     return render(request, "user.html", { 'category': category, 'about': about })
 
 def style(request):
     font_color = request.session.get('font_color', 'black')
     border_style = request.session.get('border_style', 'none')
+    background_color = request.session.get('background_color', 'whitesmoke')
+
 
     border_width = '0px'
     if border_style == 'thin':
@@ -233,6 +285,7 @@ def style(request):
 
     css_content = f"""
     body {{
+        background-color: { background_color };
         color: { font_color };
         border: { border_width } solid;
     }}

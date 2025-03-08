@@ -16,7 +16,7 @@
         </h2>
     </header>
     {% if dates %}
-    <ul class="list-group col-4 text-center">
+    <ul class="list-group col-10 col-md-8 col-lg-4 text-center">
       {% for date in dates %}
       <li class="list-group-item list-group-item-action">
         <a href="{% url 'date_list' %}{{ date|date:'Y-m-d' }}" target="_self">{{ date }}</a>
@@ -25,7 +25,7 @@
     </ul>
     {% endif %}
     {% if articles %}
-    <ul class="list-group col-10">
+    <ul class="list-group col-11">
         {% for article in articles %}
              <li class="list-group-item list-group-item-action">
                  <a href="{% url 'article' article.id_art %}" target="_self">{{ article.id_art }} - {{ article.title_art }}</a>
