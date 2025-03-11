@@ -1,4 +1,4 @@
-$(function() {
+const getArticleDetail = () => {
     $('#tooltip-bubble').addClass('d-none');
 
     $('.article').hover(function(event) {
@@ -12,9 +12,9 @@ $(function() {
                     console.log('Id:', response.id)
                     console.log('Title:', response.title)
                     console.log('Date:', response.date)
-                    console.log('Category', response.category)
-                    console.log('ReadTime', response.readtime)
-                    console.log('Words', response.nbr_words)
+                    console.log('Category:', response.category)
+                    console.log('ReadTime:', response.readtime)
+                    console.log('Words:', response.nbr_words)
                     $('#tooltip-id').text(response.id)
                     $('#tooltip-date').text(response.date)
                     $('#tooltip-title').text(response.title)
@@ -45,4 +45,8 @@ $(function() {
             });
         }
     });
+}
+
+$(function() {
+    getArticleDetail()
 });
