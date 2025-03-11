@@ -10,66 +10,48 @@
     <main class="d-flex justify-content-center row pt-3">
         <header class="border-primary border-top border-5">
                 <h2 class="text-center pb-4 pt-2 text-danger">Page de recherche</h2>
-                {% if articles %}
-                <h2 class="text-center pb-4 pt-2">Nombre d'article trouvé: {{ articles|length }}</h2>
-                {% endif %}
         </header>
-        {% if articles %}
-            <div class="col-3 btn btn-outline-primary mb-5">
-                <a  class="d-inline-flex" href="{% url 'recherche' %}" role="button">Nouvelle recherche</a>
-            </div>
-            <div class="col-10">
-                <ul class="list-group">
-                    {% for article in articles %}
-                         <li class="list-group-item list-group-item-action">
-                             <a href="{% url 'article' article.id_art %}" target="_self">{{ article.id_art }} - {{ article.title_art }}</a>
-                         </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% else %}
-        <form class="col-10 col-md-6 m-3" method="POST" action="{% url 'recherche' %}">
+        <div id="search-box" class="col-10 col-lg-6 m-3">
+            <h5 class="text-center text-black">Critères de la recherche:</h5>
             {% csrf_token %}
             <!-- MOT CLES DANS LE TITRE-->
             <div class="row py-2">
-                <label for="mot_title" class="col-md-5 col-form-label text-center text-md-end">Mot clé dans le titre:</label>
+                <label for="wordTitreArticle" class="col-md-5 col-form-label text-center text-md-end">Mot clés dans le titre:</label>
                 <div class="col-md-7">
-                    <input type="text" id="mot_title" name="mot_title" class="form-control"
-                           placeholder="Votre mot dans le titre"
-                           value="{% if title_art__icontains %}{{ title_art__icontains }}{% endif %}">
+                    <input type="text" id="wordTitreArticle" name="wordTitreArticle" class="form-control"
+                           placeholder="Votre mot dans le titre">
                 </div>
             </div>
             <!-- MOT CLES DANS LE HOOK-->
-             <div class="row py-2">
-                <label for="mot_hook" class="col-md-5 col-form-label text-center text-md-end">Mot clés dans le hook:</label>
+            <div class="row py-2">
+                <label for="wordHookArticle" class="col-md-5 col-form-label text-center text-md-end">Mot clé dans le hook:</label>
                 <div class="col-md-7">
-                    <input type="text" id="mot_hook" name="mot_hook" class="form-control"
-                           placeholder="Votre mot dans le hook"
-                           value="{% if hook_art__icontains %}{{ hook_art__icontains }}{% endif %}">
+                    <input type="text" id="wordHookArticle" name="wordHookArticle" class="form-control"
+                           placeholder="Votre mot dans le hook">
                 </div>
             </div>
             <!-- MOT CLES DANS LE CORPS -->
             <div class="row py-2">
-                <label for="mot_content" class="col-md-5 col-form-label text-center text-md-end">Mot clés dans le contenu:</label>
+                <label for="wordContentArticle" class="col-md-5 col-form-label text-center text-md-end">Mot clés dans le contenu:</label>
                 <div class="col-md-7">
-                    <input type="text" id="mot_content" name="mot_content" class="form-control"
+                    <input type="text" id="wordContentArticle" name="wordContentArticle" class="form-control"
                            placeholder="Votre mot dans contenu"
                            value="{% if content_art__icontains %}{{ content_art__icontains }}{% endif %}">
                 </div>
             </div>
             <!-- DATE -->
             <div class="row py-2">
-                <label for="date" class="col-md-5 col-form-label text-center text-md-end">Date:</label>
+                <label for="dateArticle" class="col-md-5 col-form-label text-center text-md-end">Date:</label>
                 <div class="col-md-7">
-                    <input type="date" id="date" name="date" class="form-control" min="2023-12-01" max="2023-12-31"
+                    <input type="date" id="dateArticle" name="dateArticle" class="form-control" min="2023-12-01" max="2023-12-31"
                         value="{% if date_art %}{{ date_art }}{% endif %}">
                 </div>
             </div>
             <!-- CATEGORIE -->
             <div class="row py-2">
-                <label for="category" class="col-md-5 col-form-label text-center text-md-end">Catégorie:</label>
+                <label for="catArticle" class="col-md-5 col-form-label text-center text-md-end">Catégorie:</label>
                 <div class="col-md-7">
-                    <select class="form-select" id="category" name="category">
+                    <select class="form-select" id="catArticle" name="catArticle">
                         <option value="0">-</option>
                         {% for cat in category %}
                         <option value="{{ cat.id_cat }}"
@@ -80,49 +62,70 @@
             </div>
             <!-- cursor -->
             <div class="row py-2">
-                <label for="readtime" class="col-md-5 col-form-label text-center text-md-end">Readtime:</label>
+                <label for="readTimeArticle" class="col-md-5 col-form-label text-center text-md-end">Readtime:</label>
                 <div class="col-md-7 d-flex align-items-center">
-                    <input class="form-range me-3" type="range" id="readtime" name="readtime"
-                           min="{{ min_readtime }}"
+                    <input class="form-range me-3" type="range" id="readTimeArticle" name="readTimeArticle"
+                           min="0"
                            max="{{ max_readtime }}"
-                           value="{% if readtime_art %}{{ readtime_art }}{% else %}1{% endif %}">
-                    <span class="col-1 ms-3 border border-2 border-dark-subtle rounded-3 text-center" id="readtime_box">
+                           value="{% if readtime_art %}{{ readtime_art }}{% else %}0{% endif %}">
+                    <span class="col-1 ms-3 border border-2 border-dark-subtle rounded-3 text-center" id="readTimeBox">
                     </span>
                 </div>
             </div>
             <!-- NOMBRE d'article par page -->
             <div class="row py-2">
-                <label for="nbr_article" class="col-md-5 col-form-label text-center text-md-end">Nombre d'article à afficher:</label>
+                <label for="nbrArticle" class="col-md-5 col-form-label text-center text-md-end">Nombre d'article à afficher:</label>
                 <div class="d-flex align-items-center col-md-7">
-                    <input class="form-control me-3" type="number" id="nbr_article" name="nbr_article" min="10" max="2000" step="10" value="10">
+                    <input class="form-control me-3" type="number" id="nbrArticle" name="nbrArticle" min="10" max="2000" step="10" value="10">
                     <div class="form-check form-switch">
-                      <input class="form-check-input me-2" type="checkbox" role="switch" id="max_nbr_article" name="max_nbr_article">
-                      <label class="form-check-label" for="max_nbr_article">Max</label>
+                      <input class="form-check-input me-2" type="checkbox" role="switch" id="maxNbrArticle" name="maxNbrArticle">
+                      <label class="form-check-label" for="maxNbrArticle">Max</label>
                     </div>
                 </div>
             </div>
             <!-- TRIE-->
             <div class="row py-2">
-                <label for="tri_article" class="col-md-5 col-form-label text-center text-md-end">Trier par:</label>
+                <label for="triArticle" class="col-md-5 col-form-label text-center text-md-end">Trier par:</label>
                 <div class="col-md-7">
-                    <select class="form-select" id="tri_article" name="tri_article">
+                    <select class="form-select" id="triArticle" name="triArticle">
                         <option value="date_art">Plus ancien au plus récent</option>
                         <option value="-date_art">Plus récent au plus ancien</option>
                     </select>
                 </div>
             </div>
             <div class="d-grid gap-2 py-2">
-                <button class="btn btn-outline-success" type="submit">Rechercher</button>
-                <a href="{% url 'recherche' %}" class="btn btn-outline-danger">Reset</a>
+                <a id="reset-button" class="btn btn-outline-danger">Reset</a>
             </div>
-        </form>
-        <div id="search-results" class="col-10 col-md-6 m-3 p-3">
-            <h5 class="text-center text-black">Résultats </h5>
-            <ul id="results-list" class="list-group"></ul>
+            <nav id="pagination-container" style="display: none;">
+                <ul class="pagination justify-content-center mt-3">
+                    <li class="page-item disabled" id="prev-page">
+                        <a class="page-link icon-link icon-link-hover">
+                            <svg class="bi" aria-hidden="true"><use xlink:href="#arrow-left"></use></svg>
+                            Précédent
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" id="current-page" >1</a></li>
+                    <li class="page-item" id="next-page">
+                        <a class="page-link icon-link icon-link-hover">
+                            Suivant
+                            <svg class="bi" aria-hidden="true"><use xlink:href="#arrow-right"></use></svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
-        {% endif %}
     </main>
-    {% if not articles %}
-        <script src="{% static 'app/js/recherche.js' %}"></script>
-    {% endif %}
+        <div id="tooltip-bubble" class="tooltip-bubble position-absolute p-2 bg-info bg-opacity-100 text-black rounded">
+            <ul class="list mb-0">
+                {% if request.session.role == 'admin' %}
+                <li><strong>Id:</strong> <span id="tooltip-id"></span></li>
+                <li><strong>Temps de lecture:</strong> <span id="tooltip-readtime"></span>mins</li>
+                <li><strong>Nbr de mots:</strong> <span id="tooltip-nbrwords"></span></li>
+                {% endif %}
+                <li><strong>Date:</strong> <span id="tooltip-date"></span></li>
+<!--                <li><strong>Titre:</strong> <span id="tooltip-title"></span></li>-->
+                <li><strong>Catégorie:</strong> <span id="tooltip-category"></span></li>
+            </ul>
+        </div>
+    <script src="{% static 'app/js/readtime.js' %}"></script>
 {% endblock %}

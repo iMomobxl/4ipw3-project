@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from django.db import DatabaseError, connection
 from django.db.models import Min, Max
+from django.core.paginator import Paginator
 from .models import Category, Article, Static
 import requests, json
 from pprint import pformat
@@ -448,3 +449,53 @@ def get_article_details(request, article_id):
     except Article.DoesNotExist:
         return JsonResponse({'error': 'Article not found'}, status=404)
 
+def get_recherche_result(request):
+    if request.method == "POST":
+        try:
+            wordTitleArticle = request.POST.get("wordTitleArticle", None)
+            wordHookArticle = request.POST.get("wordHookArticle", None)
+            wordContentArticle = request.POST.get("wordContentArticle", None)
+            dateArticle = request.POST.get("dateArticle", None)
+            catArticle = request.POST.get("catArticle", None)
+            readTimeArticle = request.POST.get("readTimeArticle", None)
+            maxNbrArticle = request.POST.get("maxNbrArticle", "false").lower() == "true"
+            nbrArticle = request.POST.get("nbrArticle", None)
+            triArticle = request.POST.get("triArticle", "-date_art")
+            page = int(request.POST.get("page", 1))
+
+            param_search = {}
+
+            if wordTitleArticle:
+                param_search["title_art__icontains"] = wordTitleArticle
+            if wordHookArticle:
+                param_search["hook_art__icontains"] = wordHookArticle
+            if wordContentArticle:
+                param_search["content_art__icontains"] = wordContentArticle
+            if dateArticle:
+                param_search["date_art"] = dateArticle
+            if catArticle:
+                param_search["fk_category_art"] = catArticle
+            if readTimeArticle:
+                param_search["readtime_art"] = readTimeArticle
+
+            if maxNbrArticle:
+                nbrArticle = None
+            else:
+                nbrArticle = int(nbrArticle)
+
+            articles = Article.objects.filter(**param_search).order_by(triArticle)[:nbrArticle]
+            total_articles = articles.count()
+            paginator = Paginator(articles, 10)
+            articles = paginator.get_page(page)
+            data = {
+                "articles": [{"id": art.id_art, "title": art.title_art} for art in articles],
+                "page": articles.number,
+                "total_pages": paginator.num_pages,
+                "total_results": total_articles
+            }
+            return JsonResponse(data)
+
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON data"}, status=400)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)
