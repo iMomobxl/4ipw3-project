@@ -18,15 +18,4 @@ const showMessage = (message, type = 'success', duration = 5000) => {
             $alert.remove()
         }, 500)
     }, duration);
-
-    // $alert.fadeIn(1000)
-
-    // setTimeout(() => {
-    //     $alert.fadeOut(1000, () => {
-    //         $alert.remove()
-    //         // if ($('#ajax-messages').children().length === 0) {
-    //         //     $('header').removeClass('expanded'); // 🟡 Remove expand effect
-    //         // }
-    //     });
-    // }, duration)
 }
