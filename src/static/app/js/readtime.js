@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const rangeInput = document.getElementById('readtime')
-    const readtimeBox = document.getElementById('readtime_box')
+    const rangeInput = document.getElementById('readTimeArticle')
+    const readTimeBox = document.getElementById('readTimeBox')
 
     const updateReadtimeBox = (value) => {
-        readtimeBox.textContent = value
+        readTimeBox.textContent = value
     }
 
     rangeInput.addEventListener('input', () => {
@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateReadtimeBox(rangeInput.value)
 
-    const nbrArticle = document.getElementById('nbr_article');
-    const maxNbrArticle = document.getElementById('max_nbr_article');
+    const nbrArticle = document.getElementById('nbrArticle');
+    const maxNbrArticle = document.getElementById('maxNbrArticle');
 
     maxNbrArticle.addEventListener('change', () => {
         nbrArticle.disabled = maxNbrArticle.checked;
