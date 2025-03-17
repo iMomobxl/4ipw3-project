@@ -22,4 +22,5 @@ urlpatterns = [
     # API routes
     path('api/article/<int:article_id>/', views.get_article_details, name='get_article_details'),
     path('api/recherche/', views.get_recherche_result, name='get_recherche_result'),
+    path('api/get-session-message/', views.get_session_message, name='get_session_message'),
 ]

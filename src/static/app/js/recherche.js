@@ -53,7 +53,8 @@ $(document).ready(function () {
                 createSearchResults()
                 let articles = response.articles
                 let totalResults = response.total_results
-                totalPages = Math.ceil(totalResults / articlesPerPage)
+                totalPages = response.total_pages
+                console.log(totalPages)
                 let resultsList = $("#results-list")
                 let resultsHeader = $("#results-header")
 

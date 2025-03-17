@@ -8,15 +8,6 @@ from .models import Category, Article, Static
 import requests, json
 from pprint import pformat
 
-# def display_menu_csv():
-#     menu_items = []
-#     csv_path = os.path.join(settings.BASE_DIR, 'asset', 'menu.csv')
-#     with open(csv_path, mode='r') as file:
-#         csv_reader = csv.DictReader(file, delimiter='|')
-#         for row in csv_reader:
-#             menu_items.append({'id': row['id'], 'name': row['name']})
-#     return menu_items
-
 def home(request):
     category_art = request.session.get('home_category', "146") # 146 = On n'est pas des pigeons
     try:
@@ -28,10 +19,8 @@ def home(request):
             article.is_favorite = any(item['id_art'] == str(article.id_art) and item['name'] == user_name for item in favoris)
     except DatabaseError as error:
         articles = []
-        messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
-        print(f"Database error: {error}")
-    # menu = display_menu_csv()
-    # print(menu)
+        request.session['message'] = "Erreur de connection á la DB. Revenez plus tard."
+        request.session['message_status'] = "warning"
     return render(request, "home.html", { 'articles': articles })
 
 def article(request, id):
@@ -43,12 +32,11 @@ def article(request, id):
         print(favoris)
         is_favorite = any(item['id_art'] == str(id) and item['name'] == user_name for item in favoris)
         print(is_favorite)
-        # is_favorite = str(id) in favoris
     except DatabaseError as error:
         article = []
         is_favorite = False
-        messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
-        print(f"Database error: {error}")
+        request.session['message'] = "Erreur de connection á la DB. Revenez plus tard."
+        request.session['message_status'] = "warning"
     return render(request, 'article.html', { 'article': article, 'is_favorite': is_favorite })
 
 def recherche(request):
@@ -84,17 +72,19 @@ def recherche(request):
         try:
             articles = Article.objects.filter(**param_search).order_by(tri_article)[:nbr_article]
             if articles.exists():
-                messages.success(request, "Nous avons obtenu un resultat pour votre recherche.")
+                request.session['message'] = "Nous avons obtenu un resultat pour votre recherche."
+                request.session['message_status'] = "success"
                 return render(request, "recherche.html", { 'articles': articles })
             else:
 
                 context = get_recherche_context()
                 context.update(param_search)
-                print(context)
-                messages.warning(request, "Pas de résultat pour votre recherche, recommencé...")
+                request.session['message'] = "Pas de résultat pour votre recherche, recommencé..."
+                request.session['message_status'] = "warning"
                 return render(request, 'recherche.html', context)
         except DatabaseError as error:
-            messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
+            request.session['message'] = "Erreur de connection á la DB. Revenez plus tard."
+            request.session['message_status'] = "warning"
             print(f"Database error: {error}")
             return redirect('recherche')
     else:
@@ -115,32 +105,12 @@ def test_mysql(request):
                 tables_info[table] = columns
     except DatabaseError as error:
         tables_info = {}
-        messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
+        request.session['message'] = "Erreur de connection á la DB. Revenez plus tard."
+        request.session['message_status'] = "warning"
         print(f"Database error: {error}")
     return render(request, "test-mysql.html", { 'tables_info': tables_info })
 
 def sponsors(request):
-
-    # Ajout test plusieurs bannieres - desactiver uniquement les commentaires pour tester
-    #
-    # test = {'banner_4IPDW': {'background_image': 'https://www.burotix.be/images/light-bulb-1002783_480.jpg',
-    #                                   'color': '#0dd3d1',
-    #                                   'image': 'https://www.burotix.be/images/keyboard-824317_120.jpg',
-    #                                   'link': 'https://www.burotix.be/',
-    #                                   'text': 'Entrepreneur... ?\n' '\t\t\tBUROTIX(), sise à Walhain dans le Brabant ' "Wallon, optimise l'emploi de vos\n" '\t\t\ttableurs, bases de données, sites web, ' 'dossiers administratifs, etc.'},
-    #         'banner_3IPDW': {'background_image': 'https://www.burotix.be/images/light-bulb-1002783_480.jpg',
-    #                                   'color': 'black',
-    #                                   'image': 'https://www.burotix.be/images/keyboard-824317_120.jpg',
-    #                                   'link': 'https://www.burotix.be/',
-    #                                   'text': 'Indépendant... ?\n' '\t\t\tBUROTIX(), sise à Walhain dans le Brabant ' "Wallon, optimise l'emploi de vos\n" '\t\t\ttableurs, bases de données, sites web, ' 'dossiers administratifs, etc.'},
-    #         'banner_2IPDW': {'background_image': 'https://www.burotix.be/images/light-bulb-1002783_480.jpg',
-    #                          'color': 'red',
-    #                          'image': 'https://www.burotix.be/images/keyboard-824317_120.jpg',
-    #                          'link': 'https://www.burotix.be/',
-    #                          'text': 'Artisan... ?\n' '\t\t\tBUROTIX(), sise à Walhain dans le Brabant ' "Wallon, optimise l'emploi de vos\n" '\t\t\ttableurs, bases de données, sites web, ' 'dossiers administratifs, etc.'}
-    # }
-    # return render(request, "sponsors.html", { 'data': test, 'formatted_data': pformat(test) })
-
     url = "http://playground.burotix.be/adv/banner_for_isfce.json"
     try:
         response = requests.get(url)
@@ -151,13 +121,15 @@ def sponsors(request):
         error = str(error)
         data = []
         formatted_data = []
-        messages.warning(request, "Erreur lors de la requete API.")
+        request.session['message'] = "Erreur lors de la requete API."
+        request.session['message_status'] = "warning"
         print(f"API error: {error}")
     return render(request, "sponsors.html", { 'data': data, 'formatted_data': formatted_data })
 
 def login(request):
     if request.session.get('identified'):
-        messages.warning(request, "Vous êtes deja logé, je vous envoie sur votre page utilisateur (user) ")
+        request.session['message'] = "Vous êtes deja logé, je vous envoie sur votre page utilisateur (user)"
+        request.session['message_status'] = "warning"
         return redirect('user')
     else:
         if request.method == 'POST':
@@ -177,106 +149,67 @@ def login(request):
                     request.session['identified'] = data.get('identified')
                     request.session['name'] = data.get('name')
                     request.session['role'] = data.get('role')
-                    messages.success(request, f"Vous etes logé en tand que { request.session['role'] }, Bienvenue { request.session['name'] }")
+                    request.session['message'] = f"Vous etes logé en tand que { request.session['role'] }, Bienvenue { request.session['name'] }"
+                    request.session['message_status'] = "success"
                     return redirect('user')
                 else:
-                    messages.warning(request,  "Erreur dans le login/password, recommencez...")
+                    request.session['message'] = "Erreur dans le login/password, recommencez..."
+                    request.session['message_status'] = "warning"
             else:
-                messages.warning(request, f"Code Erreur: { response.status_code }")
+                request.session['message'] = f"Code Erreur: { response.status_code }"
+                request.session['message_status'] = "warning"
     return render(request, 'login.html')
-
-# def user(request):
-#     if not request.session.get('identified', False):
-#         messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
-#         return redirect('login')
-#     if request.method == 'POST':
-#         if 'about' in request.POST:
-#             about = Static.objects.get(id_sta=1)
-#             about.content_sta = request.POST.get('about', None)
-#             about.save()
-#             messages.success(request, "Le contenu de la page About á été mis á jour.")
-#             return redirect('about')
-#         elif 'font_color' in request.POST or 'border_style' in request.POST:
-#             font_color = request.POST.get('font_color', 'none')
-#             border_style = request.POST.get('border_style', 'black')
-#             home_category = request.POST.get('home_category', 146)
-#             request.session['font_color'] = font_color
-#             request.session['border_style'] = border_style
-#             request.session['home_category'] = home_category
-#             messages.success(request, "Vos préférences ont été mises à jour.")
-#         else:
-#             request.session.clear()
-#             messages.success(request, "Vous venez de vous logout, á bientôt.")
-#             return redirect('home')
-#     try:
-#         if request.session.get('role') == 'admin':
-#             about = Static.objects.filter(id_sta=1).first()
-#         else:
-#             about = []
-#         category = Category.objects.all()
-#         print(about)
-#     except DatabaseError as error:
-#         category = []
-#         about = []
-#         messages.warning(request,"Erreur de connection á la DB. Revenez plus tard.")
-#         print(f"Database error: {error}")
-#     return render(request, "user.html", { 'category': category, 'about': about })
 
 def user(request):
     if not request.session.get('identified', False):
-        messages.warning(request, f"Vous devez etre logé pour acceder à cette page")
+        request.session['message'] = "Vous devez etre logé pour acceder à cette page"
+        request.session['message_status'] = "warning"
         return redirect('login')
-
     if request.method == 'POST':
         if 'font_color' in request.POST:
             font_color = request.POST.get('font_color', 'black')
             request.session['font_color'] = font_color
             message = "Font color modifié: " + font_color
-            #messages.success(request, message)
             return JsonResponse({'success': True, 'message': message})
 
         elif 'border_style' in request.POST:
             border_style = request.POST.get('border_style', 'none')
             request.session['border_style'] = border_style
             message = "Border style modifié: " + border_style
-            #messages.success(request, message)
             return JsonResponse({'success': True, 'message': message})
 
         elif 'background_color' in request.POST:
             background_color = request.POST.get('background_color', 'whitesmoke')
             request.session['background_color'] = background_color
             message = "Theme modifié: " + background_color
-            #messages.success(request, message)
             return JsonResponse({'success': True, 'message': message})
 
         elif 'home_category' in request.POST:
             home_category = request.POST.get('home_category', 146)
             request.session['home_category'] = home_category
             message = "Categorie modifié: " + home_category
-            #messages.success(request, "Categorie modifié.")
             return JsonResponse({'success': True, 'message': message})
 
         else:
             request.session.clear()
-            messages.success(request, "Vous venez de vous logout, á bientôt.")
+            request.session['message'] = "Vous venez de vous logout, á bientôt."
+            request.session['message_status'] = "success"
             return redirect('home')
-
     try:
         category = Category.objects.all()
         about = Static.objects.filter(id_sta=1).first()
     except DatabaseError as error:
         category = []
         about = []
-        messages.warning(request,"Erreur de connection á la DB. Revenez plus tard.")
+        request.session['message'] = "Erreur de connection á la DB. Revenez plus tard."
+        request.session['message_status'] = "warning"
         print(f"Database error: {error}")
-
     return render(request, "user.html", { 'category': category, 'about': about })
 
 def style(request):
     font_color = request.session.get('font_color', 'black')
     border_style = request.session.get('border_style', 'none')
     background_color = request.session.get('background_color', 'whitesmoke')
-
 
     border_width = '0px'
     if border_style == 'thin':
@@ -296,7 +229,8 @@ def style(request):
 def favoris(request):
     # verifie si la personne est logé
     if not request.session.get('identified', False):
-        messages.warning(request, "Vous devez être logé pour accéder à cette page")
+        request.session['message'] = "Vous devez être logé pour accéder à cette page"
+        request.session['message_status'] = "warning"
         return redirect('login')
     else:
         user_name = request.session.get('name')
@@ -307,7 +241,8 @@ def favoris(request):
             selected_articles = request.POST.getlist('selected_articles')
 
             if not selected_articles:
-                messages.warning(request, "Vous n'avez pas selectionné d'article á supprimer.")
+                request.session['message'] = "Vous n'avez pas selectionné d'article á supprimer."
+                request.session['message_status'] = "warning"
                 return redirect('favoris')
 
             # creer une nouvelle list vide
@@ -321,7 +256,9 @@ def favoris(request):
             favoris_json = json.dumps(favoris)
             response = redirect('favoris')
             response.set_cookie('favoris', favoris_json)
-            messages.success(request, "Les articles sélectionnés ont été supprimés de vos favoris.")
+
+            request.session['message'] = "Les articles sélectionnés ont été supprimés de vos favoris."
+            request.session['message_status'] = "success"
             return response
         else:
             updated_favoris = []
@@ -333,23 +270,26 @@ def favoris(request):
                 articles = Article.objects.filter(id_art__in=favoris)
             except DatabaseError as error:
                 articles = []
-                messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
+                request.session['message'] = "Erreur de connection á la DB. Revenez plus tard."
+                request.session['message_status'] = "warning"
                 print(f"Database error: {error}")
             return render(request, 'favoris.html', { 'articles': articles })
 
-# Ajout d'un favoris au cookie
 def add_favoris(request, id):
     if not request.session.get('identified', False):
-        messages.warning(request, "Vous n'avez pas acces á cette page.")
+        request.session['message'] = "Vous n'avez pas acces á cette page."
+        request.session['message_status'] = "warning"
         return render(request, '404.html', status=404)
     else:
         try:
             # verifie si l'id de article existe dans la DB
             if not Article.objects.filter(id_art=id).exists():
-                messages.warning(request, f"L'article avec l'ID {id} n'existe pas.")
+                request.session['message'] = f"L'article avec l'ID {id} n'existe pas."
+                request.session['message_status'] = "warning"
                 return redirect('home')
         except DatabaseError as error:
-            messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
+            request.session['message'] = "Erreur de connection á la DB. Revenez plus tard."
+            request.session['message_status'] = "warning"
             print(f"Database error: {error}")
             return redirect('home')
 
@@ -362,17 +302,20 @@ def add_favoris(request, id):
         if current_favoris not in favoris:
             favoris.append(current_favoris)
         else:
-            messages.warning(request, "Cette articles est déjá present dans vos favoris.")
+            request.session['message'] = "Cette articles est déjá present dans vos favoris."
+            request.session['message_status'] = "warning"
             return redirect('favoris')
         favoris = json.dumps(favoris)
         response = redirect('article', id=id)
         response.set_cookie('favoris', favoris)
-        messages.success(request, "Cette articles a été rajouté á vos favoris.")
+        request.session['message'] = "Cette articles a été rajouté á vos favoris."
+        request.session['message_status'] = "success"
         return response
 
 def del_favoris(request, id):
     if not request.session.get('identified', False):
-        messages.warning(request, "Vous n'avez pas accés á cette page.")
+        request.session['message'] = "Vous n'avez pas accés á cette page."
+        request.session['message_status'] = "warning"
         return render(request, '404.html', status=404)
     else:
         user_name = request.session.get('name')
@@ -383,12 +326,14 @@ def del_favoris(request, id):
         if current_favoris in favoris:
             favoris.remove(current_favoris)
         else:
-            messages.warning(request, "Cette article ne se trouve pas dans vos favoris.")
+            request.session['message'] = "Cette article ne se trouve pas dans vos favoris."
+            request.session['message_status'] = "warning"
             return redirect('favoris')
         favoris = json.dumps(favoris)
         response = redirect('article', id=id)
         response.set_cookie('favoris', favoris)
-        messages.success(request, "Cette article a été supprimé de vos favoris.")
+        request.session['message'] = "Cette article a été supprimé de vos favoris."
+        request.session['message_status'] = "success"
         return response
 
 def date_list(request):
@@ -396,7 +341,8 @@ def date_list(request):
         dates = Article.objects.values_list('date_art', flat=True).distinct().order_by('-date_art')
     except DatabaseError as error:
         dates = []
-        messages.warning(request,"Erreur de connection á la DB. Revenez plus tard.")
+        request.session['message'] = "Erreur de connection á la DB. Revenez plus tard."
+        request.session['message_status'] = "warning"
         print(f"Database error: {error}")
     return render(request, 'date_list.html', { 'dates' : dates })
 
@@ -405,7 +351,8 @@ def date_list_with_date(request,date):
         articles = Article.objects.filter(date_art=date).order_by('-date_art')
     except DatabaseError as error:
         articles = []
-        messages.error(request, "Erreur de connection á la DB. Revenez plus tard.")
+        request.session['message'] = "Erreur de connection á la DB. Revenez plus tard."
+        request.session['message_status'] = "warning"
         print(f"Database error: {error}")
     return render(request, 'date_list.html', { 'articles': articles, 'date_select': date })
 
@@ -414,12 +361,11 @@ def about(request):
         content = Static.objects.filter(url_sta='about').first()
     except DatabaseError as error:
         content = []
-        messages.warning(request, "Erreur de connection á la DB. Revenez plus tard.")
+        request.session['message'] = "Erreur de connection á la DB. Revenez plus tard. (about)"
+        request.session['message_status'] = "warning"
         print(f"Database error: {error}")
     return render(request, 'about.html', { 'content': content })
 
-# cherche le min/max du champ readtime pour set le min et max dans la page recherche
-# ainsi que les categories
 def get_recherche_context():
     try:
         category = Category.objects.all()
@@ -429,6 +375,8 @@ def get_recherche_context():
         category = []
         max_readtime = 1
         min_readtime = 1
+        request.session['message'] = "Erreur de connection á la DB. Revenez plus tard. (category, readtime)"
+        request.session['message_status'] = "warning"
         print(f"Database error: {error}")
     return { 'category': category, 'max_readtime': max_readtime, 'min_readtime': min_readtime }
 
@@ -494,8 +442,11 @@ def get_recherche_result(request):
                 "total_results": total_articles
             }
             return JsonResponse(data)
-
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON data"}, status=400)
-
     return JsonResponse({"error": "Invalid request method"}, status=405)
+
+def get_session_message(request):
+        message = request.session.pop('message', None)
+        message_status = request.session.pop('message_status', None)
+        return JsonResponse({'message': message, 'message_status': message_status})

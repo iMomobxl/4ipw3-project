@@ -29,6 +29,7 @@ const getArticleDetail = () => {
                 }
             },
             error: function() {
+                showMessage('Failed to fetch article details.', 'warning')
                 console.error('Failed to fetch article details.');
             }
         });

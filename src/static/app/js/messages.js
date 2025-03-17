@@ -14,6 +14,7 @@ const showMessage = (message, type = 'success', duration = 5000) => {
 
     setTimeout(() => {
         $alert.removeClass('showing')
+        $alert.addClass('removing')
         setTimeout(() => {
             $alert.remove()
         }, 500)
