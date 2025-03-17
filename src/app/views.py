@@ -375,8 +375,8 @@ def get_recherche_context():
         category = []
         max_readtime = 1
         min_readtime = 1
-        request.session['message'] = "Erreur de connection á la DB. Revenez plus tard. (category, readtime)"
-        request.session['message_status'] = "warning"
+        # request.session['message'] = "Erreur de connection á la DB. Revenez plus tard. (category, readtime)"
+        # request.session['message_status'] = "warning"
         print(f"Database error: {error}")
     return { 'category': category, 'max_readtime': max_readtime, 'min_readtime': min_readtime }
 

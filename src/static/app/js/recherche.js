@@ -60,6 +60,13 @@ $(document).ready(function () {
 
                 resultsList.empty()
                 resultsHeader.text(`Résultats de la recherche: (${totalResults} articles)`)
+                if (currentPage === 1) {
+                    if (totalResults < 1) {
+                        showMessage(`Pas de résultat avec les critéres fournis`, `warning`)
+                    } else {
+                        showMessage(`Résultats de la recherche: (${totalResults} articles)`)
+                    }
+                }
 
                 if (articles.length === 0) {
                     let item = `<li class='list-group-item'>Aucun résultat trouvé</li>`
@@ -149,6 +156,7 @@ $(document).ready(function () {
     $("#prev-page").on("click", () => {
         if (currentPage > 1) {
             currentPage--
+            showMessage(`Page ${currentPage} de la recherche chargé.`)
             fetchArticles(currentPage)
         }
     })
@@ -156,13 +164,13 @@ $(document).ready(function () {
     $("#next-page").on( "click", () => {
         if (currentPage < totalPages) {
             currentPage++
+            showMessage(`Page ${currentPage} de la recherche chargé.`)
             fetchArticles(currentPage)
         }
     })
 
     $("#reset-button").on("click", (event) => {
         event.preventDefault()
-
         $("#wordTitreArticle").val("")
         $("#wordHookArticle").val("")
         $("#wordContentArticle").val("")
@@ -170,12 +178,14 @@ $(document).ready(function () {
         $("#catArticle").val("0")
         $("#readTimeArticle").val("0")
         $("#nbrArticle").val("10")
+        $("#nbrArticle").removeAttr("disabled")
         $("#triArticle").val("date_art")
         $("#maxNbrArticle").prop("checked", false)
-
+        $("#readTimeBox").text("0")
         $("#results-list").empty()
         $("#results-header").text("")
         $("#pagination-container").hide()
+        showMessage('Reset du formulaire de recherche.')
         removeSearchResults()
     })
 })
