@@ -127,26 +127,26 @@ $(document).ready(function () {
         $("#search-box").addClass("col-lg-6")
     }
 
-    const createPagination = () => {
-        let navPagination = `
-            <nav id="pagination-container" style="display: none;">
-                <ul class="pagination justify-content-center mt-3">
-                    <li class="page-item disabled" id="prev-page">
-                        <a class="page-link icon-link icon-link-hover">
-                            <svg class="bi" aria-hidden="true"><use xlink:href="#arrow-left"></use></svg>
-                            Précédent
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" id="current-page" >1</a></li>
-                    <li class="page-item" id="next-page">
-                        <a class="page-link icon-link icon-link-hover">
-                            Suivant
-                            <svg class="bi" aria-hidden="true"><use xlink:href="#arrow-right"></use></svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>`
-    }
+    // const createPagination = () => {
+    //     let navPagination = `
+    //         <nav id="pagination-container" style="display: none;">
+    //             <ul class="pagination justify-content-center mt-3">
+    //                 <li class="page-item disabled" id="prev-page">
+    //                     <a class="page-link icon-link icon-link-hover">
+    //                         <svg class="bi" aria-hidden="true"><use xlink:href="#arrow-left"></use></svg>
+    //                         Précédent
+    //                     </a>
+    //                 </li>
+    //                 <li class="page-item active"><a class="page-link" id="current-page" >1</a></li>
+    //                 <li class="page-item" id="next-page">
+    //                     <a class="page-link icon-link icon-link-hover">
+    //                         Suivant
+    //                         <svg class="bi" aria-hidden="true"><use xlink:href="#arrow-right"></use></svg>
+    //                     </a>
+    //                 </li>
+    //             </ul>
+    //         </nav>`
+    // }
 
     $("#wordTitreArticle, #wordHookArticle, #wordContentArticle, #dateArticle, #catArticle, #readTimeArticle, #nbrArticle, #triArticle, #maxNbrArticle").on("change", () => {
         currentPage = 1

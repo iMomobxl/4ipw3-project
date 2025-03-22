@@ -13,16 +13,15 @@
             <h2 class="text-center">{{ article.title_art }} </h2>
             {% if request.session.identified %}
             <div class="d-flex justify-content-center">
+                {% csrf_token %}
                 {% if not is_favorite %}
-                <form class="align-self-center" method="POST" id="add_favoris" action="{% url 'add_favoris' article.id_art %} ">
-                    {% csrf_token %}
-                    <button class="btn btn-outline-success" type="submit">Ajout Favoris</button>
-                </form>
+                <button class="btn btn-outline-success" id="add-favoris-btn" data-article-id="{{ article.id_art }}">
+                    Ajout Favoris
+                </button>
                 {% else %}
-                <form class="align-self-center" method="POST" id="del_favoris" action="{% url 'del_favoris' article.id_art %} ">
-                    {% csrf_token %}
-                    <button class="btn btn-outline-danger" type="submit">Supprimer Favoris</button>
-                </form>
+                <button class="btn btn-outline-danger" id="del-favoris-btn" data-article-id="{{ article.id_art }}">
+                    Supprimer Favoris
+                </button>
                 {% endif %}
             </div>
             {% endif %}
@@ -37,6 +36,7 @@
             <p class="py-4 p-article">{{ article.content_art|safe }}</p>
         </article>
     </main>
-
+    <script src="{% static 'app/js/addFavoris.js' %}"></script>
+    <script src="{% static 'app/js/delFavoris.js' %}"></script>
     <script src="{% static 'app/js/imageNotFound.js' %}"></script>
 {% endblock %}

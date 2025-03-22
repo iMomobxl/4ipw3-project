@@ -238,12 +238,10 @@ def favoris(request):
         favoris = json.loads(favoris)
         # vérifie si la personne a fait une requete POST
         if request.method == 'POST':
-            selected_articles = request.POST.getlist('selected_articles')
-
+            selected_articles = request.POST.getlist('selected_articles[]')
             if not selected_articles:
-                request.session['message'] = "Vous n'avez pas selectionné d'article á supprimer."
-                request.session['message_status'] = "warning"
-                return redirect('favoris')
+                message = "Vous n'avez pas sélectionné d'article à supprimer."
+                return JsonResponse({'error': True, 'message': message})
 
             # creer une nouvelle list vide
             updated_favoris = []
@@ -254,11 +252,9 @@ def favoris(request):
             favoris = updated_favoris
 
             favoris_json = json.dumps(favoris)
-            response = redirect('favoris')
+            message = "Les articles sélectionnés ont été supprimés de vos favoris."
+            response = JsonResponse({'success': True, 'message': message})
             response.set_cookie('favoris', favoris_json)
-
-            request.session['message'] = "Les articles sélectionnés ont été supprimés de vos favoris."
-            request.session['message_status'] = "success"
             return response
         else:
             updated_favoris = []
@@ -282,7 +278,6 @@ def add_favoris(request, id):
         return render(request, '404.html', status=404)
     else:
         try:
-            # verifie si l'id de article existe dans la DB
             if not Article.objects.filter(id_art=id).exists():
                 request.session['message'] = f"L'article avec l'ID {id} n'existe pas."
                 request.session['message_status'] = "warning"
@@ -302,14 +297,12 @@ def add_favoris(request, id):
         if current_favoris not in favoris:
             favoris.append(current_favoris)
         else:
-            request.session['message'] = "Cette articles est déjá present dans vos favoris."
-            request.session['message_status'] = "warning"
-            return redirect('favoris')
+            message = "Cette articles est déjá present dans vos favoris."
+            return JsonResponse({'error': True, 'message': message})
         favoris = json.dumps(favoris)
-        response = redirect('article', id=id)
+        message = "Cette articles a été rajouté á vos favoris."
+        response = JsonResponse({'success': True, 'message': message})
         response.set_cookie('favoris', favoris)
-        request.session['message'] = "Cette articles a été rajouté á vos favoris."
-        request.session['message_status'] = "success"
         return response
 
 def del_favoris(request, id):
@@ -326,14 +319,13 @@ def del_favoris(request, id):
         if current_favoris in favoris:
             favoris.remove(current_favoris)
         else:
-            request.session['message'] = "Cette article ne se trouve pas dans vos favoris."
-            request.session['message_status'] = "warning"
-            return redirect('favoris')
+            print("not in favoris")
+            message = "Cette article ne se trouve pas dans vos favoris."
+            return JsonResponse({'error': True, 'message': message})
         favoris = json.dumps(favoris)
-        response = redirect('article', id=id)
+        message = "Cette article a été supprimé de vos favoris."
+        response = JsonResponse({'success': True, 'message': message})
         response.set_cookie('favoris', favoris)
-        request.session['message'] = "Cette article a été supprimé de vos favoris."
-        request.session['message_status'] = "success"
         return response
 
 def date_list(request):
@@ -375,8 +367,6 @@ def get_recherche_context():
         category = []
         max_readtime = 1
         min_readtime = 1
-        # request.session['message'] = "Erreur de connection á la DB. Revenez plus tard. (category, readtime)"
-        # request.session['message_status'] = "warning"
         print(f"Database error: {error}")
     return { 'category': category, 'max_readtime': max_readtime, 'min_readtime': min_readtime }
 
