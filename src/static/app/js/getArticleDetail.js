@@ -1,9 +1,9 @@
-const getArticleDetail = () => {
-    $('#tooltip-bubble').addClass('d-none');
+$(function() {
 
-    $('.article').hover(function(event) {
-        let articleId = $(this).data('article-id');
+    $('#tooltip-bubble').addClass('d-none')
 
+    $('.article-info').hover(function(event) {
+        let articleId = $(this).data('article-id')
         $.ajax({
             url: `/api/article/${articleId}/`,
             type: 'GET',
@@ -29,25 +29,20 @@ const getArticleDetail = () => {
                 }
             },
             error: function() {
-                showMessage('Failed to fetch article details.', 'warning')
-                console.error('Failed to fetch article details.');
+                showMessage('Erreur lors de la mise a jour des preferences.', 'warning')
+                console.error('Erreur lors de la mise a jour des preferences.')
             }
-        });
+        })
     }, function() {
         $('#tooltip-bubble').addClass('d-none').removeAttr("style")
-    });
+    })
 
-    // Update tooltip position as the mouse moves
     $(document).mousemove(function(event) {
         if (!$('#tooltip-bubble').hasClass('d-none')) {
             $('#tooltip-bubble').css({
                 top: event.pageY + 10,
                 left: event.pageX + 10
-            });
+            })
         }
-    });
-}
-
-$(function() {
-    getArticleDetail()
-});
+    })
+})

@@ -6,6 +6,7 @@
 
 {% block content %}
 
+<div class="dynamic-content">
     <main class="d-inline-flex justify-content-center row pt-3">
         <header class="border-primary border-top border-5">
             <br>
@@ -27,7 +28,7 @@
             {% endif %}
             <div class="d-flex justify-content-center pt-5">
                 <figure>
-                    <img src="{% static 'app/media/' %}{{ article.image_art }}" alt="Image de l'article" onerror="imageNotFound(this)" class="img-fluid img-thumbnail">
+                    <img src="{% static 'app/media/' %}{{ article.image_art }}" alt="Image de l'article" class="img-fluid img-thumbnail">
                     <figcaption class="text-center dubai-regular-font">{{ article.date_art }}</figcaption>
                 </figure>
             </div>
@@ -35,8 +36,21 @@
         <article class="pt-2">
             <p class="py-4 p-article">{{ article.content_art|safe }}</p>
         </article>
+
+        <script src="{% static 'app/js/addFavoris.js' %}"></script>
+        <script src="{% static 'app/js/delFavoris.js' %}"></script>
     </main>
-    <script src="{% static 'app/js/addFavoris.js' %}"></script>
-    <script src="{% static 'app/js/delFavoris.js' %}"></script>
-    <script src="{% static 'app/js/imageNotFound.js' %}"></script>
+    <div id="tooltip-bubble" class="tooltip-bubble position-absolute p-2 bg-info bg-opacity-100 text-black rounded">
+        <ul class="list mb-0">
+            {% if request.session.role == 'admin' %}
+                <li><strong>Id:</strong> <span id="tooltip-id"></span></li>
+                <li><strong>Temps de lecture:</strong> <span id="tooltip-readtime"></span>mins</li>
+                <li><strong>Nbr de mots:</strong> <span id="tooltip-nbrwords"></span></li>
+            {% endif %}
+            <li><strong>Date:</strong> <span id="tooltip-date"></span></li>
+            <li><strong>Catégorie:</strong> <span id="tooltip-category"></span></li>
+        </ul>
+    </div>
+</div>
+
 {% endblock %}

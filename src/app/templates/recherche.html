@@ -6,7 +6,7 @@
 
 {% block content %}
 
-    <!-- MAIN -->
+<div class="dynamic-content">
     <main class="d-flex justify-content-center row pt-3">
         <header class="border-primary border-top border-5">
                 <h2 class="text-center pb-4 pt-2 text-danger">Page de recherche</h2>
@@ -39,11 +39,19 @@
                            value="{% if content_art__icontains %}{{ content_art__icontains }}{% endif %}">
                 </div>
             </div>
-            <!-- DATE -->
+            <!-- DATE Min-->
             <div class="row py-2">
-                <label for="dateArticle" class="col-md-5 col-form-label text-center text-md-end">Date:</label>
+                <label for="minDateArticle" class="col-md-5 col-form-label text-center text-md-end">Date min:</label>
                 <div class="col-md-7">
-                    <input type="date" id="dateArticle" name="dateArticle" class="form-control" min="2023-12-01" max="2023-12-31"
+                    <input type="date" id="minDateArticle" name="minDateArticle" class="form-control" min="2023-12-01" max="2023-12-31"
+                        value="{% if date_art %}{{ date_art }}{% endif %}">
+                </div>
+            </div>
+            <!-- DATE Min-->
+            <div class="row py-2">
+                <label for="maxDateArticle" class="col-md-5 col-form-label text-center text-md-end">Date max:</label>
+                <div class="col-md-7">
+                    <input type="date" id="maxDateArticle" name="maxDateArticle" class="form-control" min="2023-12-01" max="2023-12-31"
                         value="{% if date_art %}{{ date_art }}{% endif %}">
                 </div>
             </div>
@@ -114,17 +122,22 @@
                 </ul>
             </nav>
         </div>
+        <script src="{% static 'app/js/getArticleDetail.js' %}"></script>
+        <script src="{% static 'app/js/readTime.js' %}"></script>
+        <script src="{% static 'app/js/recherche.js' %}"></script>
+        <script src="{% static 'app/js/dateArticle.js' %}"></script>
     </main>
-        <div id="tooltip-bubble" class="tooltip-bubble position-absolute p-2 bg-info bg-opacity-100 text-black rounded">
-            <ul class="list mb-0">
-                {% if request.session.role == 'admin' %}
+    <div id="tooltip-bubble" class="tooltip-bubble position-absolute p-2 bg-info bg-opacity-100 text-black rounded">
+        <ul class="list mb-0">
+            {% if request.session.role == 'admin' %}
                 <li><strong>Id:</strong> <span id="tooltip-id"></span></li>
                 <li><strong>Temps de lecture:</strong> <span id="tooltip-readtime"></span>mins</li>
                 <li><strong>Nbr de mots:</strong> <span id="tooltip-nbrwords"></span></li>
-                {% endif %}
-                <li><strong>Date:</strong> <span id="tooltip-date"></span></li>
-                <li><strong>Catégorie:</strong> <span id="tooltip-category"></span></li>
-            </ul>
-        </div>
-    <script src="{% static 'app/js/readtime.js' %}"></script>
+            {% endif %}
+            <li><strong>Date:</strong> <span id="tooltip-date"></span></li>
+            <li><strong>Catégorie:</strong> <span id="tooltip-category"></span></li>
+        </ul>
+    </div>
+</div>
+
 {% endblock %}

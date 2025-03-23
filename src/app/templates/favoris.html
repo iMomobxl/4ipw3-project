@@ -6,49 +6,50 @@
 
 {% block content %}
 
-<main class="d-flex justify-content-center row pt-3">
-    <header class="border-primary border-top border-5" id="favoris-header">
-        <h2 class="text-center pb-4 pt-2 text-danger">Vos favoris</h2>
+<div class="dynamic-content">
+    <main class="d-flex justify-content-center row pt-3">
+        <header class="border-primary border-top border-5" id="favoris-header">
+            <h2 class="text-center pb-4 pt-2 text-danger">Vos favoris</h2>
+            {% if articles %}
+                <h3 class="text-center my-2" id="nbrArticle">Nombre d'article: {{ articles|length }}</h3>
+            {% endif %}
+        </header>
         {% if articles %}
-            <h3 class="text-center my-2" id="nbrArticle">Nombre d'article: {{ articles|length }}</h3>
+            <div class="col-11 col-lg-8" id="favoris-main-list">
+                <form id="favoris-form">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" id="delete-favoris-btn" class="btn btn-outline-primary my-3 align-items-center">Supprimer article selectionné</button>
+                    </div>
+                    <ul class="list-group" id="favoris-list">
+                        {% for article in articles %}
+                            <li class="list-group-item list-group-item-action">
+                                <div class="d-flex align-items-center">
+                                <input class="mx-3" type="checkbox" name="selected_articles" value="{{ article.id_art }}"/>
+                                <a href="{% url 'article' article.id_art %}" target="_self" class="article article-info" data-article-id="{{ article.id_art }}">{{ article.title_art }}</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </form>
+            </div>
+        {% else %}
+            <h3 class="text-center">Aucun article dans vos favoris</h3>
         {% endif %}
-    </header>
-    {% if articles %}
-        <div class="col-11 col-lg-8" id="favoris-main-list">
-            <form id="favoris-form">
-                {% csrf_token %}
-                <div class="d-flex justify-content-center">
-                    <button type="submit" id="delete-favoris-btn" class="btn btn-outline-primary my-3 align-items-center">Supprimer article selectionné</button>
-                </div>
-                <ul class="list-group" id="favoris-list">
-                    {% for article in articles %}
-                        <li class="list-group-item list-group-item-action">
-                            <div class="d-flex align-items-center">
-                            <input class="mx-3" type="checkbox" name="selected_articles" value="{{ article.id_art }}"/>
-                            <a href="{% url 'article' article.id_art %}" target="_self" class="article" data-article-id="{{ article.id_art }}">{{ article.title_art }}</a>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </form>
-        </div>
-    {% else %}
-        <h3 class="text-center">Aucun article dans vos favoris</h3>
-    {% endif %}
-</main>
-
-<div id="tooltip-bubble" class="tooltip-bubble position-absolute p-2 bg-info bg-opacity-100 text-black rounded">
-    <ul class="list mb-0">
-        {% if request.session.role == 'admin' %}
-            <li><strong>Id:</strong> <span id="tooltip-id"></span></li>
-            <li><strong>Temps de lecture:</strong> <span id="tooltip-readtime"></span>mins</li>
-            <li><strong>Nbr de mots:</strong> <span id="tooltip-nbrwords"></span></li>
-        {% endif %}
-        <li><strong>Date:</strong> <span id="tooltip-date"></span></li>
-        <li><strong>Catégorie:</strong> <span id="tooltip-category"></span></li>
-    </ul>
+        <script src="{% static 'app/js/favoris.js' %}"></script>
+        <script src="{% static 'app/js/getArticleDetail.js' %}"></script>
+    </main>
+    <div id="tooltip-bubble" class="tooltip-bubble position-absolute p-2 bg-info bg-opacity-100 text-black rounded">
+        <ul class="list mb-0">
+            {% if request.session.role == 'admin' %}
+                <li><strong>Id:</strong> <span id="tooltip-id"></span></li>
+                <li><strong>Temps de lecture:</strong> <span id="tooltip-readtime"></span>mins</li>
+                <li><strong>Nbr de mots:</strong> <span id="tooltip-nbrwords"></span></li>
+            {% endif %}
+            <li><strong>Date:</strong> <span id="tooltip-date"></span></li>
+            <li><strong>Catégorie:</strong> <span id="tooltip-category"></span></li>
+        </ul>
+    </div>
 </div>
-
-<script src="{% static 'app/js/favoris.js' %}"></script>
 
 {% endblock %}

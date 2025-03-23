@@ -5,28 +5,31 @@
 {% block title %}4IPDW - Login{% endblock %}
 
 {% block content %}
-<main class="d-flex justify-content-center row pt-3">
-    <header class="border-primary border-top border-5">
-        <h2 class="text-center pb-4 pt-2 text-danger">Login</h2>
-    </header>
-    <div class="col-md-6">
-        <form method="post" id="login" action="{% url 'login' %}">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <div class="form-group text-center">
-                <button type="submit" class="btn btn-primary btn-block mt-4">
-                    Login
-                </button>
-            </div>
-        </form>
-    </div>
-</main>
+
+<div class="dynamic-content">
+    <main class="d-flex justify-content-center row pt-3">
+        <header class="border-primary border-top border-5">
+            <h2 class="text-center pb-4 pt-2 text-danger">Login</h2>
+        </header>
+        <div class="col-md-6">
+            <form method="post" id="login" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary btn-block mt-4">
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
 
 {% endblock %}

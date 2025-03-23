@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
     let currentPage = 1
     let totalPages = 1
     const articlesPerPage = 10
@@ -8,7 +8,8 @@ $(document).ready(function () {
         const wordTitreArticle = $("#wordTitreArticle").val()
         const wordHookArticle = $("#wordHookArticle").val()
         const wordContentArticle = $("#wordContentArticle").val()
-        const dateArticle = $("#dateArticle").val()
+        const minDateArticle = $("#minDateArticle").val()
+        const maxDateArticle = $("#maxDateArticle").val()
         let catArticle = $("#catArticle").val()
         if (catArticle === '0')
             catArticle = ''
@@ -24,7 +25,8 @@ $(document).ready(function () {
         console.log(`titre: ${wordTitreArticle}`)
         console.log(`hook: ${wordHookArticle}`)
         console.log(`content: ${wordContentArticle}`)
-        console.log(`date: ${dateArticle}`)
+        console.log(`date-min: ${minDateArticle}`)
+        console.log(`date-max: ${maxDateArticle}`)
         console.log(`category: ${catArticle}`)
         console.log(`readtime: ${readTimeArticle}`)
         console.log(`triArticle: ${triArticle}`)
@@ -34,7 +36,8 @@ $(document).ready(function () {
             'wordTitleArticle': wordTitreArticle,
             'wordHookArticle': wordHookArticle,
             'wordContentArticle': wordContentArticle,
-            'dateArticle': dateArticle,
+            'minDateArticle': minDateArticle,
+            'maxDateArticle': maxDateArticle,
             'catArticle': catArticle,
             'readTimeArticle': readTimeArticle,
             'triArticle': triArticle,
@@ -54,7 +57,6 @@ $(document).ready(function () {
                 let articles = response.articles
                 let totalResults = response.total_results
                 totalPages = response.total_pages
-                console.log(totalPages)
                 let resultsList = $("#results-list")
                 let resultsHeader = $("#results-header")
 
@@ -76,11 +78,11 @@ $(document).ready(function () {
 
                     articles.forEach(article => {
                         let shortTitle = article.title.length > 90 ? article.title.substring(0, 87) + "..." : article.title;
-                        let listItem = `<a class="mb-2 rounded-2 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-0-hover" 
+                        let listItem = `<a class="article article-info mb-2 rounded-2 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-0-hover" 
                                                   href="/article/${article.id}" 
+                                                  data-article-id="${article.id}"
                                                   target="_self">
-                                                    <li class="list-group-item article" 
-                                                        data-article-id="${article.id}">
+                                                    <li class="list-group-item article article-info">
                                                             <strong>${counter}</strong> - ${shortTitle}
                                                     </li>
                                                </a>`
@@ -98,7 +100,6 @@ $(document).ready(function () {
                     $("#prev-page").toggleClass("disabled", currentPage === 1)
                     $("#next-page").toggleClass("disabled", currentPage >= totalPages)
                 }
-                getArticleDetail()
             },
             error: () => {
                 console.error("Erreur lors de la récupération des résultats")
@@ -116,6 +117,7 @@ $(document).ready(function () {
             $("#search-box").after(searchResults)
         }
         const searchBox = $("#search-box")
+        // met a jour les proprietes bootstrap
         searchBox.removeClass("col-lg-6")
         searchBox.addClass("col-lg-4")
 
@@ -127,28 +129,7 @@ $(document).ready(function () {
         $("#search-box").addClass("col-lg-6")
     }
 
-    // const createPagination = () => {
-    //     let navPagination = `
-    //         <nav id="pagination-container" style="display: none;">
-    //             <ul class="pagination justify-content-center mt-3">
-    //                 <li class="page-item disabled" id="prev-page">
-    //                     <a class="page-link icon-link icon-link-hover">
-    //                         <svg class="bi" aria-hidden="true"><use xlink:href="#arrow-left"></use></svg>
-    //                         Précédent
-    //                     </a>
-    //                 </li>
-    //                 <li class="page-item active"><a class="page-link" id="current-page" >1</a></li>
-    //                 <li class="page-item" id="next-page">
-    //                     <a class="page-link icon-link icon-link-hover">
-    //                         Suivant
-    //                         <svg class="bi" aria-hidden="true"><use xlink:href="#arrow-right"></use></svg>
-    //                     </a>
-    //                 </li>
-    //             </ul>
-    //         </nav>`
-    // }
-
-    $("#wordTitreArticle, #wordHookArticle, #wordContentArticle, #dateArticle, #catArticle, #readTimeArticle, #nbrArticle, #triArticle, #maxNbrArticle").on("change", () => {
+    $("#wordTitreArticle, #wordHookArticle, #wordContentArticle, #minDateArticle, #maxDateArticle, #catArticle, #readTimeArticle, #nbrArticle, #triArticle, #maxNbrArticle").on("change", () => {
         currentPage = 1
         fetchArticles(currentPage)
     })
@@ -174,7 +155,8 @@ $(document).ready(function () {
         $("#wordTitreArticle").val("")
         $("#wordHookArticle").val("")
         $("#wordContentArticle").val("")
-        $("#dateArticle").val("")
+        $("#minDateArticle").val("")
+        $("#maxDateArticle").val("")
         $("#catArticle").val("0")
         $("#readTimeArticle").val("0")
         $("#nbrArticle").val("10")

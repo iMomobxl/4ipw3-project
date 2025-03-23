@@ -37,10 +37,12 @@ $(function () {
                     }
                 } else if (response.error) {
                     showMessage(response.message, "warning")
+                    console.error(response.message)
                 }
             },
             error: function () {
                 showMessage("Erreur lors de la suppression des favoris", "warning")
+                console.error("Erreur lors de la suppression des favoris")
             }
         })
     })

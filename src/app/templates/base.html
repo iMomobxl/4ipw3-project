@@ -34,14 +34,29 @@
     <div id="ajax-messages"></div>
     <!-- HEADER -->
     <header class="row border-bottom p-lg-3 sticky-top bg-white rounded-bottom">
-        <!-- BURGER MENU -->
-        <nav class="col-2 col-md-1 order-sm-first navbar">
-            <div class="container">
-                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-        </nav>
+        <div class="align-self-center col-md-1 order-sm-first dropdown">
+            <button class="navbar-toggler border border-primary border-2 rounded" type="button"
+                    id="burgerDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-start border border-primary border-2"
+                aria-labelledby="burgerDropdown">
+                {% for item in menu_items %}
+                    {% if item.access == 'admin' and request.session.role == 'admin' %}
+                        <li><a class="dropdown-item text-center dubai-regular-font" href="/{{ item.id }}/">{{ item.name }}</a></li>
+                    {% elif item.access == 'user' and request.session.role == 'user' or request.session.role == 'admin' %}
+                        <li><a class="dropdown-item text-center dubai-regular-font" href="/{{ item.id }}/">{{ item.name }}</a></li>
+                    {% elif item.access == 'all' %}
+                        {% if item.id != 'login' %}
+                            <li><a class="dropdown-item text-center dubai-regular-font" href="/{{ item.id }}/">{{ item.name }}</a></li>
+                        {% elif not request.session.identified %}
+                            <li><a class="dropdown-item text-center dubai-regular-font" href="/{{ item.id }}/">{{ item.name }}</a></li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
         <!-- LOGO EL UNIVERSALE -->
         <a class="col-4 col-md-3 col-lg-3 align-self-center border-start" href="{% url 'home' %}" target="_self">
             <picture>
@@ -54,10 +69,10 @@
             <div class="d-flex">
                 <!-- Partie à gauche dans le div-->
                 <ul class="nav flex-fill dubai-regular-font">
-                    <li><a class="nav-link link-secondary" href="{% url 'home' %}" target="_self">Acceuil</a></li>
-                    <li><a class="nav-link link-secondary" href="{% url 'recherche' %}" target="_self">Recherche</a></li>
-                    <li><a class="nav-link link-secondary" href="{% url 'about' %}" target="_self">A propos</a></li>
-                    <li><a class="nav-link link-secondary" href="{% url 'sponsors' %}" target="_self">Sponsors</a></li>
+                    <li><a class="nav-link link-secondary dynamic-link" href="{% url 'home' %}" target="_self">Acceuil</a></li>
+                    <li><a class="nav-link link-secondary dynamic-link" href="{% url 'recherche' %}" target="_self">Recherche</a></li>
+                    <li><a class="nav-link link-secondary dynamic-link" href="{% url 'about' %}" target="_self">A propos</a></li>
+                    <li><a class="nav-link link-secondary dynamic-link" href="{% url 'sponsors' %}" target="_self">Sponsors</a></li>
                 </ul>
                 <!-- Partie à droite dans le div -->
                 <ul class="nav flex-fill dubai-regular-font justify-content-end">
@@ -115,12 +130,9 @@
         {% endif %}
     </header>
 
+    {% block content %}
 
-
-{% block content %}
-
-{% endblock %}
-
+    {% endblock %}
 
     <!-- FOOTER -->
     <footer class="row pt-5">
@@ -150,11 +162,11 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous">
     </script>
-    <script src="{% static 'app/js/messages.js' %}"></script>
-    <script src="{% static 'app/js/userPreference.js' %}"></script>
-    <script src="{% static 'app/js/recherche.js' %}"></script>
-    <script src="{% static 'app/js/detailArticle.js' %}"></script>
+
+    <script src="{% static 'app/js/dynamicLoader.js' %}"></script>
     <script src="{% static 'app/js/getMessage.js' %}"></script>
+    <script src="{% static 'app/js/showMessages.js' %}"></script>
+
 </body>
 
 </html>

@@ -6,118 +6,118 @@
 
 {% block content %}
 
-<main class="d-flex justify-content-center row pt-3">
-    <header class="border-primary border-top border-5">
-        <h2 class="text-center pb-4 pt-2 text-danger">Votre page utilisateur</h2>
-    </header>
-    {% if request.session.role == 'admin' %}
-    <div class="row text-center py-3 d-flex justify-content-center">
-        <div class="border border-dark col-md-11 col-lg-6">
-            <h3>Sessions:</h3>
-            {% for key, value in request.session.items %}
-                <ul>
-                    <li>{{ key }}: {{ value }}</li>
-                </ul>
-            {% endfor %}
-        </div>
-        <div class="border border-dark col-md-11 col-lg-6">
-            <h3>Cookies:</h3>
-            {% for key, value in request.COOKIES.items %}
-                <ul>
-                    <li>{{ key }}: {{ value }}</li>
-                </ul>
-            {% endfor %}
-        </div>
-    </div>
-    <hr>
-    {% endif %}
-    <div class="col-11 col-md-10 col-lg-8 border border-dark">
-        <div class="d-flex justify-content-center">
-            <form class="col-8" method="POST" id="user_style" action="{% url 'user' %}">
-                {% csrf_token %}
-                <!-- Font Color -->
-                <div class="row py-2">
-                    <label for="font_color" class="col-12 col-md-6 col-form-label text-center text-md-end">Font Color:</label>
-                    <div class="col-12 col-md-6">
-                        <select class="form-select" id="font_color" name="font_color">
-                            <option value="black" {% if request.session.font_color == 'black' %}selected{% endif %}>Black</option>
-                            <option value="blue" {% if request.session.font_color == 'blue' %}selected{% endif %}>Blue</option>
-                            <option value="red" {% if request.session.font_color == 'red' %}selected{% endif %}>Red</option>
-                            <option value="green" {% if request.session.font_color == 'green' %}selected{% endif %}>Green</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row py-2">
-                    <label for="border_style" class="col-12 col-md-6 col-form-label text-center text-md-end">Border Style:</label>
-                    <div class="col-12 col-md-6">
-                        <select class="form-select" id="border_style" name="border_style">
-                            <option value="none" {% if request.session.border_style == 'none' %}selected{% endif %}>None</option>
-                            <option value="thin" {% if request.session.border_style == 'thin' %}selected{% endif %}>Thin</option>
-                            <option value="thick" {% if request.session.border_style == 'thick' %}selected{% endif %}>Thick</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row py-2">
-                    <label for="background_color" class="col-12 col-md-6 col-form-label text-center text-md-end">Theme:</label>
-                    <div class="col-12 col-md-6">
-                        <select class="form-select" id="background_color" name="background_color">
-                            <option value="whitesmoke" {% if request.session.background_color == 'whitesmoke' %}selected{% endif %}>Default</option>
-                            <option value="yellow" {% if request.session.background_color == 'yellow' %}selected{% endif %}>Yellow</option>
-                            <option value="coral" {% if request.session.background_color == 'coral' %}selected{% endif %}>Rose</option>
-                            <option value="darkblue" {% if request.session.background_color == 'darkblue' %}selected{% endif %}>Blue</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row py-2">
-                    <label for="home_category" class="col-12 col-md-6 col-form-label text-center text-md-end">Home Articles</label>
-                    <div class="col-12 col-md-6">
-                        <select class="form-select" id="home_category" name="home_category">
-                            {% for cat in category %}
-                                <option value="{{ cat.id_cat }}" {% if request.session.home_category|default:"146" == cat.id_cat|stringformat:"s" %} selected {% endif %}>{{ cat.name_cat }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-            <!--    <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-outline-primary">Update preferences</button>
-                </div>-->
-            </form>
-        </div>
-        <hr></hr>
-        <form method="POST" id="logout" action="{% url 'user' %}">
-            {% csrf_token %}
-            <div class="form-group text-center">
-                <button type="submit" class="btn btn-outline-danger btn-block mt-4">
-                    Logout*
-                </button>
-                <br>
-                <br>
-                <h4>*Attention cela supprimera vos préferences d'affichage</h4>
+<div class="dynamic-content">
+    <main class="d-flex justify-content-center row pt-3">
+        <header class="border-primary border-top border-5">
+            <h2 class="text-center pb-4 pt-2 text-danger">Votre page utilisateur</h2>
+        </header>
+        {% if request.session.role == 'admin' %}
+        <div class="row text-center py-3 d-flex justify-content-center">
+            <div class="border border-dark col-md-11 col-lg-6">
+                <h3>Sessions:</h3>
+                {% for key, value in request.session.items %}
+                    <ul>
+                        <li>{{ key }}: {{ value }}</li>
+                    </ul>
+                {% endfor %}
             </div>
-        </form>
-    </div>
-    <br>
-    {% if request.session.role == 'admin' %}
-        <div class="d-none d-sm-block col-md-12 col-lg-8 border border-dark d-flex row justify-content-center text-center mt-4 py-4">
-            {% if about %}
-            <h3>Modification de la page "{{ about.title_sta }}" (database):</h3>
-            <div class="">
-                <form class="form-group" action="{% url 'user' %}" method="POST">
+            <div class="border border-dark col-md-11 col-lg-6">
+                <h3>Cookies:</h3>
+                {% for key, value in request.COOKIES.items %}
+                    <ul>
+                        <li>{{ key }}: {{ value }}</li>
+                    </ul>
+                {% endfor %}
+            </div>
+        </div>
+        <hr>
+        {% endif %}
+        <div class="col-11 col-md-10 col-lg-8 border border-dark">
+            <div class="d-flex justify-content-center">
+                <form class="col-8" method="POST" id="user_style" action="{% url 'user' %}">
                     {% csrf_token %}
-                    <label for="about"></label>
-                    <textarea id="about" name="about" class="form-control" rows="30">
-                        {{ about.content_sta }}
-                    </textarea>
-                    <button type="submit" class="btn btn-outline-primary btn-block mt-4">
-                        Modifier About
-                    </button>
+                    <!-- Font Color -->
+                    <div class="row py-2">
+                        <label for="font_color" class="col-12 col-md-6 col-form-label text-center text-md-end">Font Color:</label>
+                        <div class="col-12 col-md-6">
+                            <select class="form-select" id="font_color" name="font_color">
+                                <option value="black" {% if request.session.font_color == 'black' %}selected{% endif %}>Black</option>
+                                <option value="blue" {% if request.session.font_color == 'blue' %}selected{% endif %}>Blue</option>
+                                <option value="red" {% if request.session.font_color == 'red' %}selected{% endif %}>Red</option>
+                                <option value="green" {% if request.session.font_color == 'green' %}selected{% endif %}>Green</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <label for="border_style" class="col-12 col-md-6 col-form-label text-center text-md-end">Border Style:</label>
+                        <div class="col-12 col-md-6">
+                            <select class="form-select" id="border_style" name="border_style">
+                                <option value="none" {% if request.session.border_style == 'none' %}selected{% endif %}>None</option>
+                                <option value="thin" {% if request.session.border_style == 'thin' %}selected{% endif %}>Thin</option>
+                                <option value="thick" {% if request.session.border_style == 'thick' %}selected{% endif %}>Thick</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <label for="background_color" class="col-12 col-md-6 col-form-label text-center text-md-end">Theme:</label>
+                        <div class="col-12 col-md-6">
+                            <select class="form-select" id="background_color" name="background_color">
+                                <option value="whitesmoke" {% if request.session.background_color == 'whitesmoke' %}selected{% endif %}>Default</option>
+                                <option value="yellow" {% if request.session.background_color == 'yellow' %}selected{% endif %}>Yellow</option>
+                                <option value="coral" {% if request.session.background_color == 'coral' %}selected{% endif %}>Rose</option>
+                                <option value="darkblue" {% if request.session.background_color == 'darkblue' %}selected{% endif %}>Blue</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <label for="home_category" class="col-12 col-md-6 col-form-label text-center text-md-end">Home Articles</label>
+                        <div class="col-12 col-md-6">
+                            <select class="form-select" id="home_category" name="home_category">
+                                {% for cat in category %}
+                                    <option value="{{ cat.id_cat }}" {% if request.session.home_category|default:"146" == cat.id_cat|stringformat:"s" %} selected {% endif %}>{{ cat.name_cat }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
                 </form>
             </div>
-            {% else %}
-                <h3>Erreur connection á la table t_static</h3>
-            {% endif %}
-    </div>
-    {% endif %}
-</main>
+            <hr>
+            <form method="POST" id="logout" action="{% url 'user' %}">
+                {% csrf_token %}
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-outline-danger btn-block mt-4">
+                        Logout*
+                    </button>
+                    <br>
+                    <br>
+                    <h4>*Attention cela supprimera vos préferences d'affichage</h4>
+                </div>
+            </form>
+        </div>
+        <br>
+        {% if request.session.role == 'admin' %}
+            <div class="d-none d-sm-block col-md-12 col-lg-8 border border-dark d-flex row justify-content-center text-center mt-4 py-4">
+                {% if about %}
+                <h3>Modification de la page "{{ about.title_sta }}" (database):</h3>
+                <div class="">
+                    <form class="form-group" action="{% url 'user' %}" method="POST">
+                        {% csrf_token %}
+                        <label for="about"></label>
+                        <textarea id="about" name="about" class="form-control" rows="30">
+                            {{ about.content_sta }}
+                        </textarea>
+                        <button type="submit" class="btn btn-outline-primary btn-block mt-4">
+                            Modifier About
+                        </button>
+                    </form>
+                </div>
+                {% else %}
+                    <h3>Erreur connection á la table t_static</h3>
+                {% endif %}
+        </div>
+        {% endif %}
+        <script src="{% static 'app/js/userPreference.js' %}"></script>
+    </main>
+</div>
 
 {% endblock %}

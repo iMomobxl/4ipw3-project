@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
+from django.utils.dateparse import parse_date
 from django.http import HttpResponse, JsonResponse
 from django.db import DatabaseError, connection
 from django.db.models import Min, Max
 from django.core.paginator import Paginator
+from django.conf import settings
 from .models import Category, Article, Static
-import requests, json
+import requests, json, os
 from pprint import pformat
 
 def home(request):
@@ -16,6 +17,10 @@ def home(request):
         favoris = json.loads(favoris)
         user_name = request.session.get('name')
         for article in articles:
+            # check si le fichier de l'image existe
+            image_path = os.path.join(settings.BASE_DIR, 'static', 'app', 'media', article.image_art)
+            if not os.path.isfile(image_path):
+                article.image_art = 'default.jpg'
             article.is_favorite = any(item['id_art'] == str(article.id_art) and item['name'] == user_name for item in favoris)
     except DatabaseError as error:
         articles = []
@@ -26,6 +31,9 @@ def home(request):
 def article(request, id):
     try:
         article = get_object_or_404(Article,id_art=id)
+        image_path = os.path.join(settings.BASE_DIR, 'static', 'app', 'media', article.image_art)
+        if not os.path.isfile(image_path):
+            article.image_art = 'default.jpg'
         favoris = request.COOKIES.get('favoris', '[]')
         favoris = json.loads(favoris)
         user_name = request.session.get('name')
@@ -144,7 +152,6 @@ def login(request):
             response = requests.post(uri)
             if response.status_code == 200:
                 data = response.json()
-                print(data)
                 if data.get('identified'):
                     request.session['identified'] = data.get('identified')
                     request.session['name'] = data.get('name')
@@ -187,7 +194,8 @@ def user(request):
         elif 'home_category' in request.POST:
             home_category = request.POST.get('home_category', 146)
             request.session['home_category'] = home_category
-            message = "Categorie modifié: " + home_category
+            category = Category.objects.get(id_cat=home_category)
+            message = "Categorie modifié a '" + category.name_cat + "'"
             return JsonResponse({'success': True, 'message': message})
 
         else:
@@ -393,7 +401,8 @@ def get_recherche_result(request):
             wordTitleArticle = request.POST.get("wordTitleArticle", None)
             wordHookArticle = request.POST.get("wordHookArticle", None)
             wordContentArticle = request.POST.get("wordContentArticle", None)
-            dateArticle = request.POST.get("dateArticle", None)
+            minDateArticle = request.POST.get("minDateArticle", None)
+            maxDateArticle = request.POST.get("maxDateArticle", None)
             catArticle = request.POST.get("catArticle", None)
             readTimeArticle = request.POST.get("readTimeArticle", None)
             maxNbrArticle = request.POST.get("maxNbrArticle", "false").lower() == "true"
@@ -409,8 +418,17 @@ def get_recherche_result(request):
                 param_search["hook_art__icontains"] = wordHookArticle
             if wordContentArticle:
                 param_search["content_art__icontains"] = wordContentArticle
-            if dateArticle:
-                param_search["date_art"] = dateArticle
+
+            if minDateArticle and maxDateArticle:
+                if minDateArticle == maxDateArticle:
+                    param_search["date_art"] = parse_date(minDateArticle)
+                else:
+                    param_search["date_art__range"] = (parse_date(minDateArticle), parse_date(maxDateArticle))
+            elif minDateArticle:
+                param_search["date_art__gte"] = parse_date(minDateArticle)
+            elif maxDateArticle:
+                param_search["date_art__lte"] = parse_date(maxDateArticle)
+
             if catArticle:
                 param_search["fk_category_art"] = catArticle
             if readTimeArticle:
@@ -421,7 +439,8 @@ def get_recherche_result(request):
             else:
                 nbrArticle = int(nbrArticle)
 
-            articles = Article.objects.filter(**param_search).order_by(triArticle)[:nbrArticle]
+            articles = Article.objects.filter(**param_search).order_by(triArticle, "ident_art")[:nbrArticle]
+            # print(articles.query)
             total_articles = articles.count()
             paginator = Paginator(articles, 10)
             articles = paginator.get_page(page)

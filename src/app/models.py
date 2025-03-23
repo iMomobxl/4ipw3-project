@@ -13,6 +13,7 @@ class Category(models.Model):
 
 class Article(models.Model):
     id_art = models.AutoField(primary_key=True)
+    ident_art = models.IntegerField(null=True, blank=True)
     date_art = models.DateField(null=True, blank=True)
     title_art = models.CharField(max_length=128)
     fk_category_art = models.ForeignKey(Category, db_column='fk_category_art', on_delete=models.CASCADE)

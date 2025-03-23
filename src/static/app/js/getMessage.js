@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
         $.ajax({
             url: "/api/get-session-message/",
             type: "GET",

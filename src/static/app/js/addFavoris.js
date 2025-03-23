@@ -18,10 +18,12 @@ $(function () {
                     addFavorisBtn.attr('id', 'del-favoris-btn')
                 } else if (response.error) {
                     showMessage(response.message, "warning")
+                    console.error(response.message)
                 }
             },
             error: function () {
                 showMessage("Une erreur est survenue lors de l'ajout aux favoris.", "warning")
+                console.error("Une erreur est survenue lors de l'ajout aux favoris.")
             }
         })
     })

@@ -11,7 +11,6 @@ $(function() {
 
     $('#home_category').on('change', function() {
         const home_category = $(this).val()
-        console.log(`category updated to: ${home_category}`)
         updatePreferences('home_category', home_category)
     })
 
@@ -46,13 +45,13 @@ $(function() {
                         showMessage(response.message, 'success')
                     }
                 } else {
-                    showMessage('Failed to update preferences.', 'warning');
-                    console.log('Failed to update preferences')
+                    showMessage('Erreur lors de la mise a jour des preferences.', 'warning');
+                    console.error('Erreur lors de la mise a jour des preferences.')
                 }
             },
             error: function() {
-                showMessage('Error updating preferences.', 'warning');
-                console.log('Error updating preferences')
+                showMessage('Erreur lors de la mise a jour des preferences.', 'warning');
+                console.error('Erreur lors de la mise a jour des preferences.')
             }
         })
     }

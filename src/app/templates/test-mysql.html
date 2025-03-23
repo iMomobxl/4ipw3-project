@@ -6,38 +6,40 @@
 
 {% block content %}
 
-<main class="d-flex justify-content-center row pt-3">
-    <header class="border-primary border-top border-5">
-        <h2 class="text-center pb-4 pt-2 text-danger">Test MySQL</h2>
-    </header>
+<div class="dynamic-content">
+    <main class="d-flex justify-content-center row pt-3">
+        <header class="border-primary border-top border-5">
+            <h2 class="text-center pb-4 pt-2 text-danger">Test MySQL</h2>
+        </header>
 
-    {% for table, columns in tables_info.items %}
-    <h1>Nom de la table: {{ table }}</h1>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Champ</th>
-                    <th>Type</th>
-                    <th>Null</th>
-                    <th>Key</th>
-                    <th>Default</th>
-                    <th>Extra</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for column in columns %}
+        {% for table, columns in tables_info.items %}
+        <h1>Nom de la table: {{ table }}</h1>
+            <table class="table table-bordered">
+                <thead>
                     <tr>
-                        <td>{{ column.0 }}</td>
-                        <td>{{ column.1 }}</td>
-                        <td>{{ column.2 }}</td>
-                        <td>{{ column.3 }}</td>
-                        <td>{{ column.4 }}</td>
-                        <td>{{ column.5 }}</td>
+                        <th>Champ</th>
+                        <th>Type</th>
+                        <th>Null</th>
+                        <th>Key</th>
+                        <th>Default</th>
+                        <th>Extra</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endfor %}
-</main>
+                </thead>
+                <tbody>
+                    {% for column in columns %}
+                        <tr>
+                            <td>{{ column.0 }}</td>
+                            <td>{{ column.1 }}</td>
+                            <td>{{ column.2 }}</td>
+                            <td>{{ column.3 }}</td>
+                            <td>{{ column.4 }}</td>
+                            <td>{{ column.5 }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    </main>
+</div>
 
 {% endblock %}
