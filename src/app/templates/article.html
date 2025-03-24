@@ -40,17 +40,6 @@
         <script src="{% static 'app/js/addFavoris.js' %}"></script>
         <script src="{% static 'app/js/delFavoris.js' %}"></script>
     </main>
-    <div id="tooltip-bubble" class="tooltip-bubble position-absolute p-2 bg-info bg-opacity-100 text-black rounded">
-        <ul class="list mb-0">
-            {% if request.session.role == 'admin' %}
-                <li><strong>Id:</strong> <span id="tooltip-id"></span></li>
-                <li><strong>Temps de lecture:</strong> <span id="tooltip-readtime"></span>mins</li>
-                <li><strong>Nbr de mots:</strong> <span id="tooltip-nbrwords"></span></li>
-            {% endif %}
-            <li><strong>Date:</strong> <span id="tooltip-date"></span></li>
-            <li><strong>Catégorie:</strong> <span id="tooltip-category"></span></li>
-        </ul>
-    </div>
 </div>
 
 {% endblock %}
