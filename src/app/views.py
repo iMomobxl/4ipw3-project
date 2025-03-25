@@ -383,6 +383,10 @@ def get_article_details(request, article_id):
         article = Article.objects.get(id_art=article_id)
         category_name = article.fk_category_art.name_cat
         nbr_words = len(article.content_art.split())
+        favoris = request.COOKIES.get('favoris', '[]')
+        favoris = json.loads(favoris)
+        user_name = request.session.get('name', None)
+        article.is_favoris = any(item['id_art'] == str(article.id_art) and item['name'] == user_name for item in favoris)
         data = {
             'id': article.id_art,
             'title': article.title_art,
@@ -390,6 +394,7 @@ def get_article_details(request, article_id):
             'category': category_name,
             'readtime': article.readtime_art,
             'nbr_words': nbr_words,
+            'favoris': article.is_favoris,
         }
         return JsonResponse(data)
     except Article.DoesNotExist:
@@ -440,7 +445,7 @@ def get_recherche_result(request):
                 nbrArticle = int(nbrArticle)
 
             articles = Article.objects.filter(**param_search).order_by(triArticle, "ident_art")[:nbrArticle]
-            # print(articles.query)
+            print(articles.query)
             total_articles = articles.count()
             paginator = Paginator(articles, 10)
             articles = paginator.get_page(page)

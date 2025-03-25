@@ -14,12 +14,18 @@ const getArticleDetail = () => {
                     console.log('Category:', response.category)
                     console.log('ReadTime:', response.readtime)
                     console.log('Words:', response.nbr_words)
+                    console.log('Favoris:', response.favoris)
                     $('#tooltip-id').text(response.id)
                     $('#tooltip-date').text(response.date)
                     $('#tooltip-title').text(response.title)
                     $('#tooltip-category').text(response.category)
                     $('#tooltip-readtime').text(response.readtime)
                     $('#tooltip-nbrwords').text(response.nbr_words)
+                    if (response.favoris === true) {
+                        $('#tooltip-favoris').text("oui")
+                    } else {
+                        $('#tooltip-favoris').text("non")
+                    }
 
                     $('#tooltip-bubble').removeClass('d-none').css({
                         top: event.pageY + 10,
@@ -36,9 +42,10 @@ const getArticleDetail = () => {
         $('#tooltip-bubble').addClass('d-none').removeAttr("style")
     })
 
-    $(document).mousemove(function (event) {
-        if (!$('#tooltip-bubble').hasClass('d-none')) {
-            $('#tooltip-bubble').css({
+    $("main").on("mousemove", function (event) {
+        let tooltipBubble = $('#tooltip-bubble')
+        if (!tooltipBubble.hasClass('d-none')) {
+            tooltipBubble.css({
                 top: event.pageY + 10,
                 left: event.pageX + 10
             })
