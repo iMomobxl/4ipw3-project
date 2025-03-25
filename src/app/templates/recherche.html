@@ -138,6 +138,9 @@
             {% endif %}
             <li><strong>Date:</strong> <span id="tooltip-date"></span></li>
             <li><strong>Catégorie:</strong> <span id="tooltip-category"></span></li>
+            {% if request.session.role %}
+                <li><strong>Favoris:</strong> <span id="tooltip-favoris"></span></li>
+            {% endif %}
         </ul>
     </div>
 </div>
