@@ -1,3 +1,5 @@
+
+
 $(function () {
     let currentPage = 1
     let totalPages = 1
@@ -82,13 +84,14 @@ $(function () {
                                                   href="/article/${article.id}" 
                                                   data-article-id="${article.id}"
                                                   target="_self">
-                                                    <li class="list-group-item article article-info">
+                                                    <li class="list-group-item article article-info" data-article-id="${article.id}">
                                                             <strong>${counter}</strong> - ${shortTitle}
                                                     </li>
                                                </a>`
                         resultsList.append(listItem)
                         counter++
                     })
+                    getArticleDetail()
                 }
 
                 if (totalResults <= articlesPerPage) {
