@@ -222,80 +222,58 @@
                 </li>
                 <ul>
                     <li class="h6">Chemin du script <i class="text-info">/src/static/app/js/addFavoris.js</i></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
+                    <li class="h6">Ajout dynamic d'un favoris dans une variable session (SESSION['favoris']).
                 </ul>
                 <li class="d-flex bd-highlight list-group-item h3 font-weight-bold pb-0 ps-3">
                     Suppression dynamic d'un article dans le panier favoris.
                 </li>
                 <ul>
                     <li class="h6">Chemin du script <i class="text-info">/src/static/app/js/delFavoris.js</i></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
+                    <li class="h6">Suppression dynamic d'un favoris dans une variable session (SESSION['favoris']).</li>
                 </ul>
                 <li class="d-flex bd-highlight list-group-item h3 font-weight-bold pb-0 ps-3">
                     Gestion dynamic de la page Favoris.
                 </li>
                 <ul>
-                    <li class="h6"><u>RAPPEL:</u>Chqaues utilisateur a son propre panier de favoris. (BACKEND)</li>
+                    <li class="h6"><u>RAPPEL:</u>Chaques utilisateur à son propre panier de favoris. (BACKEND)</li>
                     <li class="h6">Chemin du script <i class="text-info">/src/static/app/js/favoris.js</i></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
+                    <li class="h6">Possibilité de choisir plusieurs article à supprimer.</li>
+                    <li class="h6">Mise a jour dynamic du nombre d'article.</li>
                 </ul>
                 <li class="d-flex bd-highlight list-group-item h3 font-weight-bold pb-0 ps-3">
                     Affichage des details de articles dans /home/ et /favoris/
                 </li>
                 <ul>
                     <li class="h6">Chemin du script <i class="text-info">/src/static/app/js/tooltip.js</i></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
+                    <li class="h6">Creation d'un css (tooltip-bubble.css).</li>
+                    <li class="h6">Appel de la fonction getArticleDetail().</li>
                 </ul>
                 <li class="d-flex bd-highlight list-group-item h3 font-weight-bold pb-0 ps-3">
                     Affichage dynamic de la page recherche
                 </li>
                 <ul>
                     <li class="h6">Chemin du script <i class="text-info">/src/static/app/js/recherche.js</i></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                </ul>
-                <li class="d-flex bd-highlight list-group-item h3 font-weight-bold pb-0 ps-3">
-                    Mise a jour du readTime dans la page recherche
-                </li>
-                <ul>
-                    <li class="h6">Chemin du script <i class="text-info">/src/static/app/js/readTime.js</i></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                </ul>
-                <li class="d-flex bd-highlight list-group-item h3 font-weight-bold pb-0 ps-3">
-                    Mise a jour dynamic du calendrier (min/nax) dans la page recherche.
-                </li>
-                <ul>
-                    <li class="h6">Chemin du script <i class="text-info">/src/static/app/js/dateArticle.js</i></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
+                    <li class="h6">Mise a jour des propriete bootstrap, rajoute une div avec le resultat de la recherche. Garde le layout responsive. (voir fonctons createSearchResults et removeSearchResults).</li>
+                    <li class="h6">Mise a jour dynamic du resultat de la recherche.</li>
+                    <li class="h6">Mise a jour dynamic du readTime. (<i class="text-info">readTime.js</i>)
+                    <li class="h6">Readtime à 0 veux dire pas de readtime a prendre en consideration pour la recherche.</li>
+                    <li class="h6">RAPPEL backend: le min et max du readtime est rechercher dans la DB.</li>
+                    <li class="h6">System de pagination mis en place (utilisation de la librairie Paginator de Django en BACK-END).</li>
+                    <li class="h6">Bouton reset qui remet les valeurs des champs à null. Egalement modifie la structure en supprimant la div des resultats de la recherche.</li>
+                    <li class="h6">Mise a jour dynamic du calendriers (min/max) dynamiquement. (<i class="text-info">dateArticle.js</i>)</li>
+                    <li class="h6">Bouton 'max' qui supprime la limitation du nombre d'article. (<i class="text-info">maxNbrArticle.js</i>)</li>
+                    <li class="h6">Ajout dynamic du nombre d'article trouvé.</li>
                 </ul>
                 <li class="d-flex bd-highlight list-group-item h3 font-weight-bold pb-0 ps-3">
                     Mise à jour des preferences de l'utilisateur.
                 </li>
                 <ul>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
-                    <li class="h6"></li>
+                    <li class="h6">Chemin du script <i class="text-info">/src/static/app/js/userPreference.js</i></li>
+                    <li class="h6">Possibilité de choisir dynamiquement le fond d'ecran (yellow, coral, darkblue, whitesmoke par defaut)</li>
+                    <li class="h6">Couleur rose à été remplacer par le coral, car le rose fait mal ax yeux :-p </li>
+                    <li class="h6">Possibilité de choisir dynamiquement la categorie des articles de la home page.</li>
+                    <li class="h6">Possibilité de choisir dynamiquement la bordur.</li>
+                    <li class="h6">Possibilité de choisir dynamiquement la couleur de la police d'ecriture. (noir par defaut, bleu rouge et vert)</li>
                 </ul>
                 <li class="d-flex bd-highlight list-group-item h3 font-weight-bold pb-0 ps-3">
                     Affichage des interactions de l'utilisateur (dynamic).
