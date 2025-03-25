@@ -7,7 +7,7 @@ $(document).on("click", "a.nav-link", function (event) {
 
         if (dynamicHtml) {
             $(".dynamic-content").fadeOut(100, function () {
-                $(this).html(dynamicHtml).fadeIn(100);
+                $(this).html(dynamicHtml).fadeIn(100)
                 window.history.pushState(null, "", url)
             })
         } else {
